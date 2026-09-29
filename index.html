@@ -1,781 +1,260 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Z-FOOD</title>
+  <title>Z-FOOD TEST</title>
 
-<style>
+  <style>
+    *{
+      box-sizing:border-box;
+    }
 
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+    body{
+      margin:0;
+      padding:20px;
+      background:#f6f7f9;
+      font-family:Arial,sans-serif;
+      color:#222;
+    }
 
-body{
-  font-family:Arial,sans-serif;
-  background:#f6f7f9;
-  color:#252a31;
-  min-height:100vh;
-}
+    .box{
+      max-width:600px;
+      margin:auto;
+      background:#fff;
+      border-radius:12px;
+      padding:20px;
+      box-shadow:0 4px 18px rgba(0,0,0,.08);
+    }
 
-.container{
-  width:100%;
-  max-width:520px;
-  margin:auto;
-  padding:15px 10px 30px;
-}
+    h2{
+      margin:0 0 15px;
+    }
 
+    .status{
+      padding:12px;
+      border-radius:8px;
+      background:#fff4e8;
+      color:#e87516;
+      margin-bottom:15px;
+      word-break:break-word;
+    }
 
-/* HEADER */
+    .info{
+      background:#f4f5f7;
+      padding:12px;
+      border-radius:8px;
+      margin-bottom:10px;
+      font-size:14px;
+      line-height:1.6;
+    }
 
-.header{
-  background:#fff;
-  border:1px solid #e5e8ec;
-  border-radius:13px;
-  padding:14px;
-  margin-bottom:10px;
-  box-shadow:0 3px 12px rgba(0,0,0,.04);
-}
+    button{
+      width:100%;
+      height:42px;
+      border:0;
+      border-radius:8px;
+      background:#e87516;
+      color:#fff;
+      font-weight:bold;
+      margin-top:10px;
+    }
 
-.header h1{
-  font-size:20px;
-  font-weight:700;
-}
-
-.header p{
-  margin-top:3px;
-  font-size:11px;
-  color:#858c94;
-}
-
-
-/* STATUS */
-
-.status{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  margin-top:9px;
-  padding:8px 10px;
-  border-radius:8px;
-  background:#f5f6f7;
-  font-size:11px;
-  color:#68717a;
-}
-
-.status-dot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:#aaa;
-}
-
-.status.loading .status-dot{
-  background:#e87516;
-}
-
-.status.success .status-dot{
-  background:#2e9b5b;
-}
-
-.status.error .status-dot{
-  background:#d94a4a;
-}
-
-
-/* CARD */
-
-.card{
-  background:#fff;
-  border:1px solid #e5e8ec;
-  border-radius:13px;
-  padding:14px;
-  box-shadow:0 3px 12px rgba(0,0,0,.04);
-}
-
-
-/* LABEL */
-
-label{
-  display:block;
-  margin-bottom:5px;
-  font-size:10px;
-  font-weight:700;
-  color:#626a73;
-}
-
-
-/* INPUT */
-
-.search-wrap{
-  position:relative;
-}
-
-input{
-  width:100%;
-  height:40px;
-  border:1px solid #dfe3e7;
-  border-radius:8px;
-  background:#fff;
-  padding:0 11px;
-  font-size:13px;
-  outline:none;
-}
-
-input:focus{
-  border-color:#e87516;
-  box-shadow:0 0 0 2px rgba(232,117,22,.09);
-}
-
-
-/* DROPDOWN */
-
-.suggestions{
-  position:absolute;
-  z-index:100;
-  left:0;
-  right:0;
-  top:44px;
-
-  max-height:220px;
-  overflow-y:auto;
-
-  background:#fff;
-
-  border:1px solid #dfe3e7;
-  border-radius:9px;
-
-  box-shadow:0 8px 20px rgba(0,0,0,.10);
-
-  display:none;
-}
-
-.suggestion{
-  padding:10px 11px;
-  border-bottom:1px solid #f0f1f2;
-  cursor:pointer;
-}
-
-.suggestion:last-child{
-  border-bottom:none;
-}
-
-.suggestion:hover{
-  background:#fff7ef;
-}
-
-.suggestion .name{
-  font-size:12px;
-  font-weight:700;
-  color:#252a31;
-}
-
-.suggestion .info{
-  margin-top:3px;
-  font-size:9px;
-  color:#858c94;
-}
-
-
-/* RESULT */
-
-.result{
-  margin-top:13px;
-  display:none;
-}
-
-.result-title{
-  font-size:10px;
-  font-weight:700;
-  color:#626a73;
-  margin-bottom:7px;
-}
-
-.result-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:7px;
-}
-
-.result-box{
-  background:#f7f8f9;
-  border:1px solid #e6e8eb;
-  border-radius:8px;
-  padding:9px;
-}
-
-.result-box.full{
-  grid-column:1/-1;
-}
-
-.result-label{
-  font-size:8px;
-  color:#858c94;
-  margin-bottom:3px;
-}
-
-.result-value{
-  font-size:12px;
-  font-weight:600;
-  color:#252a31;
-  word-break:break-word;
-}
-
-
-/* FOOTER */
-
-.footer{
-  text-align:center;
-  margin-top:12px;
-  font-size:9px;
-  color:#9aa0a7;
-}
-
-</style>
-
+    #result{
+      margin-top:15px;
+      white-space:pre-wrap;
+      word-break:break-word;
+      font-size:13px;
+    }
+  </style>
 </head>
-
 
 <body>
 
-<div class="container">
+<div class="box">
 
+  <h2>Z-FOOD</h2>
 
-  <!-- HEADER -->
-
-  <div class="header">
-
-    <h1>Z-FOOD</h1>
-
-    <p>Master Connection Test</p>
-
-
-    <div
-      id="status"
-      class="status loading">
-
-      <span class="status-dot"></span>
-
-      <span id="statusText">
-        Menghubungkan ke Master...
-      </span>
-
-    </div>
-
+  <div id="status" class="status">
+    Memulai pemeriksaan...
   </div>
 
-
-
-  <!-- SEARCH -->
-
-  <div class="card">
-
-    <label>
-      ARTICLE / BARCODE
-    </label>
-
-
-    <div class="search-wrap">
-
-      <input
-        id="searchInput"
-        type="text"
-        autocomplete="off"
-        placeholder="Ketik article atau barcode"
-        oninput="searchMaster(this.value)"
-      >
-
-
-      <div
-        id="suggestions"
-        class="suggestions">
-      </div>
-
-    </div>
-
-
-
-    <!-- RESULT -->
-
-    <div
-      id="result"
-      class="result">
-
-      <div class="result-title">
-        DATA PRODUK
-      </div>
-
-
-      <div class="result-grid">
-
-
-        <div class="result-box">
-
-          <div class="result-label">
-            ARTICLE
-          </div>
-
-          <div
-            id="resultArticle"
-            class="result-value">
-            -
-          </div>
-
-        </div>
-
-
-        <div class="result-box">
-
-          <div class="result-label">
-            BARCODE
-          </div>
-
-          <div
-            id="resultBarcode"
-            class="result-value">
-            -
-          </div>
-
-        </div>
-
-
-        <div class="result-box full">
-
-          <div class="result-label">
-            ARTICLE DESCRIPTION
-          </div>
-
-          <div
-            id="resultName"
-            class="result-value">
-            -
-          </div>
-
-        </div>
-
-
-        <div class="result-box">
-
-          <div class="result-label">
-            UOM
-          </div>
-
-          <div
-            id="resultOum"
-            class="result-value">
-            -
-          </div>
-
-        </div>
-
-
-      </div>
-
-    </div>
-
+  <div id="googleInfo" class="info">
+    Mengecek Google Script...
   </div>
 
-
-  <div class="footer">
-    Z-FOOD • 2026
+  <div id="urlInfo" class="info">
+    URL: ...
   </div>
+
+  <button onclick="testMaster()">
+    TEST MASTER
+  </button>
+
+  <div id="result"></div>
 
 </div>
 
-
-
 <script>
 
-/* =========================================
-   MASTER
-========================================= */
+function setStatus(text){
+  document.getElementById('status').textContent = text;
+}
 
-let MASTER = [];
-
-let masterReady = false;
-
-
-/* =========================================
-   ELEMENT
-========================================= */
-
-const status =
-  document.getElementById("status");
-
-const statusText =
-  document.getElementById("statusText");
-
-const input =
-  document.getElementById("searchInput");
-
-const suggestions =
-  document.getElementById("suggestions");
-
-const result =
-  document.getElementById("result");
-
-
-/* =========================================
-   LOAD MASTER
-========================================= */
-
-function loadMaster(){
-
-  status.className =
-    "status loading";
-
-  statusText.textContent =
-    "Menghubungkan ke Master...";
-
-
-  google.script.run
-
-    .withSuccessHandler(
-      function(data){
-
-        MASTER =
-          Array.isArray(data)
-            ? data
-            : [];
-
-
-        masterReady = true;
-
-
-        status.className =
-          "status success";
-
-
-        statusText.textContent =
-          "Terhubung • " +
-          MASTER.length.toLocaleString(
-            "id-ID"
-          ) +
-          " produk";
-
-
-        console.log(
-          "Master:",
-          MASTER
-        );
-
-      }
-    )
-
-
-    .withFailureHandler(
-      function(error){
-
-        masterReady = false;
-
-
-        status.className =
-          "status error";
-
-
-        statusText.textContent =
-          "Gagal terhubung ke Master";
-
-
-        console.error(
-          error
-        );
-
-
-        alert(
-          "Gagal mengambil data Master.\n\n" +
-          (
-            error.message ||
-            error
-          )
-        );
-
-      }
-    )
-
-
-    .getMasterData();
-
+function showResult(text){
+  document.getElementById('result').textContent = text;
 }
 
 
-/* =========================================
-   SEARCH
-========================================= */
+/* =========================
+   CEK GOOGLE SCRIPT
+========================= */
 
-function searchMaster(value){
+window.addEventListener('load', function(){
 
-  value =
-    String(value || "")
-      .trim()
-      .toLowerCase();
+  let googleOK = typeof google !== 'undefined';
 
+  let scriptOK =
+    googleOK &&
+    typeof google.script !== 'undefined';
 
-  if(!value){
+  let runOK =
+    scriptOK &&
+    typeof google.script.run !== 'undefined';
 
-    suggestions.innerHTML = "";
+  document.getElementById('googleInfo').textContent =
+    'google = ' + googleOK +
+    '\ngoogle.script = ' + scriptOK +
+    '\ngoogle.script.run = ' + runOK;
 
-    suggestions.style.display =
-      "none";
+  document.getElementById('urlInfo').textContent =
+    'URL halaman:\n' + window.location.href;
 
+  if(!googleOK){
+    setStatus('ERROR: google tidak tersedia.');
     return;
-
   }
 
-
-  if(!masterReady){
-
-    suggestions.innerHTML = `
-      <div class="suggestion">
-        <div class="info">
-          Master sedang dimuat...
-        </div>
-      </div>
-    `;
-
-    suggestions.style.display =
-      "block";
-
+  if(!scriptOK){
+    setStatus('ERROR: google.script tidak tersedia.');
     return;
-
   }
 
-
-  const results =
-    MASTER
-      .filter(
-        function(item){
-
-          const article =
-            String(
-              item.artikel || ""
-            )
-            .toLowerCase();
-
-
-          const barcode =
-            String(
-              item.barcode || ""
-            )
-            .toLowerCase();
-
-
-          const nama =
-            String(
-              item.nama || ""
-            )
-            .toLowerCase();
-
-
-          return (
-            article.includes(value) ||
-            barcode.includes(value) ||
-            nama.includes(value)
-          );
-
-        }
-      )
-      .slice(0,30);
-
-
-  if(!results.length){
-
-    suggestions.innerHTML = `
-      <div class="suggestion">
-
-        <div class="info">
-          Produk tidak ditemukan
-        </div>
-
-      </div>
-    `;
-
-    suggestions.style.display =
-      "block";
-
+  if(!runOK){
+    setStatus('ERROR: google.script.run tidak tersedia.');
     return;
-
   }
 
+  setStatus('google.script.run TERSEDIA.');
 
-  suggestions.innerHTML =
-    results
-      .map(
-        function(item,index){
-
-          return `
-
-            <div
-              class="suggestion"
-              onclick="
-                selectProduct(${index})
-              ">
-
-              <div class="name">
-                ${escapeHtml(
-                  item.nama
-                )}
-              </div>
-
-              <div class="info">
-
-                Article:
-                ${escapeHtml(
-                  item.artikel
-                )}
-
-                ${
-                  item.barcode
-                    ? " • Barcode: " +
-                      escapeHtml(
-                        item.barcode
-                      )
-                    : ""
-                }
-
-                •
-                ${escapeHtml(
-                  item.oum
-                )}
-
-              </div>
-
-            </div>
-
-          `;
-
-        }
-      )
-      .join("");
+});
 
 
-  suggestions._results =
-    results;
+/* =========================
+   TEST MASTER
+========================= */
 
+function testMaster(){
 
-  suggestions.style.display =
-    "block";
+  setStatus('Menghubungi getMasterData()...');
 
-}
+  showResult('Menunggu respons dari Apps Script...');
 
+  let selesai = false;
 
-/* =========================================
-   SELECT PRODUCT
-========================================= */
+  // Timeout 10 detik
+  setTimeout(function(){
 
-function selectProduct(index){
+    if(!selesai){
 
-  const item =
-    suggestions._results[index];
+      selesai = true;
 
+      setStatus('TIMEOUT');
 
-  if(!item) return;
-
-
-  input.value =
-    item.artikel || "";
-
-
-  document.getElementById(
-    "resultArticle"
-  ).textContent =
-    item.artikel || "-";
-
-
-  document.getElementById(
-    "resultBarcode"
-  ).textContent =
-    item.barcode || "-";
-
-
-  document.getElementById(
-    "resultName"
-  ).textContent =
-    item.nama || "-";
-
-
-  document.getElementById(
-    "resultOum"
-  ).textContent =
-    item.oum || "-";
-
-
-  result.style.display =
-    "block";
-
-
-  suggestions.innerHTML = "";
-
-  suggestions.style.display =
-    "none";
-
-}
-
-
-/* =========================================
-   ESCAPE HTML
-========================================= */
-
-function escapeHtml(value){
-
-  return String(
-    value ?? ""
-  )
-  .replace(
-    /&/g,
-    "&amp;"
-  )
-  .replace(
-    /</g,
-    "&lt;"
-  )
-  .replace(
-    />/g,
-    "&gt;"
-  )
-  .replace(
-    /"/g,
-    "&quot;"
-  )
-  .replace(
-    /'/g,
-    "&#039;"
-  );
-
-}
-
-
-/* =========================================
-   CLICK OUTSIDE
-========================================= */
-
-document.addEventListener(
-  "click",
-  function(e){
-
-    if(
-      !e.target.closest(
-        ".search-wrap"
-      )
-    ){
-
-      suggestions.style.display =
-        "none";
+      showResult(
+        'Apps Script tidak memberikan respons selama 10 detik.\n\n' +
+        'Kemungkinan:\n' +
+        '1. Deployment masih memakai versi lama.\n' +
+        '2. Web App bukan dari project Apps Script yang sama.\n' +
+        '3. google.script.run tidak dapat menjalankan fungsi.\n' +
+        '4. Ada masalah authorization/deployment.'
+      );
 
     }
 
+  },10000);
+
+
+  try{
+
+    google.script.run
+
+      .withSuccessHandler(function(data){
+
+        if(selesai) return;
+
+        selesai = true;
+
+        setStatus('BERHASIL TERHUBUNG KE MASTER');
+
+        if(!Array.isArray(data)){
+
+          showResult(
+            'Respons diterima, tetapi bukan Array.\n\n' +
+            JSON.stringify(data,null,2)
+          );
+
+          return;
+        }
+
+        showResult(
+          'Jumlah data Master: ' + data.length +
+          '\n\nData pertama:\n' +
+          JSON.stringify(data[0],null,2)
+        );
+
+      })
+
+      .withFailureHandler(function(error){
+
+        if(selesai) return;
+
+        selesai = true;
+
+        setStatus('ERROR DARI APPS SCRIPT');
+
+        showResult(
+          'Nama error:\n' +
+          (error && error.name ? error.name : '-') +
+
+          '\n\nPesan error:\n' +
+          (error && error.message ? error.message : error) +
+
+          '\n\nDetail:\n' +
+          JSON.stringify(error,null,2)
+        );
+
+      })
+
+      .getMasterData();
+
+  }catch(error){
+
+    selesai = true;
+
+    setStatus('ERROR JAVASCRIPT');
+
+    showResult(
+      'Error:\n' +
+      error.message +
+      '\n\n' +
+      error.stack
+    );
+
   }
-);
 
-
-/* =========================================
-   START
-========================================= */
-
-loadMaster();
+}
 
 </script>
 
