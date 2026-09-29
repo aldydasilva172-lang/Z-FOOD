@@ -12,21 +12,27 @@
 
   <title>Z-FOOD</title>
 
+
   <style>
 
     *{
       box-sizing:border-box;
     }
 
+
     body{
       margin:0;
-      padding:20px;
+      padding:12px;
+
       background:#f6f7f9;
+
       font-family:
         Arial,
         sans-serif;
+
       color:#252525;
     }
+
 
     .container{
       width:100%;
@@ -34,137 +40,335 @@
       margin:auto;
     }
 
+
     .header{
       background:#fff;
+
+      padding:15px;
+
       border-radius:12px;
-      padding:16px;
-      margin-bottom:12px;
+
+      margin-bottom:10px;
+
       box-shadow:
-        0 3px 12px rgba(0,0,0,.06);
+        0 3px 12px
+        rgba(0,0,0,.06);
     }
+
 
     .title{
-      font-size:22px;
-      font-weight:700;
-      color:#e87516;
       margin:0;
+
+      font-size:23px;
+
+      font-weight:700;
+
+      color:#e87516;
     }
 
+
     .subtitle{
-      font-size:12px;
-      color:#7a7f86;
       margin-top:4px;
+
+      font-size:12px;
+
+      color:#858585;
     }
+
 
     .card{
       background:#fff;
+
+      padding:14px;
+
       border-radius:12px;
-      padding:16px;
+
       box-shadow:
-        0 3px 12px rgba(0,0,0,.06);
+        0 3px 12px
+        rgba(0,0,0,.06);
     }
+
 
     .status{
       display:flex;
+
       align-items:center;
-      gap:9px;
-      padding:11px 12px;
+
+      gap:8px;
+
+      padding:10px 11px;
+
       border-radius:9px;
+
       background:#fff4e8;
+
       color:#e87516;
+
       font-size:13px;
+
       font-weight:600;
-      margin-bottom:14px;
+
+      margin-bottom:12px;
     }
+
 
     .dot{
       width:9px;
       height:9px;
+
+      flex:none;
+
       border-radius:50%;
+
       background:#e87516;
-      flex-shrink:0;
     }
+
 
     .dot.loading{
-      animation:pulse 1s infinite;
+      animation:
+        pulse 1s infinite;
     }
 
+
     .dot.success{
-      background:#25a55f;
+      background:#24a35a;
     }
+
 
     .dot.error{
       background:#d93025;
     }
 
+
     @keyframes pulse{
+
       0%{
-        opacity:.35;
+        opacity:.3;
       }
+
       50%{
         opacity:1;
       }
+
       100%{
-        opacity:.35;
+        opacity:.3;
       }
+
     }
+
+
+    .search{
+      position:relative;
+
+      margin-top:12px;
+    }
+
+
+    .search input{
+      width:100%;
+
+      height:40px;
+
+      padding:
+        0 12px;
+
+      border:
+        1px solid #ddd;
+
+      border-radius:9px;
+
+      outline:none;
+
+      font-size:14px;
+
+      background:#fff;
+    }
+
+
+    .search input:focus{
+      border-color:#e87516;
+    }
+
+
+    .dropdown{
+      display:none;
+
+      position:absolute;
+
+      left:0;
+      right:0;
+
+      top:44px;
+
+      z-index:20;
+
+      background:#fff;
+
+      border:
+        1px solid #ddd;
+
+      border-radius:9px;
+
+      box-shadow:
+        0 5px 15px
+        rgba(0,0,0,.10);
+
+      max-height:220px;
+
+      overflow-y:auto;
+    }
+
+
+    .dropdown.show{
+      display:block;
+    }
+
+
+    .item{
+      padding:9px 11px;
+
+      border-bottom:
+        1px solid #f0f0f0;
+
+      cursor:pointer;
+    }
+
+
+    .item:last-child{
+      border-bottom:0;
+    }
+
+
+    .item:active{
+      background:#fff4e8;
+    }
+
+
+    .item-name{
+      font-size:13px;
+
+      font-weight:600;
+    }
+
+
+    .item-detail{
+      margin-top:3px;
+
+      font-size:11px;
+
+      color:#888;
+    }
+
+
+    .empty{
+      padding:12px;
+
+      color:#888;
+
+      font-size:12px;
+
+      text-align:center;
+    }
+
 
     .result{
       display:none;
+
+      margin-top:12px;
+
+      border:
+        1px solid #eee;
+
+      border-radius:9px;
+
+      overflow:hidden;
     }
+
 
     .result.show{
       display:block;
     }
 
-    .row{
+
+    .result-row{
       display:flex;
-      justify-content:space-between;
+
+      justify-content:
+        space-between;
+
       gap:15px;
-      padding:9px 0;
-      border-bottom:1px solid #eee;
+
+      padding:9px 11px;
+
+      border-bottom:
+        1px solid #eee;
+
       font-size:13px;
     }
 
-    .row:last-child{
+
+    .result-row:last-child{
       border-bottom:0;
     }
 
-    .label{
+
+    .result-label{
       color:#777;
     }
 
-    .value{
+
+    .result-value{
       font-weight:600;
+
       text-align:right;
-      word-break:break-word;
+
+      word-break:
+        break-word;
     }
+
 
     .error{
-      margin-top:12px;
-      padding:11px;
-      border-radius:8px;
+      display:none;
+
+      margin-top:10px;
+
+      padding:10px;
+
       background:#fff0f0;
+
       color:#c62828;
+
+      border-radius:8px;
+
       font-size:12px;
+
       line-height:1.5;
-      word-break:break-word;
+
+      word-break:
+        break-word;
     }
 
-    .info{
-      margin-top:14px;
-      padding:10px 12px;
-      background:#f5f6f8;
-      border-radius:8px;
-      font-size:12px;
-      color:#666;
-      line-height:1.5;
+
+    .error.show{
+      display:block;
     }
+
+
+    .info{
+      margin-top:10px;
+
+      font-size:11px;
+
+      color:#888;
+
+      text-align:center;
+    }
+
 
     @media(max-width:480px){
 
       body{
-        padding:10px;
+        padding:9px;
       }
 
       .header{
@@ -176,7 +380,7 @@
       }
 
       .title{
-        font-size:20px;
+        font-size:21px;
       }
 
     }
@@ -188,17 +392,18 @@
 
 <body>
 
+
 <div class="container">
 
 
   <div class="header">
 
-    <div class="title">
+    <h1 class="title">
       Z-FOOD
-    </div>
+    </h1>
 
     <div class="subtitle">
-      Master Connection
+      Master Product
     </div>
 
   </div>
@@ -206,10 +411,8 @@
 
   <div class="card">
 
-    <div
-      id="status"
-      class="status"
-    >
+
+    <div class="status">
 
       <span
         id="statusDot"
@@ -223,52 +426,38 @@
     </div>
 
 
+    <div class="search">
+
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="ARTICLE / BARCODE / NAMA BARANG"
+        autocomplete="off"
+        disabled
+      >
+
+      <div
+        id="dropdown"
+        class="dropdown"
+      ></div>
+
+    </div>
+
+
     <div
       id="result"
       class="result"
     >
 
-      <div class="row">
+      <div class="result-row">
 
-        <span class="label">
-          Status
-        </span>
-
-        <span
-          id="resultStatus"
-          class="value"
-        >
-          -
-        </span>
-
-      </div>
-
-
-      <div class="row">
-
-        <span class="label">
-          Jumlah Master
-        </span>
-
-        <span
-          id="resultTotal"
-          class="value"
-        >
-          -
-        </span>
-
-      </div>
-
-
-      <div class="row">
-
-        <span class="label">
+        <span class="result-label">
           Article
         </span>
 
         <span
-          id="resultArticle"
-          class="value"
+          id="rArticle"
+          class="result-value"
         >
           -
         </span>
@@ -276,15 +465,15 @@
       </div>
 
 
-      <div class="row">
+      <div class="result-row">
 
-        <span class="label">
+        <span class="result-label">
           Barcode
         </span>
 
         <span
-          id="resultBarcode"
-          class="value"
+          id="rBarcode"
+          class="result-value"
         >
           -
         </span>
@@ -292,15 +481,15 @@
       </div>
 
 
-      <div class="row">
+      <div class="result-row">
 
-        <span class="label">
+        <span class="result-label">
           Nama Barang
         </span>
 
         <span
-          id="resultNama"
-          class="value"
+          id="rNama"
+          class="result-value"
         >
           -
         </span>
@@ -308,15 +497,15 @@
       </div>
 
 
-      <div class="row">
+      <div class="result-row">
 
-        <span class="label">
+        <span class="result-label">
           OUM
         </span>
 
         <span
-          id="resultOum"
-          class="value"
+          id="rOum"
+          class="result-value"
         >
           -
         </span>
@@ -327,9 +516,8 @@
 
 
     <div
-      id="errorBox"
+      id="error"
       class="error"
-      style="display:none"
     ></div>
 
 
@@ -337,70 +525,141 @@
       id="info"
       class="info"
     >
-      Sedang mengambil data dari Google Spreadsheet...
+      Memuat data Master...
     </div>
 
+
   </div>
+
 
 </div>
 
 
 <script>
 
+
 /* =====================================================
-   MASUKKAN URL APPS SCRIPT DI SINI
+   URL BACKEND APPS SCRIPT
 ===================================================== */
 
-cconst APPS_SCRIPT_URL =
+const APPS_SCRIPT_URL =
   'https://script.google.com/macros/s/AKfycbzVdHeD20QG6_gZmm23TdNgBIEdVSOkiBwxoIWy-Nmt9a_3GTJUWcHCcuDkQb-MxmCygw/exec';
 
+
 /* =====================================================
-   LOAD MASTER
+   DATA MASTER
+===================================================== */
+
+let MASTER_DATA = [];
+
+
+/* =====================================================
+   ELEMENT
+===================================================== */
+
+const statusDot =
+  document.getElementById(
+    'statusDot'
+  );
+
+const statusText =
+  document.getElementById(
+    'statusText'
+  );
+
+const searchInput =
+  document.getElementById(
+    'searchInput'
+  );
+
+const dropdown =
+  document.getElementById(
+    'dropdown'
+  );
+
+const result =
+  document.getElementById(
+    'result'
+  );
+
+const errorBox =
+  document.getElementById(
+    'error'
+  );
+
+const info =
+  document.getElementById(
+    'info'
+  );
+
+
+/* =====================================================
+   LOAD MASTER JSONP
 ===================================================== */
 
 function loadMaster(){
 
   const callbackName =
-    'zfoodMasterCallback_' +
+    '__zfood_master_' +
     Date.now();
+
+
+  let finished = false;
 
 
   window[callbackName] =
     function(response){
+
+      if(finished){
+        return;
+      }
+
+      finished = true;
+
 
       try{
 
         delete window[callbackName];
 
 
-        if(!response){
+        if(
+          !response ||
+          response.success !== true
+        ){
 
           showError(
-            'Apps Script mengembalikan respons kosong.'
+            response &&
+            response.error
+              ? response.error
+              : 'Data Master tidak valid.'
           );
 
           return;
         }
 
 
-        if(!response.success){
-
-          showError(
-            response.error ||
-            'Terjadi error pada Apps Script.'
-          );
-
-          return;
-        }
-
-
-        const data =
+        MASTER_DATA =
           Array.isArray(response.data)
             ? response.data
             : [];
 
 
-        showSuccess(data);
+        statusDot.className =
+          'dot success';
+
+
+        statusText.textContent =
+          'Master berhasil terhubung';
+
+
+        searchInput.disabled =
+          false;
+
+
+        info.textContent =
+          MASTER_DATA.length
+            .toLocaleString('id-ID') +
+          ' data Master berhasil dimuat.';
 
 
       }catch(error){
@@ -415,13 +674,26 @@ function loadMaster(){
 
 
   const script =
-    document.createElement('script');
+    document.createElement(
+      'script'
+    );
+
+
+  const separator =
+    APPS_SCRIPT_URL.includes('?')
+      ? '&'
+      : '?';
 
 
   script.src =
     APPS_SCRIPT_URL +
-    '?callback=' +
-    encodeURIComponent(callbackName);
+    separator +
+    'callback=' +
+    encodeURIComponent(
+      callbackName
+    ) +
+    '&_=' +
+    Date.now();
 
 
   script.async = true;
@@ -429,6 +701,12 @@ function loadMaster(){
 
   script.onerror =
     function(){
+
+      if(finished){
+        return;
+      }
+
+      finished = true;
 
       delete window[callbackName];
 
@@ -439,114 +717,29 @@ function loadMaster(){
     };
 
 
-  document.body.appendChild(script);
+  document.body.appendChild(
+    script
+  );
 
 
-  /*
-   * Timeout
-   */
+  setTimeout(
+    function(){
 
-  setTimeout(function(){
+      if(finished){
+        return;
+      }
 
-    if(
-      typeof window[callbackName] ===
-      'function'
-    ){
+      finished = true;
 
       delete window[callbackName];
 
       showError(
-        'Koneksi timeout. Apps Script tidak memberikan respons.'
+        'Koneksi ke Apps Script timeout.'
       );
 
-    }
-
-  },15000);
-
-}
-
-
-/* =====================================================
-   BERHASIL
-===================================================== */
-
-function showSuccess(data){
-
-  const dot =
-    document.getElementById(
-      'statusDot'
-    );
-
-  const text =
-    document.getElementById(
-      'statusText'
-    );
-
-
-  dot.className =
-    'dot success';
-
-
-  text.textContent =
-    'Berhasil terhubung ke Master';
-
-
-  document.getElementById(
-    'result'
-  ).classList.add('show');
-
-
-  document.getElementById(
-    'resultStatus'
-  ).textContent =
-    'CONNECTED';
-
-
-  document.getElementById(
-    'resultTotal'
-  ).textContent =
-    data.length.toLocaleString(
-      'id-ID'
-    );
-
-
-  if(data.length > 0){
-
-    const first =
-      data[0];
-
-
-    document.getElementById(
-      'resultArticle'
-    ).textContent =
-      first.artikel || '-';
-
-
-    document.getElementById(
-      'resultBarcode'
-    ).textContent =
-      first.barcode || '-';
-
-
-    document.getElementById(
-      'resultNama'
-    ).textContent =
-      first.nama || '-';
-
-
-    document.getElementById(
-      'resultOum'
-    ).textContent =
-      first.oum || '-';
-
-  }
-
-
-  document.getElementById(
-    'info'
-  ).textContent =
-    'Data Master berhasil dimuat ke browser.';
-
+    },
+    20000
+  );
 
 }
 
@@ -557,57 +750,300 @@ function showSuccess(data){
 
 function showError(message){
 
-  const dot =
-    document.getElementById(
-      'statusDot'
-    );
-
-  const text =
-    document.getElementById(
-      'statusText'
-    );
-
-
-  dot.className =
+  statusDot.className =
     'dot error';
 
 
-  text.textContent =
+  statusText.textContent =
     'Gagal terhubung ke Master';
 
 
-  const box =
-    document.getElementById(
-      'errorBox'
-    );
-
-
-  box.style.display =
-    'block';
-
-
-  box.textContent =
+  errorBox.textContent =
     message;
 
 
-  document.getElementById(
-    'info'
-  ).textContent =
-    'Periksa URL Apps Script dan deployment.';
+  errorBox.classList.add(
+    'show'
+  );
+
+
+  info.textContent =
+    'Periksa koneksi Apps Script.';
 
 }
 
 
 /* =====================================================
-   MULAI
+   SEARCH
 ===================================================== */
 
-window.addEventListener(
-  'load',
-  loadMaster
+searchInput.addEventListener(
+  'input',
+  function(){
+
+    const keyword =
+      this.value
+        .trim()
+        .toLowerCase();
+
+
+    if(!keyword){
+
+      dropdown.classList.remove(
+        'show'
+      );
+
+      return;
+    }
+
+
+    const results =
+      MASTER_DATA
+        .filter(function(item){
+
+          return (
+
+            String(
+              item.artikel || ''
+            )
+              .toLowerCase()
+              .includes(keyword)
+
+            ||
+
+            String(
+              item.barcode || ''
+            )
+              .toLowerCase()
+              .includes(keyword)
+
+            ||
+
+            String(
+              item.nama || ''
+            )
+              .toLowerCase()
+              .includes(keyword)
+
+          );
+
+        })
+        .slice(0,30);
+
+
+    renderDropdown(
+      results
+    );
+
+  }
 );
 
+
+/* =====================================================
+   DROPDOWN
+===================================================== */
+
+function renderDropdown(items){
+
+  dropdown.innerHTML =
+    '';
+
+
+  if(!items.length){
+
+    dropdown.innerHTML =
+      '<div class="empty">' +
+      'Produk tidak ditemukan' +
+      '</div>';
+
+    dropdown.classList.add(
+      'show'
+    );
+
+    return;
+  }
+
+
+  items.forEach(
+    function(item){
+
+      const div =
+        document.createElement(
+          'div'
+        );
+
+
+      div.className =
+        'item';
+
+
+      div.innerHTML =
+
+        '<div class="item-name">' +
+        escapeHTML(
+          item.nama || '-'
+        ) +
+        '</div>' +
+
+        '<div class="item-detail">' +
+        'Article: ' +
+        escapeHTML(
+          item.artikel || '-'
+        ) +
+        ' &nbsp; | &nbsp; ' +
+        'Barcode: ' +
+        escapeHTML(
+          item.barcode || '-'
+        ) +
+        ' &nbsp; | &nbsp; ' +
+        'OUM: ' +
+        escapeHTML(
+          item.oum || '-'
+        ) +
+        '</div>';
+
+
+      div.addEventListener(
+        'click',
+        function(){
+
+          selectProduct(
+            item
+          );
+
+        }
+      );
+
+
+      dropdown.appendChild(
+        div
+      );
+
+    }
+  );
+
+
+  dropdown.classList.add(
+    'show'
+  );
+
+}
+
+
+/* =====================================================
+   SELECT PRODUCT
+===================================================== */
+
+function selectProduct(item){
+
+  searchInput.value =
+    item.artikel || '';
+
+
+  dropdown.classList.remove(
+    'show'
+  );
+
+
+  result.classList.add(
+    'show'
+  );
+
+
+  document.getElementById(
+    'rArticle'
+  ).textContent =
+    item.artikel || '-';
+
+
+  document.getElementById(
+    'rBarcode'
+  ).textContent =
+    item.barcode || '-';
+
+
+  document.getElementById(
+    'rNama'
+  ).textContent =
+    item.nama || '-';
+
+
+  document.getElementById(
+    'rOum'
+  ).textContent =
+    item.oum || '';
+
+}
+
+
+/* =====================================================
+   CLOSE DROPDOWN
+===================================================== */
+
+document.addEventListener(
+  'click',
+  function(event){
+
+    if(
+      !event.target.closest(
+        '.search'
+      )
+    ){
+
+      dropdown.classList.remove(
+        'show'
+      );
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+  return String(value)
+
+    .replace(
+      /&/g,
+      '&amp;'
+    )
+
+    .replace(
+      /</g,
+      '&lt;'
+    )
+
+    .replace(
+      />/g,
+      '&gt;'
+    )
+
+    .replace(
+      /"/g,
+      '&quot;'
+    )
+
+    .replace(
+      /'/g,
+      '&#039;'
+    );
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+loadMaster();
+
 </script>
+
 
 </body>
 
