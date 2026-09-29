@@ -32,7 +32,6 @@
       color:#252525;
     }
 
-
     .container{
       width:100%;
       max-width:680px;
@@ -77,25 +76,7 @@
 
 
     /* =========================
-       CARD
-    ========================= */
-
-    .card{
-      background:#fff;
-
-      padding:12px;
-
-      border-radius:12px;
-
-      margin-bottom:10px;
-
-      box-shadow:
-        0 3px 12px rgba(0,0,0,.06);
-    }
-
-
-    /* =========================
-       STATUS
+       MASTER STATUS
     ========================= */
 
     .status{
@@ -107,6 +88,8 @@
 
       padding:9px 10px;
 
+      margin-bottom:10px;
+
       border-radius:8px;
 
       background:#f1fdf5;
@@ -116,8 +99,6 @@
       font-size:12px;
 
       font-weight:600;
-
-      margin-bottom:12px;
     }
 
     .dot{
@@ -133,10 +114,23 @@
 
 
     /* =========================
-       SECTION TITLE
+       SECTION
     ========================= */
 
-    .section-title{
+    .section{
+      background:#fff;
+
+      border-radius:12px;
+
+      padding:12px;
+
+      margin-bottom:10px;
+
+      box-shadow:
+        0 3px 12px rgba(0,0,0,.06);
+    }
+
+    .section-header{
       display:flex;
 
       align-items:center;
@@ -146,11 +140,13 @@
       margin-bottom:10px;
     }
 
-    .section-title strong{
-      font-size:14px;
+    .section-title{
+      font-size:15px;
+
+      font-weight:700;
     }
 
-    .section-title span{
+    .section-count{
       font-size:10px;
 
       color:#999;
@@ -166,25 +162,62 @@
 
       padding:10px;
 
+      margin-bottom:8px;
+
       border:
-        1px solid #ececec;
+        1px solid #e8e8e8;
 
       border-radius:10px;
-
-      margin-bottom:8px;
 
       background:#fff;
     }
 
+    .product:last-child{
+      margin-bottom:8px;
+    }
 
-    .product-number{
+
+    .product-title{
+      padding-right:30px;
+
+      margin-bottom:9px;
+
       font-size:11px;
 
       font-weight:700;
 
       color:#777;
+    }
 
-      margin-bottom:7px;
+
+    /* =========================
+       REMOVE
+    ========================= */
+
+    .remove-btn{
+      position:absolute;
+
+      top:8px;
+      right:8px;
+
+      width:25px;
+      height:25px;
+
+      padding:0;
+
+      border:0;
+
+      border-radius:7px;
+
+      background:#fff0f0;
+
+      color:#d93025;
+
+      font-size:17px;
+
+      line-height:25px;
+
+      cursor:pointer;
     }
 
 
@@ -192,13 +225,147 @@
        SEARCH
     ========================= */
 
+    .search-label,
+    .quantity-label{
+      display:block;
+
+      margin-bottom:4px;
+
+      font-size:10px;
+
+      font-weight:600;
+
+      color:#777;
+    }
+
     .search{
       position:relative;
 
-      margin-bottom:8px;
+      margin-bottom:9px;
     }
 
-    .search input{
+    .search-input{
+      width:100%;
+
+      height:38px;
+
+      padding:
+        0 10px;
+
+      border:
+        1px solid #ddd;
+
+      border-radius:8px;
+
+      background:#fff;
+
+      outline:none;
+
+      font-size:13px;
+
+      color:#222;
+    }
+
+    .search-input:focus{
+      border-color:#e87516;
+
+      box-shadow:
+        0 0 0 2px
+        rgba(232,117,22,.08);
+    }
+
+
+    /* =========================
+       DROPDOWN
+    ========================= */
+
+    .dropdown{
+      display:none;
+
+      position:absolute;
+
+      left:0;
+      right:0;
+
+      top:43px;
+
+      z-index:100;
+
+      max-height:190px;
+
+      overflow-y:auto;
+
+      background:#fff;
+
+      border:
+        1px solid #ddd;
+
+      border-radius:8px;
+
+      box-shadow:
+        0 6px 16px
+        rgba(0,0,0,.12);
+    }
+
+    .dropdown.show{
+      display:block;
+    }
+
+    .item{
+      padding:9px 10px;
+
+      border-bottom:
+        1px solid #f0f0f0;
+
+      cursor:pointer;
+    }
+
+    .item:last-child{
+      border-bottom:0;
+    }
+
+    .item:active{
+      background:#fff4e8;
+    }
+
+    .item-name{
+      font-size:12px;
+
+      font-weight:600;
+
+      line-height:1.35;
+    }
+
+    .item-detail{
+      margin-top:3px;
+
+      font-size:10px;
+
+      color:#888;
+
+      line-height:1.3;
+    }
+
+    .empty{
+      padding:12px;
+
+      text-align:center;
+
+      font-size:11px;
+
+      color:#888;
+    }
+
+
+    /* =========================
+       QUANTITY
+    ========================= */
+
+    .quantity{
+      margin-bottom:11px;
+    }
+
+    .quantity-input{
       width:100%;
 
       height:38px;
@@ -218,171 +385,87 @@
       background:#fff;
     }
 
-    .search input:focus{
+    .quantity-input:focus{
       border-color:#e87516;
-    }
-
-
-    .dropdown{
-      display:none;
-
-      position:absolute;
-
-      left:0;
-      right:0;
-
-      top:42px;
-
-      z-index:50;
-
-      background:#fff;
-
-      border:
-        1px solid #ddd;
-
-      border-radius:8px;
 
       box-shadow:
-        0 5px 15px rgba(0,0,0,.12);
-
-      max-height:190px;
-
-      overflow-y:auto;
-    }
-
-    .dropdown.show{
-      display:block;
-    }
-
-
-    .item{
-      padding:8px 10px;
-
-      border-bottom:
-        1px solid #f0f0f0;
-
-      cursor:pointer;
-    }
-
-    .item:last-child{
-      border-bottom:0;
-    }
-
-    .item:active{
-      background:#fff4e8;
-    }
-
-
-    .item-name{
-      font-size:12px;
-
-      font-weight:600;
-
-      line-height:1.3;
-    }
-
-    .item-detail{
-      margin-top:2px;
-
-      font-size:10px;
-
-      color:#888;
-
-      line-height:1.3;
-    }
-
-    .empty{
-      padding:10px;
-
-      text-align:center;
-
-      font-size:11px;
-
-      color:#888;
+        0 0 0 2px
+        rgba(232,117,22,.08);
     }
 
 
     /* =========================
-       FIELDS
+       AUTO RESULT
     ========================= */
 
-    .fields{
-      display:grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap:8px;
-    }
-
-    .field label{
-      display:block;
-
-      margin-bottom:4px;
+    .auto-title{
+      margin-bottom:5px;
 
       font-size:10px;
+
+      font-weight:600;
 
       color:#777;
     }
 
-    .field input{
-      width:100%;
+    .auto-table{
+      display:grid;
 
-      height:35px;
-
-      padding:
-        0 9px;
+      grid-template-columns:
+        1fr 1.8fr .9fr .7fr;
 
       border:
-        1px solid #e2e2e2;
+        1px solid #e8e8e8;
 
       border-radius:7px;
 
-      background:#f8f9fa;
+      overflow:hidden;
 
-      font-size:12px;
-
-      outline:none;
+      background:#fff;
     }
 
-    .field input:disabled{
+    .auto-cell{
+      min-width:0;
+
+      padding:7px 6px;
+
+      border-right:
+        1px solid #e8e8e8;
+
+      font-size:10px;
+
+      line-height:1.3;
+
+      word-break:break-word;
+    }
+
+    .auto-cell:nth-child(4n){
+      border-right:0;
+    }
+
+    .auto-head{
+      background:#f7f7f7;
+
+      font-weight:700;
+
+      color:#777;
+    }
+
+    .auto-value{
+      min-height:30px;
+
+      display:flex;
+
+      align-items:center;
+
+      font-weight:600;
+
       color:#333;
-
-      opacity:1;
     }
 
 
     /* =========================
-       DELETE
-    ========================= */
-
-    .remove{
-      position:absolute;
-
-      top:8px;
-      right:8px;
-
-      width:24px;
-      height:24px;
-
-      border:0;
-
-      border-radius:7px;
-
-      background:#fff0f0;
-
-      color:#d93025;
-
-      font-size:16px;
-
-      line-height:1;
-
-      cursor:pointer;
-    }
-
-
-    /* =========================
-       ADD BUTTON
+       ADD PRODUCT
     ========================= */
 
     .add-btn{
@@ -412,29 +495,52 @@
 
 
     /* =========================
-       INFO
+       EMPTY
     ========================= */
 
-    .info{
-      margin-top:8px;
+    .section-empty{
+      padding:10px;
+
+      margin-bottom:8px;
+
+      border-radius:8px;
+
+      background:#f8f9fa;
 
       text-align:center;
 
-      font-size:10px;
+      font-size:11px;
 
       color:#999;
     }
 
 
-    @media(max-width:420px){
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media(max-width:430px){
 
       body{
         padding:8px;
       }
 
-      .fields{
-        grid-template-columns:
-          1fr 1fr;
+      .header{
+        padding:13px;
+      }
+
+      .section{
+        padding:10px;
+      }
+
+      .product{
+        padding:9px;
+      }
+
+      .auto-cell{
+        padding:7px 5px;
+
+        font-size:9px;
       }
 
     }
@@ -450,7 +556,9 @@
 <div class="container">
 
 
-  <!-- HEADER -->
+  <!-- =========================
+       HEADER
+  ========================== -->
 
   <div class="header">
 
@@ -465,7 +573,9 @@
   </div>
 
 
-  <!-- MASTER STATUS -->
+  <!-- =========================
+       MASTER STATUS
+  ========================== -->
 
   <div class="status">
 
@@ -482,17 +592,20 @@
        PRODUK AWAL
   ========================== -->
 
-  <div class="card">
+  <div class="section">
 
-    <div class="section-title">
+    <div class="section-header">
 
-      <strong>
+      <div class="section-title">
         PRODUK AWAL
-      </strong>
+      </div>
 
-      <span id="awalCount">
+      <div
+        id="awalCount"
+        class="section-count"
+      >
         0 produk
-      </span>
+      </div>
 
     </div>
 
@@ -515,17 +628,20 @@
        PRODUK AKHIR
   ========================== -->
 
-  <div class="card">
+  <div class="section">
 
-    <div class="section-title">
+    <div class="section-header">
 
-      <strong>
+      <div class="section-title">
         PRODUK AKHIR
-      </strong>
+      </div>
 
-      <span id="akhirCount">
+      <div
+        id="akhirCount"
+        class="section-count"
+      >
         0 produk
-      </span>
+      </div>
 
     </div>
 
@@ -544,11 +660,6 @@
   </div>
 
 
-  <div class="info">
-    Master dimuat satu kali untuk mempercepat pencarian.
-  </div>
-
-
 </div>
 
 
@@ -556,7 +667,7 @@
 
 
 /* =====================================================
-   APPS SCRIPT
+   APPS SCRIPT BACKEND
 ===================================================== */
 
 const APPS_SCRIPT_URL =
@@ -564,14 +675,14 @@ const APPS_SCRIPT_URL =
 
 
 /* =====================================================
-   MASTER DATA
+   MASTER
 ===================================================== */
 
 let MASTER_DATA = [];
 
 
 /* =====================================================
-   PRODUCT COUNTER
+   COUNTER
 ===================================================== */
 
 let awalCounter = 0;
@@ -586,7 +697,8 @@ let akhirCounter = 0;
 function loadMaster(){
 
   const callbackName =
-    '__zfood_' + Date.now();
+    '__zfood_master_' +
+    Date.now();
 
 
   let finished = false;
@@ -640,8 +752,8 @@ function loadMaster(){
 
 
         /*
-         * Tambahkan 1 produk awal
-         * dan 1 produk akhir
+         * Produk awal dan akhir
+         * pertama dibuat otomatis
          */
 
         addProduct('awal');
@@ -730,22 +842,31 @@ function loadMaster(){
 
 function showMasterError(message){
 
-  const status =
-    document.getElementById(
-      'masterStatus'
-    );
-
-  status.textContent =
+  document.getElementById(
+    'masterStatus'
+  ).textContent =
     message;
 
-  status.style.color =
+  document.querySelector(
+    '.status'
+  ).style.background =
+    '#fff0f0';
+
+  document.querySelector(
+    '.status'
+  ).style.color =
     '#c62828';
+
+  document.querySelector(
+    '.dot'
+  ).style.background =
+    '#d93025';
 
 }
 
 
 /* =====================================================
-   ADD PRODUCT
+   TAMBAH PRODUK
 ===================================================== */
 
 function addProduct(type){
@@ -786,14 +907,15 @@ function addProduct(type){
 
     <button
       type="button"
-      class="remove"
+      class="remove-btn"
       onclick="removeProduct(this)"
+      title="Hapus produk"
     >
       ×
     </button>
 
 
-    <div class="product-number">
+    <div class="product-title">
       ${type === 'awal'
         ? 'PRODUK AWAL'
         : 'PRODUK AKHIR'}
@@ -801,12 +923,18 @@ function addProduct(type){
     </div>
 
 
+    <!-- PENCARIAN -->
+
     <div class="search">
+
+      <label class="search-label">
+        ARTICLE / BARCODE / NAMA BARANG
+      </label>
 
       <input
         type="text"
-        class="article-input"
-        placeholder="ARTICLE / BARCODE / NAMA BARANG"
+        class="search-input"
+        placeholder="Ketik atau scan..."
         autocomplete="off"
         oninput="searchProduct(this)"
         onclick="searchProduct(this)"
@@ -817,71 +945,81 @@ function addProduct(type){
     </div>
 
 
-    <div class="fields">
+    <!-- QUANTITY -->
 
-      <div class="field">
+    <div class="quantity">
 
-        <label>
-          NAMA BARANG
-        </label>
+      <label class="quantity-label">
+        QUANTITY
+      </label>
 
-        <input
-          type="text"
-          class="name-input"
-          readonly
-          placeholder="-"
-        >
+      <input
+        type="number"
+        class="quantity-input"
+        inputmode="decimal"
+        step="any"
+        placeholder="Masukkan quantity"
+        oninput="updateQuantity(this)"
+      >
 
+    </div>
+
+
+    <!-- HASIL OTOMATIS -->
+
+    <div class="auto-title">
+      DATA PRODUK
+    </div>
+
+
+    <div class="auto-table">
+
+
+      <!-- HEADER -->
+
+      <div class="auto-cell auto-head">
+        ARTICLE
+      </div>
+
+      <div class="auto-cell auto-head">
+        NAMA BARANG
+      </div>
+
+      <div class="auto-cell auto-head">
+        QUANTITY
+      </div>
+
+      <div class="auto-cell auto-head">
+        OUM
       </div>
 
 
-      <div class="field">
+      <!-- VALUE -->
 
-        <label>
-          OUM
-        </label>
-
-        <input
-          type="text"
-          class="oum-input"
-          readonly
-          placeholder="-"
-        >
-
+      <div
+        class="auto-cell auto-value result-article"
+      >
+        -
       </div>
 
-
-      <div class="field">
-
-        <label>
-          QUANTITY
-        </label>
-
-        <input
-          type="number"
-          class="qty-input"
-          inputmode="decimal"
-          step="any"
-          placeholder="0"
-        >
-
+      <div
+        class="auto-cell auto-value result-name"
+      >
+        -
       </div>
 
-
-      <div class="field">
-
-        <label>
-          ARTICLE
-        </label>
-
-        <input
-          type="text"
-          class="selected-article"
-          readonly
-          placeholder="-"
-        >
-
+      <div
+        class="auto-cell auto-value result-quantity"
+      >
+        -
       </div>
+
+      <div
+        class="auto-cell auto-value result-oum"
+      >
+        -
+      </div>
+
 
     </div>
 
@@ -901,7 +1039,7 @@ function addProduct(type){
 
 
 /* =====================================================
-   REMOVE PRODUCT
+   HAPUS PRODUK
 ===================================================== */
 
 function removeProduct(button){
@@ -932,7 +1070,7 @@ function removeProduct(button){
 
 
 /* =====================================================
-   UPDATE COUNT
+   COUNT
 ===================================================== */
 
 function updateCount(type){
@@ -957,15 +1095,16 @@ function updateCount(type){
       : 'akhirCount'
   ).textContent =
     count +
+    ' ' +
     (count === 1
-      ? ' produk'
-      : ' produk');
+      ? 'produk'
+      : 'produk');
 
 }
 
 
 /* =====================================================
-   SEARCH PRODUCT
+   SEARCH PRODUK
 ===================================================== */
 
 function searchProduct(input){
@@ -1000,6 +1139,7 @@ function searchProduct(input){
 
   const results =
     MASTER_DATA
+
       .filter(
         function(item){
 
@@ -1031,7 +1171,11 @@ function searchProduct(input){
 
         }
       )
-      .slice(0,30);
+
+      .slice(
+        0,
+        30
+      );
 
 
   dropdown.innerHTML =
@@ -1079,11 +1223,13 @@ function searchProduct(input){
         escapeHTML(
           item.artikel || '-'
         ) +
-        ' | Barcode: ' +
+        ' &nbsp; | &nbsp; ' +
+        'Barcode: ' +
         escapeHTML(
           item.barcode || '-'
         ) +
-        ' | OUM: ' +
+        ' &nbsp; | &nbsp; ' +
+        'OUM: ' +
         escapeHTML(
           item.oum || '-'
         ) +
@@ -1121,7 +1267,7 @@ function searchProduct(input){
 
 
 /* =====================================================
-   SELECT PRODUCT
+   PILIH PRODUK
 ===================================================== */
 
 function selectProduct(
@@ -1129,69 +1275,84 @@ function selectProduct(
   item
 ){
 
-  const articleInput =
+  const searchInput =
     product.querySelector(
-      '.article-input'
+      '.search-input'
     );
 
 
-  const nameInput =
+  const quantityInput =
     product.querySelector(
-      '.name-input'
+      '.quantity-input'
     );
 
 
-  const oumInput =
-    product.querySelector(
-      '.oum-input'
-    );
+  /*
+   * Article ditampilkan
+   * sebagai nilai pencarian
+   */
 
-
-  const selectedArticle =
-    product.querySelector(
-      '.selected-article'
-    );
-
-
-  articleInput.value =
+  searchInput.value =
     item.artikel || '';
 
 
-  nameInput.value =
-    item.nama || '';
-
-
-  oumInput.value =
-    item.oum || '';
-
-
-  selectedArticle.value =
-    item.artikel || '';
-
+  /*
+   * Simpan data Master
+   */
 
   product.dataset.article =
     item.artikel || '';
 
-
   product.dataset.barcode =
     item.barcode || '';
 
-
-  product.dataset.nama =
+  product.dataset.name =
     item.nama || '';
-
 
   product.dataset.oum =
     item.oum || '';
 
 
-  const dropdown =
-    product.querySelector(
-      '.dropdown'
-    );
+  /*
+   * Hasil otomatis
+   */
+
+  product.querySelector(
+    '.result-article'
+  ).textContent =
+    item.artikel || '-';
 
 
-  dropdown.classList.remove(
+  product.querySelector(
+    '.result-name'
+  ).textContent =
+    item.nama || '-';
+
+
+  product.querySelector(
+    '.result-oum'
+  ).textContent =
+    item.oum || '-';
+
+
+  /*
+   * Quantity tetap mengikuti
+   * input manual.
+   */
+
+  product.querySelector(
+    '.result-quantity'
+  ).textContent =
+    quantityInput.value || '-';
+
+
+  /*
+   * Tutup dropdown
+   */
+
+  product.querySelector(
+    '.dropdown'
+  ).classList.remove(
     'show'
   );
 
@@ -1199,37 +1360,26 @@ function selectProduct(
 
 
 /* =====================================================
-   ESCAPE HTML
+   UPDATE QUANTITY
 ===================================================== */
 
-function escapeHTML(value){
+function updateQuantity(input){
 
-  return String(value)
-
-    .replace(
-      /&/g,
-      '&amp;'
-    )
-
-    .replace(
-      /</g,
-      '&lt;'
-    )
-
-    .replace(
-      />/g,
-      '&gt;'
-    )
-
-    .replace(
-      /"/g,
-      '&quot;'
-    )
-
-    .replace(
-      /'/g,
-      '&#039;'
+  const product =
+    input.closest(
+      '.product'
     );
+
+
+  if(!product){
+    return;
+  }
+
+
+  product.querySelector(
+    '.result-quantity'
+  ).textContent =
+    input.value || '-';
 
 }
 
@@ -1266,6 +1416,42 @@ document.addEventListener(
 
   }
 );
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(value){
+
+  return String(value)
+
+    .replace(
+      /&/g,
+      '&amp;'
+    )
+
+    .replace(
+      /</g,
+      '&lt;'
+    )
+
+    .replace(
+      />/g,
+      '&gt;'
+    )
+
+    .replace(
+      /"/g,
+      '&quot;'
+    )
+
+    .replace(
+      /'/g,
+      '&#039;'
+    );
+
+}
 
 
 /* =====================================================
