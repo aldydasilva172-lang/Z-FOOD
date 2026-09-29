@@ -32,7 +32,9 @@ body{
   margin:auto;
 }
 
-/* HEADER */
+/* =====================================================
+   HEADER
+===================================================== */
 
 .header{
   background:#fff;
@@ -55,7 +57,10 @@ body{
   color:#858585;
 }
 
-/* STATUS */
+
+/* =====================================================
+   STATUS
+===================================================== */
 
 .status{
   display:flex;
@@ -78,7 +83,10 @@ body{
   flex:none;
 }
 
-/* SECTION */
+
+/* =====================================================
+   SECTION
+===================================================== */
 
 .section{
   background:#fff;
@@ -89,23 +97,32 @@ body{
 }
 
 .section-header{
+  position:relative;
   display:flex;
   align-items:center;
-  justify-content:space-between;
+  justify-content:center;
   margin-bottom:10px;
+  min-height:24px;
 }
 
 .section-title{
+  width:100%;
+  text-align:center;
   font-size:15px;
   font-weight:700;
 }
 
 .section-count{
+  position:absolute;
+  right:0;
   font-size:10px;
   color:#999;
 }
 
-/* PRODUCT */
+
+/* =====================================================
+   PRODUCT INPUT
+===================================================== */
 
 .product{
   position:relative;
@@ -124,7 +141,10 @@ body{
   color:#777;
 }
 
-/* REMOVE */
+
+/* =====================================================
+   REMOVE
+===================================================== */
 
 .remove-btn{
   position:absolute;
@@ -142,7 +162,14 @@ body{
   cursor:pointer;
 }
 
-/* SEARCH */
+.remove-btn:active{
+  transform:scale(.95);
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
 
 .search{
   position:relative;
@@ -175,7 +202,10 @@ body{
   box-shadow:0 0 0 2px rgba(232,117,22,.08);
 }
 
-/* DROPDOWN */
+
+/* =====================================================
+   DROPDOWN
+===================================================== */
 
 .dropdown{
   display:none;
@@ -230,10 +260,13 @@ body{
   color:#888;
 }
 
-/* QUANTITY */
+
+/* =====================================================
+   QUANTITY
+===================================================== */
 
 .quantity{
-  margin-bottom:11px;
+  margin-bottom:4px;
 }
 
 .quantity-input{
@@ -252,44 +285,67 @@ body{
   box-shadow:0 0 0 2px rgba(232,117,22,.08);
 }
 
-/* AUTO */
 
-.auto-title{
-  margin-bottom:5px;
+/* =====================================================
+   DATA PRODUK GABUNGAN
+===================================================== */
+
+.data-product{
+  margin-top:12px;
+  padding-top:11px;
+  border-top:1px solid #eee;
+}
+
+.data-product-title{
+  margin-bottom:6px;
+  text-align:center;
   font-size:10px;
-  font-weight:600;
+  font-weight:700;
   color:#777;
 }
 
-.auto-table{
-  display:grid;
-  grid-template-columns:1fr 1.8fr .9fr .7fr;
+.data-table{
+  width:100%;
   border:1px solid #e8e8e8;
-  border-radius:7px;
+  border-radius:8px;
   overflow:hidden;
   background:#fff;
 }
 
-.auto-cell{
+.data-row{
+  display:grid;
+  grid-template-columns:
+    1fr
+    1.8fr
+    .9fr
+    .7fr;
+}
+
+.data-cell{
   min-width:0;
   padding:7px 6px;
   border-right:1px solid #e8e8e8;
+  border-bottom:1px solid #e8e8e8;
   font-size:10px;
   line-height:1.3;
   word-break:break-word;
 }
 
-.auto-cell:nth-child(4n){
+.data-cell:last-child{
   border-right:0;
 }
 
-.auto-head{
+.data-row:last-child .data-cell{
+  border-bottom:0;
+}
+
+.data-head{
   background:#f7f7f7;
   font-weight:700;
   color:#777;
 }
 
-.auto-value{
+.data-value{
   min-height:30px;
   display:flex;
   align-items:center;
@@ -297,11 +353,22 @@ body{
   color:#333;
 }
 
-/* ADD */
+.data-empty{
+  padding:10px;
+  text-align:center;
+  font-size:10px;
+  color:#aaa;
+}
+
+
+/* =====================================================
+   ADD
+===================================================== */
 
 .add-btn{
   width:100%;
   height:36px;
+  margin-top:10px;
   border:1px dashed #e87516;
   border-radius:8px;
   background:#fffaf5;
@@ -315,7 +382,10 @@ body{
   transform:scale(.99);
 }
 
-/* SAVE */
+
+/* =====================================================
+   SAVE
+===================================================== */
 
 .save-section{
   background:#fff;
@@ -347,7 +417,10 @@ body{
   cursor:not-allowed;
 }
 
-/* PREVIEW */
+
+/* =====================================================
+   PREVIEW
+===================================================== */
 
 .preview{
   display:none;
@@ -379,7 +452,10 @@ body{
   color:#555;
 }
 
-/* MOBILE */
+
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media(max-width:430px){
 
@@ -400,7 +476,7 @@ body{
     padding:9px;
   }
 
-  .auto-cell{
+  .data-cell{
     padding:7px 5px;
     font-size:9px;
   }
@@ -411,11 +487,15 @@ body{
 
 </head>
 
+
 <body>
 
 <div class="container">
 
-  <!-- HEADER -->
+
+  <!-- =================================================
+       HEADER
+  ================================================== -->
 
   <div class="header">
 
@@ -430,7 +510,9 @@ body{
   </div>
 
 
-  <!-- MASTER STATUS -->
+  <!-- =================================================
+       MASTER STATUS
+  ================================================== -->
 
   <div
     id="masterStatusBox"
@@ -449,7 +531,9 @@ body{
   </div>
 
 
-  <!-- PRODUK AWAL -->
+  <!-- =================================================
+       PRODUK AWAL
+  ================================================== -->
 
   <div class="section">
 
@@ -468,7 +552,58 @@ body{
 
     </div>
 
+
+    <!-- INPUT PRODUK -->
     <div id="awalList"></div>
+
+
+    <!-- DATA PRODUK GABUNGAN -->
+
+    <div class="data-product">
+
+      <div class="data-product-title">
+        DATA PRODUK
+      </div>
+
+      <div
+        id="awalDataTable"
+        class="data-table"
+      >
+
+        <div class="data-row">
+
+          <div class="data-cell data-head">
+            ARTICLE
+          </div>
+
+          <div class="data-cell data-head">
+            NAMA BARANG
+          </div>
+
+          <div class="data-cell data-head">
+            QUANTITY
+          </div>
+
+          <div class="data-cell data-head">
+            OUM
+          </div>
+
+        </div>
+
+        <div
+          id="awalDataBody"
+        >
+
+          <div class="data-empty">
+            Belum ada produk
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
 
     <button
       type="button"
@@ -481,7 +616,9 @@ body{
   </div>
 
 
-  <!-- PRODUK AKHIR -->
+  <!-- =================================================
+       PRODUK AKHIR
+  ================================================== -->
 
   <div class="section">
 
@@ -500,7 +637,58 @@ body{
 
     </div>
 
+
+    <!-- INPUT PRODUK -->
     <div id="akhirList"></div>
+
+
+    <!-- DATA PRODUK GABUNGAN -->
+
+    <div class="data-product">
+
+      <div class="data-product-title">
+        DATA PRODUK
+      </div>
+
+      <div
+        id="akhirDataTable"
+        class="data-table"
+      >
+
+        <div class="data-row">
+
+          <div class="data-cell data-head">
+            ARTICLE
+          </div>
+
+          <div class="data-cell data-head">
+            NAMA BARANG
+          </div>
+
+          <div class="data-cell data-head">
+            QUANTITY
+          </div>
+
+          <div class="data-cell data-head">
+            OUM
+          </div>
+
+        </div>
+
+        <div
+          id="akhirDataBody"
+        >
+
+          <div class="data-empty">
+            Belum ada produk
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
 
     <button
       type="button"
@@ -513,7 +701,9 @@ body{
   </div>
 
 
-  <!-- SAVE -->
+  <!-- =================================================
+       SAVE
+  ================================================== -->
 
   <div class="save-section">
 
@@ -525,6 +715,7 @@ body{
     >
       SIMPAN DATA
     </button>
+
 
     <div
       id="preview"
@@ -543,6 +734,7 @@ body{
     </div>
 
   </div>
+
 
 </div>
 
@@ -714,10 +906,6 @@ function loadMaster(){
         }
 
 
-        /*
-         * MASTER disimpan hanya sekali
-         */
-
         MASTER_DATA =
           response.data;
 
@@ -735,9 +923,7 @@ function loadMaster(){
 
 
         /*
-         * Setelah Master benar-benar
-         * selesai dimuat, baru buat
-         * produk pertama.
+         * Produk pertama otomatis dibuat
          */
 
         if(
@@ -814,10 +1000,6 @@ function loadMaster(){
   );
 
 
-  /*
-   * Timeout 20 detik
-   */
-
   setTimeout(
     function(){
 
@@ -842,11 +1024,6 @@ function loadMaster(){
 ===================================================== */
 
 function addProduct(type){
-
-  /*
-   * Jangan izinkan membuat
-   * produk sebelum Master selesai.
-   */
 
   if(!masterLoaded){
 
@@ -950,49 +1127,6 @@ function addProduct(type){
 
     </div>
 
-
-    <div class="auto-title">
-      DATA PRODUK
-    </div>
-
-
-    <div class="auto-table">
-
-      <div class="auto-cell auto-head">
-        ARTICLE
-      </div>
-
-      <div class="auto-cell auto-head">
-        NAMA BARANG
-      </div>
-
-      <div class="auto-cell auto-head">
-        QUANTITY
-      </div>
-
-      <div class="auto-cell auto-head">
-        OUM
-      </div>
-
-
-      <div class="auto-cell auto-value result-article">
-        -
-      </div>
-
-      <div class="auto-cell auto-value result-name">
-        -
-      </div>
-
-      <div class="auto-cell auto-value result-quantity">
-        -
-      </div>
-
-      <div class="auto-cell auto-value result-oum">
-        -
-      </div>
-
-    </div>
-
   `;
 
 
@@ -1001,9 +1135,7 @@ function addProduct(type){
   );
 
 
-  /*
-   * Event search
-   */
+  /* SEARCH */
 
   const searchInput =
     product.querySelector(
@@ -1039,9 +1171,7 @@ function addProduct(type){
   );
 
 
-  /*
-   * Event quantity
-   */
+  /* QUANTITY */
 
   const quantityInput =
     product.querySelector(
@@ -1062,6 +1192,11 @@ function addProduct(type){
 
 
   updateCount(
+    type
+  );
+
+
+  updateDataTable(
     type
   );
 
@@ -1093,6 +1228,11 @@ function removeProduct(button){
 
 
   updateCount(
+    type
+  );
+
+
+  updateDataTable(
     type
   );
 
@@ -1137,9 +1277,7 @@ function updateCount(type){
 function searchProduct(input){
 
   if(!masterLoaded){
-
     return;
-
   }
 
 
@@ -1325,12 +1463,6 @@ function selectProduct(
     );
 
 
-  const quantityInput =
-    product.querySelector(
-      '.quantity-input'
-    );
-
-
   searchInput.value =
     item.artikel || '';
 
@@ -1352,33 +1484,14 @@ function selectProduct(
 
 
   product.querySelector(
-    '.result-article'
-  ).textContent =
-    item.artikel || '-';
-
-
-  product.querySelector(
-    '.result-name'
-  ).textContent =
-    item.nama || '-';
-
-
-  product.querySelector(
-    '.result-quantity'
-  ).textContent =
-    quantityInput.value || '-';
-
-
-  product.querySelector(
-    '.result-oum'
-  ).textContent =
-    item.oum || '-';
-
-
-  product.querySelector(
     '.dropdown'
   ).classList.remove(
     'show'
+  );
+
+
+  updateDataTable(
+    product.dataset.type
   );
 
 }
@@ -1401,10 +1514,130 @@ function updateQuantity(input){
   }
 
 
-  product.querySelector(
-    '.result-quantity'
-  ).textContent =
-    input.value || '-';
+  updateDataTable(
+    product.dataset.type
+  );
+
+}
+
+
+/* =====================================================
+   DATA PRODUK
+   SATU TABEL UNTUK SEMUA PRODUK
+===================================================== */
+
+function updateDataTable(type){
+
+  const list =
+    document.getElementById(
+      type === 'awal'
+        ? 'awalList'
+        : 'akhirList'
+    );
+
+
+  const body =
+    document.getElementById(
+      type === 'awal'
+        ? 'awalDataBody'
+        : 'akhirDataBody'
+    );
+
+
+  const products =
+    list.querySelectorAll(
+      '.product'
+    );
+
+
+  body.innerHTML =
+    '';
+
+
+  let totalData =
+    0;
+
+
+  products.forEach(
+    function(product){
+
+      const data =
+        getProductData(
+          product
+        );
+
+
+      /*
+       * Hanya tampilkan kalau
+       * barang sudah dipilih.
+       */
+
+      if(
+        !data.artikel &&
+        !data.nama
+      ){
+        return;
+      }
+
+
+      totalData++;
+
+
+      const row =
+        document.createElement(
+          'div'
+        );
+
+
+      row.className =
+        'data-row';
+
+
+      row.innerHTML = `
+
+        <div class="data-cell data-value">
+          ${escapeHTML(
+            data.artikel || '-'
+          )}
+        </div>
+
+        <div class="data-cell data-value">
+          ${escapeHTML(
+            data.nama || '-'
+          )}
+        </div>
+
+        <div class="data-cell data-value">
+          ${escapeHTML(
+            data.quantity || '-'
+          )}
+        </div>
+
+        <div class="data-cell data-value">
+          ${escapeHTML(
+            data.oum || '-'
+          )}
+        </div>
+
+      `;
+
+
+      body.appendChild(
+        row
+      );
+
+    }
+  );
+
+
+  if(totalData === 0){
+
+    body.innerHTML =
+      '<div class="data-empty">' +
+      'Belum ada produk' +
+      '</div>';
+
+  }
 
 }
 
