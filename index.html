@@ -1511,15 +1511,14 @@ function addProduct(type){
         ARTICLE / BARCODE / NAMA BARANG
       </label>
 
-      <input
-        type="text"
-        class="search-input"
-        placeholder="Ketik atau Scan"
-        autocomplete="off"
-        inputmode="search"
-        oninput="searchProduct(this)"
-        onfocus="searchProduct(this)"
-      >
+     <input
+  type="text"
+  class="search-input"
+  placeholder="Ketik atau Scan"
+  autocomplete="off"
+  inputmode="search"
+  oninput="searchProduct(this)"
+>
 
       <div class="dropdown"></div>
 
@@ -1676,19 +1675,17 @@ function searchProduct(input){
   let results;
 
 
-  if(keyword === ''){
+if(keyword === ''){
 
-    results =
-      MASTER_DATA.slice(
-        0,
-        30
-      );
+  dropdown.classList.remove('show');
+  return;
 
-  }else{
+}else{
 
-    results =
-      MASTER_DATA.filter(
-        function(item){
+  results =
+    MASTER_DATA.filter(
+          
+      function(item){
 
           const article =
             String(
@@ -1783,30 +1780,24 @@ function renderDropdown(
         </div>
 
         <div class="item-detail">
+          SOH:
+          ${escapeHTML(
+            item.soh || '-'
+          )}
+             &nbsp; • &nbsp;
           ARTICLE:
           ${escapeHTML(
             item.artikel || '-'
           )}
-
-          &nbsp; • &nbsp;
-
+             &nbsp; • &nbsp;
           BARCODE:
           ${escapeHTML(
             item.barcode || '-'
           )}
-
-          <br>
-
+            &nbsp; • &nbsp;
           OUM:
           ${escapeHTML(
             item.oum || '-'
-          )}
-
-          &nbsp; • &nbsp;
-
-          SOH:
-          ${escapeHTML(
-            item.soh || '-'
           )}
         </div>
 
