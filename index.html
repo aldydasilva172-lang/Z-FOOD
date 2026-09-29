@@ -384,6 +384,52 @@ body{
 
 
 /* =====================================================
+   Z-FOOD PEMISAH
+===================================================== */
+
+.zfood-divider{
+  text-align:center;
+  margin:18px 0 10px;
+  padding:10px 0;
+}
+
+.zfood-divider-title{
+  font-size:18px;
+  font-weight:700;
+  color:#e87516;
+}
+
+.zfood-divider-line{
+  width:55px;
+  height:2px;
+  margin:6px auto 0;
+  border-radius:10px;
+  background:#e87516;
+}
+
+
+/* =====================================================
+   DATA PENGECEKAN
+===================================================== */
+
+.check-section{
+  background:#fff;
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:10px;
+  box-shadow:0 3px 12px rgba(0,0,0,.06);
+}
+
+.check-title{
+  margin-bottom:8px;
+  text-align:center;
+  font-size:13px;
+  font-weight:700;
+  color:#555;
+}
+
+
+/* =====================================================
    SAVE
 ===================================================== */
 
@@ -468,7 +514,8 @@ body{
   }
 
   .section,
-  .save-section{
+  .save-section,
+  .check-section{
     padding:10px;
   }
 
@@ -479,6 +526,14 @@ body{
   .data-cell{
     padding:7px 5px;
     font-size:9px;
+  }
+
+  .zfood-divider{
+    margin:15px 0 8px;
+  }
+
+  .zfood-divider-title{
+    font-size:17px;
   }
 
 }
@@ -698,6 +753,121 @@ body{
             Belum ada produk
           </div>
 
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       Z-FOOD PEMISAH / PENGECEKAN
+  ================================================== -->
+
+  <div class="zfood-divider">
+
+    <div class="zfood-divider-title">
+      Z-FOOD
+    </div>
+
+    <div class="zfood-divider-line"></div>
+
+  </div>
+
+
+  <!-- =================================================
+       DATA PRODUK AWAL - PENGECEKAN
+  ================================================== -->
+
+  <div class="check-section">
+
+    <div class="check-title">
+      DATA PRODUK AWAL
+    </div>
+
+    <div
+      id="awalCheckTable"
+      class="data-table"
+    >
+
+      <div class="data-row">
+
+        <div class="data-cell data-head">
+          ARTICLE
+        </div>
+
+        <div class="data-cell data-head">
+          NAMA BARANG
+        </div>
+
+        <div class="data-cell data-head">
+          QUANTITY
+        </div>
+
+        <div class="data-cell data-head">
+          OUM
+        </div>
+
+      </div>
+
+      <div
+        id="awalCheckBody"
+      >
+
+        <div class="data-empty">
+          Belum ada produk
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =================================================
+       DATA PRODUK AKHIR - PENGECEKAN
+  ================================================== -->
+
+  <div class="check-section">
+
+    <div class="check-title">
+      DATA PRODUK AKHIR
+    </div>
+
+    <div
+      id="akhirCheckTable"
+      class="data-table"
+    >
+
+      <div class="data-row">
+
+        <div class="data-cell data-head">
+          ARTICLE
+        </div>
+
+        <div class="data-cell data-head">
+          NAMA BARANG
+        </div>
+
+        <div class="data-cell data-head">
+          QUANTITY
+        </div>
+
+        <div class="data-cell data-head">
+          OUM
+        </div>
+
+      </div>
+
+      <div
+        id="akhirCheckBody"
+      >
+
+        <div class="data-empty">
+          Belum ada produk
         </div>
 
       </div>
@@ -1403,24 +1573,24 @@ function searchProduct(input){
         ) +
         '</div>' +
 
-'<div class="item-detail">' +
-'SOH: ' +
-escapeHTML(
-  item.soh || '-'
-) +
-' | Article: ' +
-escapeHTML(
-  item.artikel || '-'
-) +
-' | Barcode: ' +
-escapeHTML(
-  item.barcode || '-'
-) +
-' | OUM: ' +
-escapeHTML(
-  item.oum || '-'
-) +
-'</div>';
+        '<div class="item-detail">' +
+        'SOH: ' +
+        escapeHTML(
+          item.soh || '-'
+        ) +
+        ' | Article: ' +
+        escapeHTML(
+          item.artikel || '-'
+        ) +
+        ' | Barcode: ' +
+        escapeHTML(
+          item.barcode || '-'
+        ) +
+        ' | OUM: ' +
+        escapeHTML(
+          item.oum || '-'
+        ) +
+        '</div>';
 
 
       div.addEventListener(
@@ -1533,24 +1703,46 @@ function updateQuantity(input){
 
 /* =====================================================
    DATA PRODUK
-   SATU TABEL UNTUK SEMUA PRODUK
 ===================================================== */
 
-function updateDataTable(type){
+function getProductData(product){
+
+  return {
+
+    artikel:
+      product.dataset.article || '',
+
+    nama:
+      product.dataset.name || '',
+
+    quantity:
+      product.querySelector(
+        '.quantity-input'
+      ).value || '',
+
+    oum:
+      product.dataset.oum || ''
+
+  };
+
+}
+
+
+/* =====================================================
+   RENDER DATA PRODUK
+   BISA UNTUK TABEL ATAS DAN PENGECEKAN BAWAH
+===================================================== */
+
+function renderDataBody(
+  type,
+  body
+){
 
   const list =
     document.getElementById(
       type === 'awal'
         ? 'awalList'
         : 'akhirList'
-    );
-
-
-  const body =
-    document.getElementById(
-      type === 'awal'
-        ? 'awalDataBody'
-        : 'akhirDataBody'
     );
 
 
@@ -1581,7 +1773,9 @@ function updateDataTable(type){
         !data.artikel &&
         !data.nama
       ){
+
         return;
+
       }
 
 
@@ -1648,28 +1842,49 @@ function updateDataTable(type){
 
 
 /* =====================================================
-   DATA PRODUK
+   UPDATE DATA PRODUK
 ===================================================== */
 
-function getProductData(product){
+function updateDataTable(type){
 
-  return {
+  /*
+   * DATA PRODUK DI BAGIAN INPUT
+   */
 
-    artikel:
-      product.dataset.article || '',
+  const mainBody =
+    document.getElementById(
+      type === 'awal'
+        ? 'awalDataBody'
+        : 'akhirDataBody'
+    );
 
-    nama:
-      product.dataset.name || '',
 
-    quantity:
-      product.querySelector(
-        '.quantity-input'
-      ).value || '',
+  /*
+   * DATA PRODUK DI BAGIAN PENGECEKAN
+   */
 
-    oum:
-      product.dataset.oum || ''
+  const checkBody =
+    document.getElementById(
+      type === 'awal'
+        ? 'awalCheckBody'
+        : 'akhirCheckBody'
+    );
 
-  };
+
+  /*
+   * UPDATE KEDUANYA
+   */
+
+  renderDataBody(
+    type,
+    mainBody
+  );
+
+
+  renderDataBody(
+    type,
+    checkBody
+  );
 
 }
 
