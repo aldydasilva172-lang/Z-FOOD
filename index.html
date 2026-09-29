@@ -1404,7 +1404,11 @@ function searchProduct(input){
         '</div>' +
 
 '<div class="item-detail">' +
-'Article: ' +
+'SOH: ' +
+escapeHTML(
+  item.soh || '-'
+) +
+' | Article: ' +
 escapeHTML(
   item.artikel || '-'
 ) +
@@ -1415,10 +1419,6 @@ escapeHTML(
 ' | OUM: ' +
 escapeHTML(
   item.oum || '-'
-) +
-' | SOH: ' +
-escapeHTML(
-  item.soh || '-'
 ) +
 '</div>';
 
