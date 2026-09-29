@@ -25,9 +25,7 @@
 
       background:#f6f7f9;
 
-      font-family:
-        Arial,
-        sans-serif;
+      font-family:Arial,sans-serif;
 
       color:#252525;
     }
@@ -172,11 +170,6 @@
       background:#fff;
     }
 
-    .product:last-child{
-      margin-bottom:8px;
-    }
-
-
     .product-title{
       padding-right:30px;
 
@@ -249,11 +242,9 @@
 
       height:38px;
 
-      padding:
-        0 10px;
+      padding:0 10px;
 
-      border:
-        1px solid #ddd;
+      border:1px solid #ddd;
 
       border-radius:8px;
 
@@ -297,14 +288,12 @@
 
       background:#fff;
 
-      border:
-        1px solid #ddd;
+      border:1px solid #ddd;
 
       border-radius:8px;
 
       box-shadow:
-        0 6px 16px
-        rgba(0,0,0,.12);
+        0 6px 16px rgba(0,0,0,.12);
     }
 
     .dropdown.show{
@@ -370,11 +359,9 @@
 
       height:38px;
 
-      padding:
-        0 10px;
+      padding:0 10px;
 
-      border:
-        1px solid #ddd;
+      border:1px solid #ddd;
 
       border-radius:8px;
 
@@ -414,8 +401,7 @@
       grid-template-columns:
         1fr 1.8fr .9fr .7fr;
 
-      border:
-        1px solid #e8e8e8;
+      border:1px solid #e8e8e8;
 
       border-radius:7px;
 
@@ -465,7 +451,7 @@
 
 
     /* =========================
-       ADD PRODUCT
+       ADD BUTTON
     ========================= */
 
     .add-btn{
@@ -473,8 +459,7 @@
 
       height:36px;
 
-      border:
-        1px dashed #e87516;
+      border:1px dashed #e87516;
 
       border-radius:8px;
 
@@ -495,23 +480,103 @@
 
 
     /* =========================
-       EMPTY
+       SAVE
     ========================= */
 
-    .section-empty{
-      padding:10px;
+    .save-section{
+      background:#fff;
 
-      margin-bottom:8px;
+      border-radius:12px;
+
+      padding:12px;
+
+      margin-bottom:10px;
+
+      box-shadow:
+        0 3px 12px rgba(0,0,0,.06);
+    }
+
+    .save-btn{
+      width:100%;
+
+      height:42px;
+
+      border:0;
+
+      border-radius:9px;
+
+      background:#e87516;
+
+      color:#fff;
+
+      font-size:13px;
+
+      font-weight:700;
+
+      cursor:pointer;
+
+      box-shadow:
+        0 3px 8px
+        rgba(232,117,22,.20);
+    }
+
+    .save-btn:active{
+      transform:scale(.99);
+    }
+
+    .save-btn:disabled{
+      opacity:.55;
+
+      cursor:not-allowed;
+    }
+
+
+    /* =========================
+       PREVIEW
+    ========================= */
+
+    .preview{
+      display:none;
+
+      margin-top:10px;
+
+      padding:10px;
 
       border-radius:8px;
 
-      background:#f8f9fa;
+      background:#f7f8fa;
 
-      text-align:center;
+      border:1px solid #eee;
+    }
+
+    .preview.show{
+      display:block;
+    }
+
+    .preview-title{
+      margin-bottom:7px;
 
       font-size:11px;
 
-      color:#999;
+      font-weight:700;
+
+      color:#555;
+    }
+
+    .preview-data{
+      margin:0;
+
+      white-space:pre-wrap;
+
+      word-break:break-word;
+
+      font-family:monospace;
+
+      font-size:10px;
+
+      line-height:1.5;
+
+      color:#555;
     }
 
 
@@ -529,7 +594,8 @@
         padding:13px;
       }
 
-      .section{
+      .section,
+      .save-section{
         padding:10px;
       }
 
@@ -556,9 +622,7 @@
 <div class="container">
 
 
-  <!-- =========================
-       HEADER
-  ========================== -->
+  <!-- HEADER -->
 
   <div class="header">
 
@@ -573,13 +637,14 @@
   </div>
 
 
-  <!-- =========================
-       MASTER STATUS
-  ========================== -->
+  <!-- MASTER STATUS -->
 
   <div class="status">
 
-    <span class="dot"></span>
+    <span
+      id="statusDot"
+      class="dot"
+    ></span>
 
     <span id="masterStatus">
       Menghubungkan ke Master...
@@ -660,6 +725,41 @@
   </div>
 
 
+  <!-- =========================
+       SAVE
+  ========================== -->
+
+  <div class="save-section">
+
+    <button
+      id="saveBtn"
+      type="button"
+      class="save-btn"
+      onclick="saveData()"
+    >
+      SIMPAN DATA
+    </button>
+
+
+    <div
+      id="preview"
+      class="preview"
+    >
+
+      <div class="preview-title">
+        DATA YANG AKAN DISIMPAN
+      </div>
+
+      <pre
+        id="previewData"
+        class="preview-data"
+      ></pre>
+
+    </div>
+
+  </div>
+
+
 </div>
 
 
@@ -675,7 +775,7 @@ const APPS_SCRIPT_URL =
 
 
 /* =====================================================
-   MASTER
+   MASTER DATA
 ===================================================== */
 
 let MASTER_DATA = [];
@@ -750,11 +850,6 @@ function loadMaster(){
           ) +
           ' data';
 
-
-        /*
-         * Produk awal dan akhir
-         * pertama dibuat otomatis
-         */
 
         addProduct('awal');
 
@@ -842,25 +937,31 @@ function loadMaster(){
 
 function showMasterError(message){
 
-  document.getElementById(
-    'masterStatus'
-  ).textContent =
+  const status =
+    document.getElementById(
+      'masterStatus'
+    );
+
+  status.textContent =
     message;
+
+
+  document.getElementById(
+    'statusDot'
+  ).style.background =
+    '#d93025';
+
 
   document.querySelector(
     '.status'
   ).style.background =
     '#fff0f0';
 
+
   document.querySelector(
     '.status'
   ).style.color =
     '#c62828';
-
-  document.querySelector(
-    '.dot'
-  ).style.background =
-    '#d93025';
 
 }
 
@@ -916,14 +1017,17 @@ function addProduct(type){
 
 
     <div class="product-title">
+
       ${type === 'awal'
         ? 'PRODUK AWAL'
         : 'PRODUK AKHIR'}
+
       #${id}
+
     </div>
 
 
-    <!-- PENCARIAN -->
+    <!-- SEARCH -->
 
     <div class="search">
 
@@ -965,7 +1069,7 @@ function addProduct(type){
     </div>
 
 
-    <!-- HASIL OTOMATIS -->
+    <!-- DATA OTOMATIS -->
 
     <div class="auto-title">
       DATA PRODUK
@@ -974,8 +1078,6 @@ function addProduct(type){
 
     <div class="auto-table">
 
-
-      <!-- HEADER -->
 
       <div class="auto-cell auto-head">
         ARTICLE
@@ -993,8 +1095,6 @@ function addProduct(type){
         OUM
       </div>
 
-
-      <!-- VALUE -->
 
       <div
         class="auto-cell auto-value result-article"
@@ -1104,7 +1204,7 @@ function updateCount(type){
 
 
 /* =====================================================
-   SEARCH PRODUK
+   SEARCH
 ===================================================== */
 
 function searchProduct(input){
@@ -1139,7 +1239,6 @@ function searchProduct(input){
 
   const results =
     MASTER_DATA
-
       .filter(
         function(item){
 
@@ -1171,7 +1270,6 @@ function searchProduct(input){
 
         }
       )
-
       .slice(
         0,
         30
@@ -1287,18 +1385,9 @@ function selectProduct(
     );
 
 
-  /*
-   * Article ditampilkan
-   * sebagai nilai pencarian
-   */
-
   searchInput.value =
     item.artikel || '';
 
-
-  /*
-   * Simpan data Master
-   */
 
   product.dataset.article =
     item.artikel || '';
@@ -1312,10 +1401,6 @@ function selectProduct(
   product.dataset.oum =
     item.oum || '';
 
-
-  /*
-   * Hasil otomatis
-   */
 
   product.querySelector(
     '.result-article'
@@ -1335,20 +1420,11 @@ function selectProduct(
     item.oum || '-';
 
 
-  /*
-   * Quantity tetap mengikuti
-   * input manual.
-   */
-
   product.querySelector(
     '.result-quantity'
   ).textContent =
     quantityInput.value || '-';
 
-
-  /*
-   * Tutup dropdown
-   */
 
   product.querySelector(
     '.dropdown'
@@ -1360,7 +1436,7 @@ function selectProduct(
 
 
 /* =====================================================
-   UPDATE QUANTITY
+   QUANTITY
 ===================================================== */
 
 function updateQuantity(input){
@@ -1380,6 +1456,216 @@ function updateQuantity(input){
     '.result-quantity'
   ).textContent =
     input.value || '-';
+
+}
+
+
+/* =====================================================
+   AMBIL DATA SATU PRODUK
+===================================================== */
+
+function getProductData(product){
+
+  return {
+
+    artikel:
+      product.dataset.article || '',
+
+    nama:
+      product.dataset.name || '',
+
+    quantity:
+      product.querySelector(
+        '.quantity-input'
+      ).value || '',
+
+    oum:
+      product.dataset.oum || ''
+
+  };
+
+}
+
+
+/* =====================================================
+   AMBIL SEMUA PRODUK
+===================================================== */
+
+function getAllProducts(type){
+
+  const list =
+    document.getElementById(
+      type === 'awal'
+        ? 'awalList'
+        : 'akhirList'
+    );
+
+
+  const products =
+    list.querySelectorAll(
+      '.product'
+    );
+
+
+  const result = [];
+
+
+  products.forEach(
+    function(product){
+
+      const data =
+        getProductData(
+          product
+        );
+
+
+      /*
+       * Hanya produk yang sudah
+       * dipilih dari Master
+       */
+
+      if(
+        data.artikel ||
+        data.nama ||
+        data.quantity ||
+        data.oum
+      ){
+
+        result.push(
+          data
+        );
+
+      }
+
+    }
+  );
+
+
+  return result;
+
+}
+
+
+/* =====================================================
+   SIMPAN DATA
+===================================================== */
+
+function saveData(){
+
+  const awal =
+    getAllProducts(
+      'awal'
+    );
+
+
+  const akhir =
+    getAllProducts(
+      'akhir'
+    );
+
+
+  /*
+   * Minimal harus ada
+   * satu produk
+   */
+
+  if(
+    awal.length === 0 &&
+    akhir.length === 0
+  ){
+
+    alert(
+      'Belum ada data produk.'
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * Cek produk yang belum
+   * dipilih dari Master
+   */
+
+  const all =
+    awal.concat(
+      akhir
+    );
+
+
+  const invalid =
+    all.filter(
+      function(item){
+
+        return (
+          !item.artikel ||
+          !item.nama ||
+          !item.quantity ||
+          !item.oum
+        );
+
+      }
+    );
+
+
+  if(invalid.length){
+
+    alert(
+      'Pastikan setiap produk sudah dipilih dan Quantity sudah diisi.'
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * Data final
+   */
+
+  const payload = {
+
+    produkAwal:
+      awal,
+
+    produkAkhir:
+      akhir
+
+  };
+
+
+  /*
+   * Preview sementara
+   */
+
+  document.getElementById(
+    'previewData'
+  ).textContent =
+    JSON.stringify(
+      payload,
+      null,
+      2
+    );
+
+
+  document.getElementById(
+    'preview'
+  ).classList.add(
+    'show'
+  );
+
+
+  /*
+   * Scroll ke preview
+   */
+
+  document.getElementById(
+    'preview'
+  ).scrollIntoView({
+    behavior:'smooth',
+    block:'nearest'
+  );
 
 }
 
