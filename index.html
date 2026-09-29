@@ -1403,20 +1403,24 @@ function searchProduct(input){
         ) +
         '</div>' +
 
-        '<div class="item-detail">' +
-        'Article: ' +
-        escapeHTML(
-          item.artikel || '-'
-        ) +
-        ' | Barcode: ' +
-        escapeHTML(
-          item.barcode || '-'
-        ) +
-        ' | OUM: ' +
-        escapeHTML(
-          item.oum || '-'
-        ) +
-        '</div>';
+'<div class="item-detail">' +
+'Article: ' +
+escapeHTML(
+  item.artikel || '-'
+) +
+' | Barcode: ' +
+escapeHTML(
+  item.barcode || '-'
+) +
+' | OUM: ' +
+escapeHTML(
+  item.oum || '-'
+) +
+' | SOH: ' +
+escapeHTML(
+  item.soh || '-'
+) +
+'</div>';
 
 
       div.addEventListener(
