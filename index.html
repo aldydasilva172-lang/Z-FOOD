@@ -2,10 +2,12 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Z-FOOD</title>
 
 <style>
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -21,145 +23,138 @@ body{
 
 .container{
   width:100%;
-  max-width:680px;
+  max-width:520px;
   margin:auto;
-  padding:9px 8px 20px;
+  padding:15px 10px 30px;
 }
 
+
 /* HEADER */
+
 .header{
   background:#fff;
-  border:1px solid #e8eaed;
-  border-radius:12px;
-  padding:11px 12px;
-  margin-bottom:8px;
-  box-shadow:0 3px 10px rgba(0,0,0,.035);
+  border:1px solid #e5e8ec;
+  border-radius:13px;
+  padding:14px;
+  margin-bottom:10px;
+  box-shadow:0 3px 12px rgba(0,0,0,.04);
 }
 
 .header h1{
-  font-size:18px;
+  font-size:20px;
   font-weight:700;
 }
 
 .header p{
-  margin-top:2px;
+  margin-top:3px;
   font-size:11px;
-  color:#7a818a;
+  color:#858c94;
 }
 
-/* SECTION */
-.section{
-  background:#fff;
-  border:1px solid #e8eaed;
-  border-radius:12px;
-  padding:10px;
-  margin-bottom:8px;
-  box-shadow:0 3px 10px rgba(0,0,0,.035);
-}
 
-.section-title{
+/* STATUS */
+
+.status{
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  margin-bottom:7px;
+  gap:7px;
+  margin-top:9px;
+  padding:8px 10px;
+  border-radius:8px;
+  background:#f5f6f7;
+  font-size:11px;
+  color:#68717a;
 }
 
-.section-title h2{
-  font-size:13px;
-  font-weight:700;
+.status-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#aaa;
 }
 
-.badge{
-  font-size:9px;
-  padding:4px 7px;
-  border-radius:20px;
-  background:#f1f3f5;
-  color:#666d76;
+.status.loading .status-dot{
+  background:#e87516;
 }
 
-/* LIST */
-.product-list{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
+.status.success .status-dot{
+  background:#2e9b5b;
 }
+
+.status.error .status-dot{
+  background:#d94a4a;
+}
+
 
 /* CARD */
-.product-card{
-  position:relative;
-  background:#fafbfc;
+
+.card{
+  background:#fff;
   border:1px solid #e5e8ec;
-  border-radius:9px;
-  padding:8px;
+  border-radius:13px;
+  padding:14px;
+  box-shadow:0 3px 12px rgba(0,0,0,.04);
 }
 
-.product-number{
-  font-size:9px;
-  color:#8a9199;
-  margin-bottom:6px;
-  font-weight:600;
-}
 
-.field{
-  margin-bottom:7px;
-}
-
-.field:last-child{
-  margin-bottom:0;
-}
+/* LABEL */
 
 label{
   display:block;
-  font-size:9px;
-  font-weight:600;
-  color:#606872;
-  margin-bottom:3px;
+  margin-bottom:5px;
+  font-size:10px;
+  font-weight:700;
+  color:#626a73;
+}
+
+
+/* INPUT */
+
+.search-wrap{
+  position:relative;
 }
 
 input{
   width:100%;
-  height:32px;
+  height:40px;
   border:1px solid #dfe3e7;
-  border-radius:7px;
+  border-radius:8px;
   background:#fff;
-  padding:0 9px;
-  font-size:12px;
+  padding:0 11px;
+  font-size:13px;
   outline:none;
-  color:#252a31;
 }
 
 input:focus{
-  border-color:#e97818;
-  box-shadow:0 0 0 2px rgba(233,120,24,.09);
+  border-color:#e87516;
+  box-shadow:0 0 0 2px rgba(232,117,22,.09);
 }
 
-input[readonly]{
-  background:#f3f4f6;
-  color:#555d66;
-}
 
-/* SEARCH */
-.article-wrap{
-  position:relative;
-}
+/* DROPDOWN */
 
 .suggestions{
   position:absolute;
   z-index:100;
   left:0;
   right:0;
-  top:36px;
-  max-height:160px;
+  top:44px;
+
+  max-height:220px;
   overflow-y:auto;
+
   background:#fff;
+
   border:1px solid #dfe3e7;
-  border-radius:8px;
-  box-shadow:0 6px 15px rgba(0,0,0,.09);
+  border-radius:9px;
+
+  box-shadow:0 8px 20px rgba(0,0,0,.10);
+
   display:none;
 }
 
 .suggestion{
-  padding:8px 10px;
+  padding:10px 11px;
   border-bottom:1px solid #f0f1f2;
   cursor:pointer;
 }
@@ -172,162 +167,216 @@ input[readonly]{
   background:#fff7ef;
 }
 
-.suggestion strong{
-  display:block;
-  font-size:11px;
+.suggestion .name{
+  font-size:12px;
   font-weight:700;
+  color:#252a31;
 }
 
-.suggestion span{
-  display:block;
-  margin-top:2px;
+.suggestion .info{
+  margin-top:3px;
   font-size:9px;
   color:#858c94;
 }
 
-/* TWO COLUMNS */
-.row{
+
+/* RESULT */
+
+.result{
+  margin-top:13px;
+  display:none;
+}
+
+.result-title{
+  font-size:10px;
+  font-weight:700;
+  color:#626a73;
+  margin-bottom:7px;
+}
+
+.result-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:7px;
 }
 
-/* REMOVE */
-.remove-btn{
-  position:absolute;
-  right:7px;
-  top:7px;
-  width:23px;
-  height:23px;
-  border:0;
-  border-radius:6px;
-  background:#fff0f0;
-  color:#d94a4a;
-  cursor:pointer;
-  font-size:14px;
-  line-height:23px;
-}
-
-/* ADD */
-.add-btn{
-  width:100%;
-  height:34px;
-  margin-top:8px;
-  border:1px dashed #e7a56e;
+.result-box{
+  background:#f7f8f9;
+  border:1px solid #e6e8eb;
   border-radius:8px;
-  background:#fffaf5;
-  color:#df6d0b;
-  font-size:11px;
-  font-weight:700;
-  cursor:pointer;
+  padding:9px;
 }
 
-/* SUBMIT */
-.submit-btn{
-  width:100%;
-  height:39px;
-  border:0;
-  border-radius:9px;
-  background:#e87516;
-  color:#fff;
-  font-size:12px;
-  font-weight:700;
-  cursor:pointer;
-  box-shadow:0 4px 10px rgba(232,117,22,.18);
+.result-box.full{
+  grid-column:1/-1;
 }
+
+.result-label{
+  font-size:8px;
+  color:#858c94;
+  margin-bottom:3px;
+}
+
+.result-value{
+  font-size:12px;
+  font-weight:600;
+  color:#252a31;
+  word-break:break-word;
+}
+
+
+/* FOOTER */
 
 .footer{
   text-align:center;
+  margin-top:12px;
   font-size:9px;
   color:#9aa0a7;
-  margin-top:11px;
 }
 
-/* STATUS */
-.master-status{
-  font-size:9px;
-  margin-top:4px;
-  color:#858c94;
-}
-
-@media(max-width:480px){
-
-  .container{
-    padding:9px 8px 20px;
-  }
-
-  .header h1{
-    font-size:18px;
-  }
-
-  .section{
-    padding:10px;
-  }
-
-  input{
-    height:32px;
-    font-size:12px;
-  }
-}
 </style>
+
 </head>
+
 
 <body>
 
 <div class="container">
 
+
+  <!-- HEADER -->
+
   <div class="header">
+
     <h1>Z-FOOD</h1>
-    <p>Product Conversion Form</p>
-    <div id="masterStatus" class="master-status">
-      Memuat data Master...
+
+    <p>Master Connection Test</p>
+
+
+    <div
+      id="status"
+      class="status loading">
+
+      <span class="status-dot"></span>
+
+      <span id="statusText">
+        Menghubungkan ke Master...
+      </span>
+
     </div>
-  </div>
-
-
-  <!-- PRODUK AWAL -->
-  <div class="section">
-
-    <div class="section-title">
-      <h2>PRODUK AWAL</h2>
-      <span class="badge" id="awalCount">0 Item</span>
-    </div>
-
-    <div id="awalList" class="product-list"></div>
-
-    <button
-      class="add-btn"
-      onclick="addProduct('awal')">
-      ＋ TAMBAH PRODUK
-    </button>
 
   </div>
 
 
-  <!-- PRODUK AKHIR -->
-  <div class="section">
 
-    <div class="section-title">
-      <h2>PRODUK AKHIR</h2>
-      <span class="badge" id="akhirCount">0 Item</span>
+  <!-- SEARCH -->
+
+  <div class="card">
+
+    <label>
+      ARTICLE / BARCODE
+    </label>
+
+
+    <div class="search-wrap">
+
+      <input
+        id="searchInput"
+        type="text"
+        autocomplete="off"
+        placeholder="Ketik article atau barcode"
+        oninput="searchMaster(this.value)"
+      >
+
+
+      <div
+        id="suggestions"
+        class="suggestions">
+      </div>
+
     </div>
 
-    <div id="akhirList" class="product-list"></div>
 
-    <button
-      class="add-btn"
-      onclick="addProduct('akhir')">
-      ＋ TAMBAH PRODUK
-    </button>
+
+    <!-- RESULT -->
+
+    <div
+      id="result"
+      class="result">
+
+      <div class="result-title">
+        DATA PRODUK
+      </div>
+
+
+      <div class="result-grid">
+
+
+        <div class="result-box">
+
+          <div class="result-label">
+            ARTICLE
+          </div>
+
+          <div
+            id="resultArticle"
+            class="result-value">
+            -
+          </div>
+
+        </div>
+
+
+        <div class="result-box">
+
+          <div class="result-label">
+            BARCODE
+          </div>
+
+          <div
+            id="resultBarcode"
+            class="result-value">
+            -
+          </div>
+
+        </div>
+
+
+        <div class="result-box full">
+
+          <div class="result-label">
+            ARTICLE DESCRIPTION
+          </div>
+
+          <div
+            id="resultName"
+            class="result-value">
+            -
+          </div>
+
+        </div>
+
+
+        <div class="result-box">
+
+          <div class="result-label">
+            UOM
+          </div>
+
+          <div
+            id="resultOum"
+            class="result-value">
+            -
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </div>
 
   </div>
-
-
-  <button
-    class="submit-btn"
-    onclick="submitData()">
-    SIMPAN DATA
-  </button>
 
 
   <div class="footer">
@@ -337,15 +386,8 @@ input[readonly]{
 </div>
 
 
+
 <script>
-
-/* =========================================
-   URL DEPLOYMENT APPS SCRIPT
-========================================= */
-
-const MASTER_API =
-"https://script.google.com/macros/s/AKfycbzVdHeD20QG6_gZmm23TdNgBIEdVSOkiBwxoIWy-Nmt9a_3GTJUWcHCcuDkQb-MxmCygw/exec";
-
 
 /* =========================================
    MASTER
@@ -355,274 +397,129 @@ let MASTER = [];
 
 let masterReady = false;
 
-let productId = 0;
+
+/* =========================================
+   ELEMENT
+========================================= */
+
+const status =
+  document.getElementById("status");
+
+const statusText =
+  document.getElementById("statusText");
+
+const input =
+  document.getElementById("searchInput");
+
+const suggestions =
+  document.getElementById("suggestions");
+
+const result =
+  document.getElementById("result");
 
 
 /* =========================================
    LOAD MASTER
 ========================================= */
 
-async function loadMaster(){
+function loadMaster(){
 
-  const status =
-    document.getElementById("masterStatus");
+  status.className =
+    "status loading";
 
-  try{
-
-    status.textContent =
-      "Memuat data Master...";
+  statusText.textContent =
+    "Menghubungkan ke Master...";
 
 
-    const response =
-      await fetch(MASTER_API, {
-        method:"GET",
-        cache:"no-store"
-      });
+  google.script.run
+
+    .withSuccessHandler(
+      function(data){
+
+        MASTER =
+          Array.isArray(data)
+            ? data
+            : [];
 
 
-    if(!response.ok){
-
-      throw new Error(
-        "HTTP " + response.status
-      );
-
-    }
+        masterReady = true;
 
 
-    const data =
-      await response.json();
+        status.className =
+          "status success";
 
 
-    if(!Array.isArray(data)){
-
-      throw new Error(
-        "Format data Master tidak valid."
-      );
-
-    }
-
-
-    MASTER = data;
-
-    masterReady = true;
+        statusText.textContent =
+          "Terhubung • " +
+          MASTER.length.toLocaleString(
+            "id-ID"
+          ) +
+          " produk";
 
 
-    status.textContent =
-      "Master: " +
-      MASTER.length.toLocaleString("id-ID") +
-      " produk";
+        console.log(
+          "Master:",
+          MASTER
+        );
+
+      }
+    )
 
 
-    console.log(
-      "MASTER LOADED:",
-      MASTER.length
-    );
+    .withFailureHandler(
+      function(error){
+
+        masterReady = false;
 
 
-  }catch(error){
-
-    console.error(error);
-
-    status.textContent =
-      "Master gagal dimuat";
+        status.className =
+          "status error";
 
 
-    alert(
-      "Gagal mengambil data Master.\n\n" +
-      error.message
-    );
+        statusText.textContent =
+          "Gagal terhubung ke Master";
 
-  }
+
+        console.error(
+          error
+        );
+
+
+        alert(
+          "Gagal mengambil data Master.\n\n" +
+          (
+            error.message ||
+            error
+          )
+        );
+
+      }
+    )
+
+
+    .getMasterData();
 
 }
 
 
 /* =========================================
-   ADD PRODUCT
+   SEARCH
 ========================================= */
 
-function addProduct(type){
+function searchMaster(value){
 
-  productId++;
-
-
-  const list =
-    document.getElementById(
-      type === "awal"
-      ? "awalList"
-      : "akhirList"
-    );
-
-
-  const card =
-    document.createElement("div");
-
-
-  card.className =
-    "product-card";
-
-
-  card.innerHTML = `
-
-    <button
-      class="remove-btn"
-      onclick="removeProduct(this,'${type}')">
-      ×
-    </button>
-
-
-    <div class="product-number">
-      PRODUK #${getCount(type) + 1}
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        ARTICLE / BARCODE
-      </label>
-
-
-      <div class="article-wrap">
-
-        <input
-          type="text"
-          class="article-input"
-          placeholder="Ketik article / barcode"
-          autocomplete="off"
-          oninput="searchArticle(this)"
-        >
-
-
-        <div class="suggestions"></div>
-
-      </div>
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        NAMA BARANG
-      </label>
-
-
-      <input
-        type="text"
-        class="name-input"
-        placeholder="Otomatis"
-        readonly>
-
-    </div>
-
-
-    <div class="row">
-
-      <div class="field">
-
-        <label>
-          QUANTITY
-        </label>
-
-
-        <input
-          type="number"
-          class="qty-input"
-          min="0"
-          step="any"
-          placeholder="0">
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          OUM
-        </label>
-
-
-        <input
-          type="text"
-          class="oum-input"
-          placeholder="Otomatis"
-          readonly>
-
-      </div>
-
-    </div>
-  `;
-
-
-  list.appendChild(card);
-
-  updateCount(type);
-
-}
-
-
-/* =========================================
-   COUNT
-========================================= */
-
-function getCount(type){
-
-  const list =
-    document.getElementById(
-      type === "awal"
-      ? "awalList"
-      : "akhirList"
-    );
-
-  return list.children.length;
-
-}
-
-
-function updateCount(type){
-
-  const count =
-    getCount(type);
-
-
-  document.getElementById(
-    type === "awal"
-    ? "awalCount"
-    : "akhirCount"
-  ).textContent =
-    count + " Item";
-
-}
-
-
-/* =========================================
-   SEARCH ARTICLE / BARCODE
-========================================= */
-
-function searchArticle(input){
-
-  const value =
-    input.value
+  value =
+    String(value || "")
       .trim()
       .toLowerCase();
 
 
-  const wrap =
-    input.closest(".article-wrap");
-
-
-  const box =
-    wrap.querySelector(".suggestions");
-
-
   if(!value){
 
-    box.innerHTML = "";
+    suggestions.innerHTML = "";
 
-    box.style.display = "none";
-
-    clearProduct(input);
+    suggestions.style.display =
+      "none";
 
     return;
 
@@ -631,13 +528,16 @@ function searchArticle(input){
 
   if(!masterReady){
 
-    box.innerHTML = `
+    suggestions.innerHTML = `
       <div class="suggestion">
-        <span>Memuat data Master...</span>
+        <div class="info">
+          Master sedang dimuat...
+        </div>
       </div>
     `;
 
-    box.style.display = "block";
+    suggestions.style.display =
+      "block";
 
     return;
 
@@ -646,86 +546,118 @@ function searchArticle(input){
 
   const results =
     MASTER
-      .filter(item => {
+      .filter(
+        function(item){
 
-        const article =
-          String(item.artikel || "")
+          const article =
+            String(
+              item.artikel || ""
+            )
             .toLowerCase();
 
 
-        const barcode =
-          String(item.barcode || "")
+          const barcode =
+            String(
+              item.barcode || ""
+            )
             .toLowerCase();
 
 
-        const nama =
-          String(item.nama || "")
+          const nama =
+            String(
+              item.nama || ""
+            )
             .toLowerCase();
 
 
-        return (
-          article.includes(value) ||
-          barcode.includes(value) ||
-          nama.includes(value)
-        );
+          return (
+            article.includes(value) ||
+            barcode.includes(value) ||
+            nama.includes(value)
+          );
 
-      })
+        }
+      )
       .slice(0,30);
 
 
   if(!results.length){
 
-    box.innerHTML = `
+    suggestions.innerHTML = `
       <div class="suggestion">
-        <span>Produk tidak ditemukan</span>
+
+        <div class="info">
+          Produk tidak ditemukan
+        </div>
+
       </div>
     `;
 
-    box.style.display = "block";
+    suggestions.style.display =
+      "block";
 
     return;
 
   }
 
 
-  box.innerHTML =
+  suggestions.innerHTML =
     results
-      .map((item,index) => `
+      .map(
+        function(item,index){
 
-        <div
-          class="suggestion"
-          onclick="selectArticleByIndex(this,${index})">
+          return `
 
-          <strong>
-            ${escapeHtml(item.nama)}
-          </strong>
+            <div
+              class="suggestion"
+              onclick="
+                selectProduct(${index})
+              ">
 
-          <span>
-            Article:
-            ${escapeHtml(item.artikel)}
-            ${item.barcode
-              ? " • Barcode: " +
-                escapeHtml(item.barcode)
-              : ""}
-            •
-            ${escapeHtml(item.oum)}
-          </span>
+              <div class="name">
+                ${escapeHtml(
+                  item.nama
+                )}
+              </div>
 
-        </div>
+              <div class="info">
 
-      `)
+                Article:
+                ${escapeHtml(
+                  item.artikel
+                )}
+
+                ${
+                  item.barcode
+                    ? " • Barcode: " +
+                      escapeHtml(
+                        item.barcode
+                      )
+                    : ""
+                }
+
+                •
+                ${escapeHtml(
+                  item.oum
+                )}
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      )
       .join("");
 
 
-  /*
-    Simpan hasil pencarian sementara
-    pada element dropdown.
-  */
-
-  box._results = results;
+  suggestions._results =
+    results;
 
 
-  box.style.display = "block";
+  suggestions.style.display =
+    "block";
 
 }
 
@@ -734,209 +666,51 @@ function searchArticle(input){
    SELECT PRODUCT
 ========================================= */
 
-function selectArticleByIndex(
-  element,
-  index
-){
-
-  const box =
-    element.closest(".suggestions");
-
+function selectProduct(index){
 
   const item =
-    box._results[index];
+    suggestions._results[index];
 
 
   if(!item) return;
 
 
-  const card =
-    element.closest(".product-card");
-
-
-  card.querySelector(
-    ".article-input"
-  ).value =
+  input.value =
     item.artikel || "";
 
 
-  card.querySelector(
-    ".name-input"
-  ).value =
-    item.nama || "";
+  document.getElementById(
+    "resultArticle"
+  ).textContent =
+    item.artikel || "-";
 
 
-  card.querySelector(
-    ".oum-input"
-  ).value =
-    item.oum || "";
+  document.getElementById(
+    "resultBarcode"
+  ).textContent =
+    item.barcode || "-";
 
 
-  box.innerHTML = "";
+  document.getElementById(
+    "resultName"
+  ).textContent =
+    item.nama || "-";
 
-  box.style.display = "none";
 
-}
+  document.getElementById(
+    "resultOum"
+  ).textContent =
+    item.oum || "-";
 
 
-/* =========================================
-   CLEAR
-========================================= */
+  result.style.display =
+    "block";
 
-function clearProduct(input){
 
-  const card =
-    input.closest(".product-card");
+  suggestions.innerHTML = "";
 
-
-  card.querySelector(
-    ".name-input"
-  ).value = "";
-
-
-  card.querySelector(
-    ".oum-input"
-  ).value = "";
-
-}
-
-
-/* =========================================
-   REMOVE
-========================================= */
-
-function removeProduct(
-  button,
-  type
-){
-
-  const card =
-    button.closest(".product-card");
-
-
-  card.remove();
-
-
-  updateCount(type);
-
-  renumber(type);
-
-}
-
-
-/* =========================================
-   RENUMBER
-========================================= */
-
-function renumber(type){
-
-  const list =
-    document.getElementById(
-      type === "awal"
-      ? "awalList"
-      : "akhirList"
-    );
-
-
-  [...list.children]
-    .forEach((card,index)=>{
-
-      card.querySelector(
-        ".product-number"
-      ).textContent =
-        "PRODUK #" + (index + 1);
-
-    });
-
-}
-
-
-/* =========================================
-   COLLECT DATA
-========================================= */
-
-function collectData(type){
-
-  const list =
-    document.getElementById(
-      type === "awal"
-      ? "awalList"
-      : "akhirList"
-    );
-
-
-  return [...list.children]
-    .map(card => ({
-
-      artikel:
-        card.querySelector(
-          ".article-input"
-        ).value.trim(),
-
-      nama:
-        card.querySelector(
-          ".name-input"
-        ).value.trim(),
-
-      quantity:
-        card.querySelector(
-          ".qty-input"
-        ).value,
-
-      oum:
-        card.querySelector(
-          ".oum-input"
-        ).value.trim()
-
-    }));
-
-}
-
-
-/* =========================================
-   SUBMIT
-========================================= */
-
-function submitData(){
-
-  const awal =
-    collectData("awal");
-
-
-  const akhir =
-    collectData("akhir");
-
-
-  if(
-    awal.length === 0 &&
-    akhir.length === 0
-  ){
-
-    alert(
-      "Belum ada produk yang dimasukkan."
-    );
-
-    return;
-
-  }
-
-
-  console.log({
-
-    produkAwal:awal,
-
-    produkAkhir:akhir
-
-  });
-
-
-  alert(
-    "Data berhasil dikumpulkan.\n\n" +
-    "Produk Awal: " +
-    awal.length +
-    "\nProduk Akhir: " +
-    akhir.length
-  );
+  suggestions.style.display =
+    "none";
 
 }
 
@@ -947,18 +721,35 @@ function submitData(){
 
 function escapeHtml(value){
 
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+  return String(
+    value ?? ""
+  )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+  .replace(
+    /</g,
+    "&lt;"
+  )
+  .replace(
+    />/g,
+    "&gt;"
+  )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+  .replace(
+    /'/g,
+    "&#039;"
+  );
 
 }
 
 
 /* =========================================
-   CLOSE DROPDOWN
+   CLICK OUTSIDE
 ========================================= */
 
 document.addEventListener(
@@ -967,20 +758,12 @@ document.addEventListener(
 
     if(
       !e.target.closest(
-        ".article-wrap"
+        ".search-wrap"
       )
     ){
 
-      document
-        .querySelectorAll(
-          ".suggestions"
-        )
-        .forEach(box => {
-
-          box.style.display =
-            "none";
-
-        });
+      suggestions.style.display =
+        "none";
 
     }
 
@@ -991,10 +774,6 @@ document.addEventListener(
 /* =========================================
    START
 ========================================= */
-
-addProduct("awal");
-
-addProduct("akhir");
 
 loadMaster();
 
