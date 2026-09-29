@@ -193,7 +193,7 @@ body{
   border-radius:8px;
   background:#fff;
   outline:none;
-  font-size:13px;
+  font-size:16px;
   color:#222;
 }
 
@@ -276,7 +276,7 @@ body{
   border:1px solid #ddd;
   border-radius:8px;
   outline:none;
-  font-size:13px;
+  font-size:16px;
   background:#fff;
 }
 
@@ -554,7 +554,19 @@ body{
 
 
     <!-- INPUT PRODUK -->
+
     <div id="awalList"></div>
+
+
+    <!-- TAMBAH PRODUK -->
+
+    <button
+      type="button"
+      class="add-btn"
+      onclick="addProduct('awal')"
+    >
+      ＋ TAMBAH PRODUK
+    </button>
 
 
     <!-- DATA PRODUK GABUNGAN -->
@@ -604,15 +616,6 @@ body{
 
     </div>
 
-
-    <button
-      type="button"
-      class="add-btn"
-      onclick="addProduct('awal')"
-    >
-      ＋ TAMBAH PRODUK
-    </button>
-
   </div>
 
 
@@ -639,7 +642,19 @@ body{
 
 
     <!-- INPUT PRODUK -->
+
     <div id="akhirList"></div>
+
+
+    <!-- TAMBAH PRODUK -->
+
+    <button
+      type="button"
+      class="add-btn"
+      onclick="addProduct('akhir')"
+    >
+      ＋ TAMBAH PRODUK
+    </button>
 
 
     <!-- DATA PRODUK GABUNGAN -->
@@ -688,15 +703,6 @@ body{
       </div>
 
     </div>
-
-
-    <button
-      type="button"
-      class="add-btn"
-      onclick="addProduct('akhir')"
-    >
-      ＋ TAMBAH PRODUK
-    </button>
 
   </div>
 
@@ -1566,11 +1572,6 @@ function updateDataTable(type){
           product
         );
 
-
-      /*
-       * Hanya tampilkan kalau
-       * barang sudah dipilih.
-       */
 
       if(
         !data.artikel &&
