@@ -19,10 +19,9 @@
       box-sizing:border-box;
     }
 
-
     body{
       margin:0;
-      padding:12px;
+      padding:10px;
 
       background:#f6f7f9;
 
@@ -41,53 +40,63 @@
     }
 
 
+    /* =========================
+       HEADER
+    ========================= */
+
     .header{
-      background:#fff;
-
-      padding:15px;
-
-      border-radius:12px;
-
-      margin-bottom:10px;
-
-      box-shadow:
-        0 3px 12px
-        rgba(0,0,0,.06);
-    }
-
-
-    .title{
-      margin:0;
-
-      font-size:23px;
-
-      font-weight:700;
-
-      color:#e87516;
-    }
-
-
-    .subtitle{
-      margin-top:4px;
-
-      font-size:12px;
-
-      color:#858585;
-    }
-
-
-    .card{
       background:#fff;
 
       padding:14px;
 
       border-radius:12px;
 
+      margin-bottom:10px;
+
       box-shadow:
-        0 3px 12px
-        rgba(0,0,0,.06);
+        0 3px 12px rgba(0,0,0,.06);
     }
 
+    .title{
+      margin:0;
+
+      font-size:22px;
+
+      font-weight:700;
+
+      color:#e87516;
+    }
+
+    .subtitle{
+      margin-top:3px;
+
+      font-size:11px;
+
+      color:#858585;
+    }
+
+
+    /* =========================
+       CARD
+    ========================= */
+
+    .card{
+      background:#fff;
+
+      padding:12px;
+
+      border-radius:12px;
+
+      margin-bottom:10px;
+
+      box-shadow:
+        0 3px 12px rgba(0,0,0,.06);
+    }
+
+
+    /* =========================
+       STATUS
+    ========================= */
 
     .status{
       display:flex;
@@ -96,94 +105,118 @@
 
       gap:8px;
 
-      padding:10px 11px;
+      padding:9px 10px;
 
-      border-radius:9px;
+      border-radius:8px;
 
-      background:#fff4e8;
+      background:#f1fdf5;
 
-      color:#e87516;
+      color:#25834a;
 
-      font-size:13px;
+      font-size:12px;
 
       font-weight:600;
 
       margin-bottom:12px;
     }
 
-
     .dot{
-      width:9px;
-      height:9px;
-
-      flex:none;
+      width:8px;
+      height:8px;
 
       border-radius:50%;
 
-      background:#e87516;
-    }
-
-
-    .dot.loading{
-      animation:
-        pulse 1s infinite;
-    }
-
-
-    .dot.success{
       background:#24a35a;
+
+      flex:none;
     }
 
 
-    .dot.error{
-      background:#d93025;
+    /* =========================
+       SECTION TITLE
+    ========================= */
+
+    .section-title{
+      display:flex;
+
+      align-items:center;
+
+      justify-content:space-between;
+
+      margin-bottom:10px;
+    }
+
+    .section-title strong{
+      font-size:14px;
+    }
+
+    .section-title span{
+      font-size:10px;
+
+      color:#999;
     }
 
 
-    @keyframes pulse{
+    /* =========================
+       PRODUCT CARD
+    ========================= */
 
-      0%{
-        opacity:.3;
-      }
-
-      50%{
-        opacity:1;
-      }
-
-      100%{
-        opacity:.3;
-      }
-
-    }
-
-
-    .search{
+    .product{
       position:relative;
 
-      margin-top:12px;
-    }
-
-
-    .search input{
-      width:100%;
-
-      height:40px;
-
-      padding:
-        0 12px;
+      padding:10px;
 
       border:
-        1px solid #ddd;
+        1px solid #ececec;
 
-      border-radius:9px;
+      border-radius:10px;
 
-      outline:none;
-
-      font-size:14px;
+      margin-bottom:8px;
 
       background:#fff;
     }
 
+
+    .product-number{
+      font-size:11px;
+
+      font-weight:700;
+
+      color:#777;
+
+      margin-bottom:7px;
+    }
+
+
+    /* =========================
+       SEARCH
+    ========================= */
+
+    .search{
+      position:relative;
+
+      margin-bottom:8px;
+    }
+
+    .search input{
+      width:100%;
+
+      height:38px;
+
+      padding:
+        0 10px;
+
+      border:
+        1px solid #ddd;
+
+      border-radius:8px;
+
+      outline:none;
+
+      font-size:13px;
+
+      background:#fff;
+    }
 
     .search input:focus{
       border-color:#e87516;
@@ -198,26 +231,24 @@
       left:0;
       right:0;
 
-      top:44px;
+      top:42px;
 
-      z-index:20;
+      z-index:50;
 
       background:#fff;
 
       border:
         1px solid #ddd;
 
-      border-radius:9px;
+      border-radius:8px;
 
       box-shadow:
-        0 5px 15px
-        rgba(0,0,0,.10);
+        0 5px 15px rgba(0,0,0,.12);
 
-      max-height:220px;
+      max-height:190px;
 
       overflow-y:auto;
     }
-
 
     .dropdown.show{
       display:block;
@@ -225,7 +256,7 @@
 
 
     .item{
-      padding:9px 11px;
+      padding:8px 10px;
 
       border-bottom:
         1px solid #f0f0f0;
@@ -233,11 +264,9 @@
       cursor:pointer;
     }
 
-
     .item:last-child{
       border-bottom:0;
     }
-
 
     .item:active{
       background:#fff4e8;
@@ -245,14 +274,27 @@
 
 
     .item-name{
-      font-size:13px;
+      font-size:12px;
 
       font-weight:600;
+
+      line-height:1.3;
     }
 
-
     .item-detail{
-      margin-top:3px;
+      margin-top:2px;
+
+      font-size:10px;
+
+      color:#888;
+
+      line-height:1.3;
+    }
+
+    .empty{
+      padding:10px;
+
+      text-align:center;
 
       font-size:11px;
 
@@ -260,127 +302,139 @@
     }
 
 
-    .empty{
-      padding:12px;
+    /* =========================
+       FIELDS
+    ========================= */
 
-      color:#888;
+    .fields{
+      display:grid;
 
-      font-size:12px;
+      grid-template-columns:
+        1fr 1fr;
 
-      text-align:center;
+      gap:8px;
     }
 
-
-    .result{
-      display:none;
-
-      margin-top:12px;
-
-      border:
-        1px solid #eee;
-
-      border-radius:9px;
-
-      overflow:hidden;
-    }
-
-
-    .result.show{
+    .field label{
       display:block;
-    }
 
+      margin-bottom:4px;
 
-    .result-row{
-      display:flex;
+      font-size:10px;
 
-      justify-content:
-        space-between;
-
-      gap:15px;
-
-      padding:9px 11px;
-
-      border-bottom:
-        1px solid #eee;
-
-      font-size:13px;
-    }
-
-
-    .result-row:last-child{
-      border-bottom:0;
-    }
-
-
-    .result-label{
       color:#777;
     }
 
+    .field input{
+      width:100%;
 
-    .result-value{
-      font-weight:600;
+      height:35px;
 
-      text-align:right;
+      padding:
+        0 9px;
 
-      word-break:
-        break-word;
-    }
+      border:
+        1px solid #e2e2e2;
 
+      border-radius:7px;
 
-    .error{
-      display:none;
-
-      margin-top:10px;
-
-      padding:10px;
-
-      background:#fff0f0;
-
-      color:#c62828;
-
-      border-radius:8px;
+      background:#f8f9fa;
 
       font-size:12px;
 
-      line-height:1.5;
+      outline:none;
+    }
 
-      word-break:
-        break-word;
+    .field input:disabled{
+      color:#333;
+
+      opacity:1;
     }
 
 
-    .error.show{
-      display:block;
+    /* =========================
+       DELETE
+    ========================= */
+
+    .remove{
+      position:absolute;
+
+      top:8px;
+      right:8px;
+
+      width:24px;
+      height:24px;
+
+      border:0;
+
+      border-radius:7px;
+
+      background:#fff0f0;
+
+      color:#d93025;
+
+      font-size:16px;
+
+      line-height:1;
+
+      cursor:pointer;
     }
 
+
+    /* =========================
+       ADD BUTTON
+    ========================= */
+
+    .add-btn{
+      width:100%;
+
+      height:36px;
+
+      border:
+        1px dashed #e87516;
+
+      border-radius:8px;
+
+      background:#fffaf5;
+
+      color:#e87516;
+
+      font-size:12px;
+
+      font-weight:700;
+
+      cursor:pointer;
+    }
+
+    .add-btn:active{
+      transform:scale(.99);
+    }
+
+
+    /* =========================
+       INFO
+    ========================= */
 
     .info{
-      margin-top:10px;
-
-      font-size:11px;
-
-      color:#888;
+      margin-top:8px;
 
       text-align:center;
+
+      font-size:10px;
+
+      color:#999;
     }
 
 
-    @media(max-width:480px){
+    @media(max-width:420px){
 
       body{
-        padding:9px;
+        padding:8px;
       }
 
-      .header{
-        padding:13px;
-      }
-
-      .card{
-        padding:12px;
-      }
-
-      .title{
-        font-size:21px;
+      .fields{
+        grid-template-columns:
+          1fr 1fr;
       }
 
     }
@@ -396,6 +450,8 @@
 <div class="container">
 
 
+  <!-- HEADER -->
+
   <div class="header">
 
     <h1 class="title">
@@ -403,132 +459,93 @@
     </h1>
 
     <div class="subtitle">
-      Master Product
+      Product Conversion
     </div>
 
   </div>
 
 
+  <!-- MASTER STATUS -->
+
+  <div class="status">
+
+    <span class="dot"></span>
+
+    <span id="masterStatus">
+      Menghubungkan ke Master...
+    </span>
+
+  </div>
+
+
+  <!-- =========================
+       PRODUK AWAL
+  ========================== -->
+
   <div class="card">
 
+    <div class="section-title">
 
-    <div class="status">
+      <strong>
+        PRODUK AWAL
+      </strong>
 
-      <span
-        id="statusDot"
-        class="dot loading"
-      ></span>
-
-      <span id="statusText">
-        Menghubungkan ke Master...
+      <span id="awalCount">
+        0 produk
       </span>
 
     </div>
 
 
-    <div class="search">
-
-      <input
-        id="searchInput"
-        type="text"
-        placeholder="ARTICLE / BARCODE / NAMA BARANG"
-        autocomplete="off"
-        disabled
-      >
-
-      <div
-        id="dropdown"
-        class="dropdown"
-      ></div>
-
-    </div>
+    <div id="awalList"></div>
 
 
-    <div
-      id="result"
-      class="result"
+    <button
+      type="button"
+      class="add-btn"
+      onclick="addProduct('awal')"
     >
+      ＋ TAMBAH PRODUK
+    </button>
 
-      <div class="result-row">
-
-        <span class="result-label">
-          Article
-        </span>
-
-        <span
-          id="rArticle"
-          class="result-value"
-        >
-          -
-        </span>
-
-      </div>
+  </div>
 
 
-      <div class="result-row">
+  <!-- =========================
+       PRODUK AKHIR
+  ========================== -->
 
-        <span class="result-label">
-          Barcode
-        </span>
+  <div class="card">
 
-        <span
-          id="rBarcode"
-          class="result-value"
-        >
-          -
-        </span>
+    <div class="section-title">
 
-      </div>
+      <strong>
+        PRODUK AKHIR
+      </strong>
 
-
-      <div class="result-row">
-
-        <span class="result-label">
-          Nama Barang
-        </span>
-
-        <span
-          id="rNama"
-          class="result-value"
-        >
-          -
-        </span>
-
-      </div>
-
-
-      <div class="result-row">
-
-        <span class="result-label">
-          OUM
-        </span>
-
-        <span
-          id="rOum"
-          class="result-value"
-        >
-          -
-        </span>
-
-      </div>
+      <span id="akhirCount">
+        0 produk
+      </span>
 
     </div>
 
 
-    <div
-      id="error"
-      class="error"
-    ></div>
+    <div id="akhirList"></div>
 
 
-    <div
-      id="info"
-      class="info"
+    <button
+      type="button"
+      class="add-btn"
+      onclick="addProduct('akhir')"
     >
-      Memuat data Master...
-    </div>
+      ＋ TAMBAH PRODUK
+    </button>
+
+  </div>
 
 
+  <div class="info">
+    Master dimuat satu kali untuk mempercepat pencarian.
   </div>
 
 
@@ -539,7 +556,7 @@
 
 
 /* =====================================================
-   URL BACKEND APPS SCRIPT
+   APPS SCRIPT
 ===================================================== */
 
 const APPS_SCRIPT_URL =
@@ -547,61 +564,29 @@ const APPS_SCRIPT_URL =
 
 
 /* =====================================================
-   DATA MASTER
+   MASTER DATA
 ===================================================== */
 
 let MASTER_DATA = [];
 
 
 /* =====================================================
-   ELEMENT
+   PRODUCT COUNTER
 ===================================================== */
 
-const statusDot =
-  document.getElementById(
-    'statusDot'
-  );
+let awalCounter = 0;
 
-const statusText =
-  document.getElementById(
-    'statusText'
-  );
-
-const searchInput =
-  document.getElementById(
-    'searchInput'
-  );
-
-const dropdown =
-  document.getElementById(
-    'dropdown'
-  );
-
-const result =
-  document.getElementById(
-    'result'
-  );
-
-const errorBox =
-  document.getElementById(
-    'error'
-  );
-
-const info =
-  document.getElementById(
-    'info'
-  );
+let akhirCounter = 0;
 
 
 /* =====================================================
-   LOAD MASTER JSONP
+   LOAD MASTER
 ===================================================== */
 
 function loadMaster(){
 
   const callbackName =
-    '__zfood_master_' +
-    Date.now();
+    '__zfood_' + Date.now();
 
 
   let finished = false;
@@ -627,11 +612,11 @@ function loadMaster(){
           response.success !== true
         ){
 
-          showError(
+          showMasterError(
             response &&
             response.error
               ? response.error
-              : 'Data Master tidak valid.'
+              : 'Master tidak dapat dimuat.'
           );
 
           return;
@@ -644,27 +629,29 @@ function loadMaster(){
             : [];
 
 
-        statusDot.className =
-          'dot success';
+        document.getElementById(
+          'masterStatus'
+        ).textContent =
+          'Master terhubung • ' +
+          MASTER_DATA.length.toLocaleString(
+            'id-ID'
+          ) +
+          ' data';
 
 
-        statusText.textContent =
-          'Master berhasil terhubung';
+        /*
+         * Tambahkan 1 produk awal
+         * dan 1 produk akhir
+         */
 
+        addProduct('awal');
 
-        searchInput.disabled =
-          false;
-
-
-        info.textContent =
-          MASTER_DATA.length
-            .toLocaleString('id-ID') +
-          ' data Master berhasil dimuat.';
+        addProduct('akhir');
 
 
       }catch(error){
 
-        showError(
+        showMasterError(
           error.message
         );
 
@@ -679,16 +666,9 @@ function loadMaster(){
     );
 
 
-  const separator =
-    APPS_SCRIPT_URL.includes('?')
-      ? '&'
-      : '?';
-
-
   script.src =
     APPS_SCRIPT_URL +
-    separator +
-    'callback=' +
+    '?callback=' +
     encodeURIComponent(
       callbackName
     ) +
@@ -710,8 +690,8 @@ function loadMaster(){
 
       delete window[callbackName];
 
-      showError(
-        'Tidak dapat menghubungi Apps Script.'
+      showMasterError(
+        'Gagal menghubungi Apps Script.'
       );
 
     };
@@ -733,8 +713,8 @@ function loadMaster(){
 
       delete window[callbackName];
 
-      showError(
-        'Koneksi ke Apps Script timeout.'
+      showMasterError(
+        'Koneksi Master timeout.'
       );
 
     },
@@ -745,61 +725,283 @@ function loadMaster(){
 
 
 /* =====================================================
-   ERROR
+   MASTER ERROR
 ===================================================== */
 
-function showError(message){
+function showMasterError(message){
 
-  statusDot.className =
-    'dot error';
+  const status =
+    document.getElementById(
+      'masterStatus'
+    );
 
-
-  statusText.textContent =
-    'Gagal terhubung ke Master';
-
-
-  errorBox.textContent =
+  status.textContent =
     message;
 
-
-  errorBox.classList.add(
-    'show'
-  );
-
-
-  info.textContent =
-    'Periksa koneksi Apps Script.';
+  status.style.color =
+    '#c62828';
 
 }
 
 
 /* =====================================================
-   SEARCH
+   ADD PRODUCT
 ===================================================== */
 
-searchInput.addEventListener(
-  'input',
-  function(){
+function addProduct(type){
 
-    const keyword =
-      this.value
-        .trim()
-        .toLowerCase();
-
-
-    if(!keyword){
-
-      dropdown.classList.remove(
-        'show'
-      );
-
-      return;
-    }
+  const list =
+    document.getElementById(
+      type === 'awal'
+        ? 'awalList'
+        : 'akhirList'
+    );
 
 
-    const results =
-      MASTER_DATA
-        .filter(function(item){
+  const id =
+    type === 'awal'
+      ? ++awalCounter
+      : ++akhirCounter;
+
+
+  const product =
+    document.createElement(
+      'div'
+    );
+
+
+  product.className =
+    'product';
+
+
+  product.dataset.type =
+    type;
+
+
+  product.dataset.id =
+    id;
+
+
+  product.innerHTML = `
+
+    <button
+      type="button"
+      class="remove"
+      onclick="removeProduct(this)"
+    >
+      ×
+    </button>
+
+
+    <div class="product-number">
+      ${type === 'awal'
+        ? 'PRODUK AWAL'
+        : 'PRODUK AKHIR'}
+      #${id}
+    </div>
+
+
+    <div class="search">
+
+      <input
+        type="text"
+        class="article-input"
+        placeholder="ARTICLE / BARCODE / NAMA BARANG"
+        autocomplete="off"
+        oninput="searchProduct(this)"
+        onclick="searchProduct(this)"
+      >
+
+      <div class="dropdown"></div>
+
+    </div>
+
+
+    <div class="fields">
+
+      <div class="field">
+
+        <label>
+          NAMA BARANG
+        </label>
+
+        <input
+          type="text"
+          class="name-input"
+          readonly
+          placeholder="-"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          OUM
+        </label>
+
+        <input
+          type="text"
+          class="oum-input"
+          readonly
+          placeholder="-"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          QUANTITY
+        </label>
+
+        <input
+          type="number"
+          class="qty-input"
+          inputmode="decimal"
+          step="any"
+          placeholder="0"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          ARTICLE
+        </label>
+
+        <input
+          type="text"
+          class="selected-article"
+          readonly
+          placeholder="-"
+        >
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  list.appendChild(
+    product
+  );
+
+
+  updateCount(
+    type
+  );
+
+}
+
+
+/* =====================================================
+   REMOVE PRODUCT
+===================================================== */
+
+function removeProduct(button){
+
+  const product =
+    button.closest(
+      '.product'
+    );
+
+
+  if(!product){
+    return;
+  }
+
+
+  const type =
+    product.dataset.type;
+
+
+  product.remove();
+
+
+  updateCount(
+    type
+  );
+
+}
+
+
+/* =====================================================
+   UPDATE COUNT
+===================================================== */
+
+function updateCount(type){
+
+  const list =
+    document.getElementById(
+      type === 'awal'
+        ? 'awalList'
+        : 'akhirList'
+    );
+
+
+  const count =
+    list.querySelectorAll(
+      '.product'
+    ).length;
+
+
+  document.getElementById(
+    type === 'awal'
+      ? 'awalCount'
+      : 'akhirCount'
+  ).textContent =
+    count +
+    (count === 1
+      ? ' produk'
+      : ' produk');
+
+}
+
+
+/* =====================================================
+   SEARCH PRODUCT
+===================================================== */
+
+function searchProduct(input){
+
+  const keyword =
+    input.value
+      .trim()
+      .toLowerCase();
+
+
+  const product =
+    input.closest(
+      '.product'
+    );
+
+
+  const dropdown =
+    product.querySelector(
+      '.dropdown'
+    );
+
+
+  if(!keyword){
+
+    dropdown.classList.remove(
+      'show'
+    );
+
+    return;
+  }
+
+
+  const results =
+    MASTER_DATA
+      .filter(
+        function(item){
 
           return (
 
@@ -827,29 +1029,16 @@ searchInput.addEventListener(
 
           );
 
-        })
-        .slice(0,30);
+        }
+      )
+      .slice(0,30);
 
-
-    renderDropdown(
-      results
-    );
-
-  }
-);
-
-
-/* =====================================================
-   DROPDOWN
-===================================================== */
-
-function renderDropdown(items){
 
   dropdown.innerHTML =
     '';
 
 
-  if(!items.length){
+  if(!results.length){
 
     dropdown.innerHTML =
       '<div class="empty">' +
@@ -864,7 +1053,7 @@ function renderDropdown(items){
   }
 
 
-  items.forEach(
+  results.forEach(
     function(item){
 
       const div =
@@ -890,13 +1079,11 @@ function renderDropdown(items){
         escapeHTML(
           item.artikel || '-'
         ) +
-        ' &nbsp; | &nbsp; ' +
-        'Barcode: ' +
+        ' | Barcode: ' +
         escapeHTML(
           item.barcode || '-'
         ) +
-        ' &nbsp; | &nbsp; ' +
-        'OUM: ' +
+        ' | OUM: ' +
         escapeHTML(
           item.oum || '-'
         ) +
@@ -905,9 +1092,12 @@ function renderDropdown(items){
 
       div.addEventListener(
         'click',
-        function(){
+        function(event){
+
+          event.stopPropagation();
 
           selectProduct(
+            product,
             item
           );
 
@@ -934,70 +1124,78 @@ function renderDropdown(items){
    SELECT PRODUCT
 ===================================================== */
 
-function selectProduct(item){
+function selectProduct(
+  product,
+  item
+){
 
-  searchInput.value =
+  const articleInput =
+    product.querySelector(
+      '.article-input'
+    );
+
+
+  const nameInput =
+    product.querySelector(
+      '.name-input'
+    );
+
+
+  const oumInput =
+    product.querySelector(
+      '.oum-input'
+    );
+
+
+  const selectedArticle =
+    product.querySelector(
+      '.selected-article'
+    );
+
+
+  articleInput.value =
     item.artikel || '';
+
+
+  nameInput.value =
+    item.nama || '';
+
+
+  oumInput.value =
+    item.oum || '';
+
+
+  selectedArticle.value =
+    item.artikel || '';
+
+
+  product.dataset.article =
+    item.artikel || '';
+
+
+  product.dataset.barcode =
+    item.barcode || '';
+
+
+  product.dataset.nama =
+    item.nama || '';
+
+
+  product.dataset.oum =
+    item.oum || '';
+
+
+  const dropdown =
+    product.querySelector(
+      '.dropdown'
+    );
 
 
   dropdown.classList.remove(
     'show'
   );
 
-
-  result.classList.add(
-    'show'
-  );
-
-
-  document.getElementById(
-    'rArticle'
-  ).textContent =
-    item.artikel || '-';
-
-
-  document.getElementById(
-    'rBarcode'
-  ).textContent =
-    item.barcode || '-';
-
-
-  document.getElementById(
-    'rNama'
-  ).textContent =
-    item.nama || '-';
-
-
-  document.getElementById(
-    'rOum'
-  ).textContent =
-    item.oum || '';
-
 }
-
-
-/* =====================================================
-   CLOSE DROPDOWN
-===================================================== */
-
-document.addEventListener(
-  'click',
-  function(event){
-
-    if(
-      !event.target.closest(
-        '.search'
-      )
-    ){
-
-      dropdown.classList.remove(
-        'show'
-      );
-
-    }
-
-  }
-);
 
 
 /* =====================================================
@@ -1034,6 +1232,40 @@ function escapeHTML(value){
     );
 
 }
+
+
+/* =====================================================
+   CLOSE DROPDOWN
+===================================================== */
+
+document.addEventListener(
+  'click',
+  function(event){
+
+    if(
+      !event.target.closest(
+        '.search'
+      )
+    ){
+
+      document
+        .querySelectorAll(
+          '.dropdown'
+        )
+        .forEach(
+          function(dropdown){
+
+            dropdown.classList.remove(
+              'show'
+            );
+
+          }
+        );
+
+    }
+
+  }
+);
 
 
 /* =====================================================
