@@ -2208,17 +2208,18 @@ function saveData(){
 
 
   /*
-    Minimal salah satu bagian
-    harus mempunyai data.
+    PRODUK AWAL dan PRODUK AKHIR
+    wajib masing-masing mempunyai
+    minimal 1 produk lengkap.
   */
 
   if(
-    awal.length === 0 &&
+    awal.length === 0 ||
     akhir.length === 0
   ){
 
     alert(
-      'Silakan isi minimal 1 produk terlebih dahulu.'
+      'Silahkan isi minimal 1 produk awal dan satu produk akhir'
     );
 
     return;
@@ -2347,13 +2348,19 @@ function sendData(){
     getAllProducts('akhir');
 
 
+  /*
+    PRODUK AWAL dan PRODUK AKHIR
+    wajib masing-masing mempunyai
+    minimal 1 produk lengkap.
+  */
+
   if(
-    awal.length === 0 &&
+    awal.length === 0 ||
     akhir.length === 0
   ){
 
     alert(
-      'Tidak ada data yang dapat dikirim.'
+      'Produk Awal dan Produk Akhir wajib masing-masing diisi minimal 1 produk lengkap (ARTICLE dan QUANTITY).'
     );
 
     return;
