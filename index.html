@@ -118,12 +118,9 @@ body{
   font-size:10px;
   color:#999;
 }
-
-
 /* =====================================================
    PRODUCT INPUT
 ===================================================== */
-
 .product{
   position:relative;
   padding:10px;
@@ -131,6 +128,35 @@ body{
   border:1px solid #e8e8e8;
   border-radius:10px;
   background:#fff;
+
+  box-shadow:
+    0 2px 5px rgba(232,117,22,.08),
+    0 5px 12px rgba(232,117,22,.04);
+
+  transition:
+    box-shadow .2s ease,
+    border-color .2s ease,
+    transform .2s ease;
+}
+
+.product:hover{
+  border-color:#f1b77e;
+
+  box-shadow:
+    0 3px 8px rgba(232,117,22,.18),
+    0 8px 20px rgba(232,117,22,.13),
+    0 0 10px rgba(232,117,22,.08);
+}
+
+.product:active{
+  transform:scale(.995);
+
+  border-color:#e87516;
+
+  box-shadow:
+    0 3px 8px rgba(232,117,22,.28),
+    0 8px 22px rgba(232,117,22,.20),
+    0 0 14px rgba(232,117,22,.14);
 }
 
 .product-title{
@@ -140,8 +166,6 @@ body{
   font-weight:700;
   color:#777;
 }
-
-
 /* =====================================================
    REMOVE
 ===================================================== */
