@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <base target="_top">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="id">
 
-  <title>Z-FOOD TEST</title>
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>Z-FOOD</title>
 
   <style>
+
     *{
       box-sizing:border-box;
     }
@@ -15,248 +22,594 @@
       margin:0;
       padding:20px;
       background:#f6f7f9;
-      font-family:Arial,sans-serif;
-      color:#222;
+      font-family:
+        Arial,
+        sans-serif;
+      color:#252525;
     }
 
-    .box{
-      max-width:600px;
+    .container{
+      width:100%;
+      max-width:680px;
       margin:auto;
+    }
+
+    .header{
       background:#fff;
       border-radius:12px;
-      padding:20px;
-      box-shadow:0 4px 18px rgba(0,0,0,.08);
+      padding:16px;
+      margin-bottom:12px;
+      box-shadow:
+        0 3px 12px rgba(0,0,0,.06);
     }
 
-    h2{
-      margin:0 0 15px;
+    .title{
+      font-size:22px;
+      font-weight:700;
+      color:#e87516;
+      margin:0;
+    }
+
+    .subtitle{
+      font-size:12px;
+      color:#7a7f86;
+      margin-top:4px;
+    }
+
+    .card{
+      background:#fff;
+      border-radius:12px;
+      padding:16px;
+      box-shadow:
+        0 3px 12px rgba(0,0,0,.06);
     }
 
     .status{
-      padding:12px;
-      border-radius:8px;
+      display:flex;
+      align-items:center;
+      gap:9px;
+      padding:11px 12px;
+      border-radius:9px;
       background:#fff4e8;
       color:#e87516;
-      margin-bottom:15px;
+      font-size:13px;
+      font-weight:600;
+      margin-bottom:14px;
+    }
+
+    .dot{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background:#e87516;
+      flex-shrink:0;
+    }
+
+    .dot.loading{
+      animation:pulse 1s infinite;
+    }
+
+    .dot.success{
+      background:#25a55f;
+    }
+
+    .dot.error{
+      background:#d93025;
+    }
+
+    @keyframes pulse{
+      0%{
+        opacity:.35;
+      }
+      50%{
+        opacity:1;
+      }
+      100%{
+        opacity:.35;
+      }
+    }
+
+    .result{
+      display:none;
+    }
+
+    .result.show{
+      display:block;
+    }
+
+    .row{
+      display:flex;
+      justify-content:space-between;
+      gap:15px;
+      padding:9px 0;
+      border-bottom:1px solid #eee;
+      font-size:13px;
+    }
+
+    .row:last-child{
+      border-bottom:0;
+    }
+
+    .label{
+      color:#777;
+    }
+
+    .value{
+      font-weight:600;
+      text-align:right;
+      word-break:break-word;
+    }
+
+    .error{
+      margin-top:12px;
+      padding:11px;
+      border-radius:8px;
+      background:#fff0f0;
+      color:#c62828;
+      font-size:12px;
+      line-height:1.5;
       word-break:break-word;
     }
 
     .info{
-      background:#f4f5f7;
-      padding:12px;
+      margin-top:14px;
+      padding:10px 12px;
+      background:#f5f6f8;
       border-radius:8px;
-      margin-bottom:10px;
-      font-size:14px;
-      line-height:1.6;
+      font-size:12px;
+      color:#666;
+      line-height:1.5;
     }
 
-    button{
-      width:100%;
-      height:42px;
-      border:0;
-      border-radius:8px;
-      background:#e87516;
-      color:#fff;
-      font-weight:bold;
-      margin-top:10px;
+    @media(max-width:480px){
+
+      body{
+        padding:10px;
+      }
+
+      .header{
+        padding:13px;
+      }
+
+      .card{
+        padding:12px;
+      }
+
+      .title{
+        font-size:20px;
+      }
+
     }
 
-    #result{
-      margin-top:15px;
-      white-space:pre-wrap;
-      word-break:break-word;
-      font-size:13px;
-    }
   </style>
+
 </head>
+
 
 <body>
 
-<div class="box">
+<div class="container">
 
-  <h2>Z-FOOD</h2>
 
-  <div id="status" class="status">
-    Memulai pemeriksaan...
+  <div class="header">
+
+    <div class="title">
+      Z-FOOD
+    </div>
+
+    <div class="subtitle">
+      Master Connection
+    </div>
+
   </div>
 
-  <div id="googleInfo" class="info">
-    Mengecek Google Script...
+
+  <div class="card">
+
+    <div
+      id="status"
+      class="status"
+    >
+
+      <span
+        id="statusDot"
+        class="dot loading"
+      ></span>
+
+      <span id="statusText">
+        Menghubungkan ke Master...
+      </span>
+
+    </div>
+
+
+    <div
+      id="result"
+      class="result"
+    >
+
+      <div class="row">
+
+        <span class="label">
+          Status
+        </span>
+
+        <span
+          id="resultStatus"
+          class="value"
+        >
+          -
+        </span>
+
+      </div>
+
+
+      <div class="row">
+
+        <span class="label">
+          Jumlah Master
+        </span>
+
+        <span
+          id="resultTotal"
+          class="value"
+        >
+          -
+        </span>
+
+      </div>
+
+
+      <div class="row">
+
+        <span class="label">
+          Article
+        </span>
+
+        <span
+          id="resultArticle"
+          class="value"
+        >
+          -
+        </span>
+
+      </div>
+
+
+      <div class="row">
+
+        <span class="label">
+          Barcode
+        </span>
+
+        <span
+          id="resultBarcode"
+          class="value"
+        >
+          -
+        </span>
+
+      </div>
+
+
+      <div class="row">
+
+        <span class="label">
+          Nama Barang
+        </span>
+
+        <span
+          id="resultNama"
+          class="value"
+        >
+          -
+        </span>
+
+      </div>
+
+
+      <div class="row">
+
+        <span class="label">
+          OUM
+        </span>
+
+        <span
+          id="resultOum"
+          class="value"
+        >
+          -
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div
+      id="errorBox"
+      class="error"
+      style="display:none"
+    ></div>
+
+
+    <div
+      id="info"
+      class="info"
+    >
+      Sedang mengambil data dari Google Spreadsheet...
+    </div>
+
   </div>
-
-  <div id="urlInfo" class="info">
-    URL: ...
-  </div>
-
-  <button onclick="testMaster()">
-    TEST MASTER
-  </button>
-
-  <div id="result"></div>
 
 </div>
 
+
 <script>
 
-function setStatus(text){
-  document.getElementById('status').textContent = text;
-}
+/* =====================================================
+   MASUKKAN URL APPS SCRIPT DI SINI
+===================================================== */
 
-function showResult(text){
-  document.getElementById('result').textContent = text;
-}
-
-
-/* =========================
-   CEK GOOGLE SCRIPT
-========================= */
-
-window.addEventListener('load', function(){
-
-  let googleOK = typeof google !== 'undefined';
-
-  let scriptOK =
-    googleOK &&
-    typeof google.script !== 'undefined';
-
-  let runOK =
-    scriptOK &&
-    typeof google.script.run !== 'undefined';
-
-  document.getElementById('googleInfo').textContent =
-    'google = ' + googleOK +
-    '\ngoogle.script = ' + scriptOK +
-    '\ngoogle.script.run = ' + runOK;
-
-  document.getElementById('urlInfo').textContent =
-    'URL halaman:\n' + window.location.href;
-
-  if(!googleOK){
-    setStatus('ERROR: google tidak tersedia.');
-    return;
-  }
-
-  if(!scriptOK){
-    setStatus('ERROR: google.script tidak tersedia.');
-    return;
-  }
-
-  if(!runOK){
-    setStatus('ERROR: google.script.run tidak tersedia.');
-    return;
-  }
-
-  setStatus('google.script.run TERSEDIA.');
-
-});
+const APPS_SCRIPT_URL =
+  'PASTE_URL_APPS_SCRIPT_DISINI';
 
 
-/* =========================
-   TEST MASTER
-========================= */
+/* =====================================================
+   LOAD MASTER
+===================================================== */
 
-function testMaster(){
+function loadMaster(){
 
-  setStatus('Menghubungi getMasterData()...');
-
-  showResult('Menunggu respons dari Apps Script...');
-
-  let selesai = false;
-
-  // Timeout 10 detik
-  setTimeout(function(){
-
-    if(!selesai){
-
-      selesai = true;
-
-      setStatus('TIMEOUT');
-
-      showResult(
-        'Apps Script tidak memberikan respons selama 10 detik.\n\n' +
-        'Kemungkinan:\n' +
-        '1. Deployment masih memakai versi lama.\n' +
-        '2. Web App bukan dari project Apps Script yang sama.\n' +
-        '3. google.script.run tidak dapat menjalankan fungsi.\n' +
-        '4. Ada masalah authorization/deployment.'
-      );
-
-    }
-
-  },10000);
+  const callbackName =
+    'zfoodMasterCallback_' +
+    Date.now();
 
 
-  try{
+  window[callbackName] =
+    function(response){
 
-    google.script.run
+      try{
 
-      .withSuccessHandler(function(data){
+        delete window[callbackName];
 
-        if(selesai) return;
 
-        selesai = true;
+        if(!response){
 
-        setStatus('BERHASIL TERHUBUNG KE MASTER');
-
-        if(!Array.isArray(data)){
-
-          showResult(
-            'Respons diterima, tetapi bukan Array.\n\n' +
-            JSON.stringify(data,null,2)
+          showError(
+            'Apps Script mengembalikan respons kosong.'
           );
 
           return;
         }
 
-        showResult(
-          'Jumlah data Master: ' + data.length +
-          '\n\nData pertama:\n' +
-          JSON.stringify(data[0],null,2)
+
+        if(!response.success){
+
+          showError(
+            response.error ||
+            'Terjadi error pada Apps Script.'
+          );
+
+          return;
+        }
+
+
+        const data =
+          Array.isArray(response.data)
+            ? response.data
+            : [];
+
+
+        showSuccess(data);
+
+
+      }catch(error){
+
+        showError(
+          error.message
         );
 
-      })
+      }
 
-      .withFailureHandler(function(error){
+    };
 
-        if(selesai) return;
 
-        selesai = true;
+  const script =
+    document.createElement('script');
 
-        setStatus('ERROR DARI APPS SCRIPT');
 
-        showResult(
-          'Nama error:\n' +
-          (error && error.name ? error.name : '-') +
+  script.src =
+    APPS_SCRIPT_URL +
+    '?callback=' +
+    encodeURIComponent(callbackName);
 
-          '\n\nPesan error:\n' +
-          (error && error.message ? error.message : error) +
 
-          '\n\nDetail:\n' +
-          JSON.stringify(error,null,2)
-        );
+  script.async = true;
 
-      })
 
-      .getMasterData();
+  script.onerror =
+    function(){
 
-  }catch(error){
+      delete window[callbackName];
 
-    selesai = true;
+      showError(
+        'Tidak dapat menghubungi Apps Script.'
+      );
 
-    setStatus('ERROR JAVASCRIPT');
+    };
 
-    showResult(
-      'Error:\n' +
-      error.message +
-      '\n\n' +
-      error.stack
+
+  document.body.appendChild(script);
+
+
+  /*
+   * Timeout
+   */
+
+  setTimeout(function(){
+
+    if(
+      typeof window[callbackName] ===
+      'function'
+    ){
+
+      delete window[callbackName];
+
+      showError(
+        'Koneksi timeout. Apps Script tidak memberikan respons.'
+      );
+
+    }
+
+  },15000);
+
+}
+
+
+/* =====================================================
+   BERHASIL
+===================================================== */
+
+function showSuccess(data){
+
+  const dot =
+    document.getElementById(
+      'statusDot'
     );
+
+  const text =
+    document.getElementById(
+      'statusText'
+    );
+
+
+  dot.className =
+    'dot success';
+
+
+  text.textContent =
+    'Berhasil terhubung ke Master';
+
+
+  document.getElementById(
+    'result'
+  ).classList.add('show');
+
+
+  document.getElementById(
+    'resultStatus'
+  ).textContent =
+    'CONNECTED';
+
+
+  document.getElementById(
+    'resultTotal'
+  ).textContent =
+    data.length.toLocaleString(
+      'id-ID'
+    );
+
+
+  if(data.length > 0){
+
+    const first =
+      data[0];
+
+
+    document.getElementById(
+      'resultArticle'
+    ).textContent =
+      first.artikel || '-';
+
+
+    document.getElementById(
+      'resultBarcode'
+    ).textContent =
+      first.barcode || '-';
+
+
+    document.getElementById(
+      'resultNama'
+    ).textContent =
+      first.nama || '-';
+
+
+    document.getElementById(
+      'resultOum'
+    ).textContent =
+      first.oum || '-';
 
   }
 
+
+  document.getElementById(
+    'info'
+  ).textContent =
+    'Data Master berhasil dimuat ke browser.';
+
+
 }
+
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+function showError(message){
+
+  const dot =
+    document.getElementById(
+      'statusDot'
+    );
+
+  const text =
+    document.getElementById(
+      'statusText'
+    );
+
+
+  dot.className =
+    'dot error';
+
+
+  text.textContent =
+    'Gagal terhubung ke Master';
+
+
+  const box =
+    document.getElementById(
+      'errorBox'
+    );
+
+
+  box.style.display =
+    'block';
+
+
+  box.textContent =
+    message;
+
+
+  document.getElementById(
+    'info'
+  ).textContent =
+    'Periksa URL Apps Script dan deployment.';
+
+}
+
+
+/* =====================================================
+   MULAI
+===================================================== */
+
+window.addEventListener(
+  'load',
+  loadMaster
+);
 
 </script>
 
 </body>
+
 </html>
