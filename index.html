@@ -744,6 +744,72 @@ input{
 }
 
 /* =========================
+   WASTE / YIELD
+========================= */
+
+.waste-yield{
+  margin-top:10px;
+  padding:10px;
+  border:1px solid #eee;
+  border-radius:10px;
+  background:#fff;
+}
+
+.waste-yield-title{
+  margin-bottom:8px;
+  text-align:center;
+  font-size:12px;
+  font-weight:700;
+  color:#555;
+}
+
+.waste-yield-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.waste-yield-box{
+  padding:9px 8px;
+  border-radius:8px;
+  background:#f7f8fa;
+  border:1px solid #eee;
+  text-align:center;
+}
+
+.waste-yield-label{
+  display:block;
+  margin-bottom:3px;
+  font-size:9px;
+  font-weight:600;
+  color:#888;
+}
+
+.waste-yield-value{
+  display:block;
+  font-size:14px;
+  font-weight:700;
+  color:#e87516;
+}
+
+.waste-yield-box.yield .waste-yield-value{
+  color:#218838;
+}
+
+@media(max-width:430px){
+
+  .waste-yield{
+    margin-top:9px;
+    padding:9px;
+  }
+
+  .waste-yield-value{
+    font-size:13px;
+  }
+
+}
+
+/* =========================
    PREVIEW TEXT
 ========================= */
 
@@ -1180,6 +1246,47 @@ input{
               Belum ada data produk.
             </div>
 
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- WASTE / YIELD -->
+
+      <div class="waste-yield">
+
+        <div class="waste-yield-title">
+          HASIL PRODUKSI
+        </div>
+
+        <div class="waste-yield-row">
+
+          <div class="waste-yield-box">
+            <span class="waste-yield-label">
+              WASTE
+            </span>
+
+            <span
+              id="wasteValue"
+              class="waste-yield-value"
+            >
+              0 KG
+            </span>
+          </div>
+
+          <div class="waste-yield-box yield">
+            <span class="waste-yield-label">
+              YIELD
+            </span>
+
+            <span
+              id="yieldValue"
+              class="waste-yield-value"
+            >
+              0%
+            </span>
           </div>
 
         </div>
@@ -2192,6 +2299,117 @@ function updateSectionCount(type){
 
 
 /* =========================================================
+   WASTE / YIELD
+========================================================= */
+
+function parseQuantity(value){
+
+  const normalized =
+    String(value || '')
+      .trim()
+      .replace(/,/g, '.');
+
+  const number =
+    parseFloat(normalized);
+
+  return Number.isFinite(number)
+    ? number
+    : 0;
+
+}
+
+
+function formatWeight(value){
+
+  const rounded =
+    Math.round(value * 100) / 100;
+
+  return String(rounded)
+    .replace('.', ',');
+
+}
+
+
+function updateWasteYield(){
+
+  const awal =
+    getAllProducts('awal');
+
+  const akhir =
+    getAllProducts('akhir');
+
+
+  const totalAwal =
+    awal.reduce(
+      function(total, item){
+
+        return total +
+          parseQuantity(
+            item.quantity
+          );
+
+      },
+      0
+    );
+
+
+  const totalAkhir =
+    akhir.reduce(
+      function(total, item){
+
+        return total +
+          parseQuantity(
+            item.quantity
+          );
+
+      },
+      0
+    );
+
+
+  const waste =
+    totalAwal -
+    totalAkhir;
+
+
+  const yieldPercent =
+    totalAwal > 0
+      ? (totalAkhir / totalAwal) * 100
+      : 0;
+
+
+  const wasteElement =
+    document.getElementById(
+      'wasteValue'
+    );
+
+  const yieldElement =
+    document.getElementById(
+      'yieldValue'
+    );
+
+
+  if(wasteElement){
+
+    wasteElement.textContent =
+      formatWeight(waste) +
+      ' KG';
+
+  }
+
+
+  if(yieldElement){
+
+    yieldElement.textContent =
+      formatWeight(yieldPercent) +
+      '%';
+
+  }
+
+}
+
+
+/* =========================================================
    SAVE DATA
    ================================
    HANYA MEMBUKA POPUP
@@ -2276,6 +2494,9 @@ function saveData(){
   /*
     Popup dibuka
   */
+
+  updateWasteYield();
+
 
   document
     .getElementById(
