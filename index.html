@@ -3,624 +3,417 @@
 
 <head>
 
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  >
-
-  <title>Z-FOOD</title>
-
-
-  <style>
-
-    *{
-      box-sizing:border-box;
-    }
-
-    body{
-      margin:0;
-      padding:10px;
-
-      background:#f6f7f9;
-
-      font-family:Arial,sans-serif;
-
-      color:#252525;
-    }
-
-    .container{
-      width:100%;
-      max-width:680px;
-      margin:auto;
-    }
-
-
-    /* =========================
-       HEADER
-    ========================= */
-
-    .header{
-      background:#fff;
-
-      padding:14px;
-
-      border-radius:12px;
-
-      margin-bottom:10px;
-
-      box-shadow:
-        0 3px 12px rgba(0,0,0,.06);
-    }
-
-    .title{
-      margin:0;
-
-      font-size:22px;
-
-      font-weight:700;
-
-      color:#e87516;
-    }
-
-    .subtitle{
-      margin-top:3px;
-
-      font-size:11px;
-
-      color:#858585;
-    }
-
-
-    /* =========================
-       MASTER STATUS
-    ========================= */
-
-    .status{
-      display:flex;
-
-      align-items:center;
-
-      gap:8px;
-
-      padding:9px 10px;
-
-      margin-bottom:10px;
-
-      border-radius:8px;
-
-      background:#f1fdf5;
-
-      color:#25834a;
-
-      font-size:12px;
-
-      font-weight:600;
-    }
-
-    .dot{
-      width:8px;
-      height:8px;
-
-      border-radius:50%;
-
-      background:#24a35a;
-
-      flex:none;
-    }
-
-
-    /* =========================
-       SECTION
-    ========================= */
-
-    .section{
-      background:#fff;
-
-      border-radius:12px;
-
-      padding:12px;
-
-      margin-bottom:10px;
-
-      box-shadow:
-        0 3px 12px rgba(0,0,0,.06);
-    }
-
-    .section-header{
-      display:flex;
-
-      align-items:center;
-
-      justify-content:space-between;
-
-      margin-bottom:10px;
-    }
-
-    .section-title{
-      font-size:15px;
-
-      font-weight:700;
-    }
-
-    .section-count{
-      font-size:10px;
-
-      color:#999;
-    }
-
-
-    /* =========================
-       PRODUCT CARD
-    ========================= */
-
-    .product{
-      position:relative;
-
-      padding:10px;
-
-      margin-bottom:8px;
-
-      border:
-        1px solid #e8e8e8;
-
-      border-radius:10px;
-
-      background:#fff;
-    }
-
-    .product-title{
-      padding-right:30px;
-
-      margin-bottom:9px;
-
-      font-size:11px;
-
-      font-weight:700;
-
-      color:#777;
-    }
-
-
-    /* =========================
-       REMOVE
-    ========================= */
-
-    .remove-btn{
-      position:absolute;
-
-      top:8px;
-      right:8px;
-
-      width:25px;
-      height:25px;
-
-      padding:0;
-
-      border:0;
-
-      border-radius:7px;
-
-      background:#fff0f0;
-
-      color:#d93025;
-
-      font-size:17px;
-
-      line-height:25px;
-
-      cursor:pointer;
-    }
-
-
-    /* =========================
-       SEARCH
-    ========================= */
-
-    .search-label,
-    .quantity-label{
-      display:block;
-
-      margin-bottom:4px;
-
-      font-size:10px;
-
-      font-weight:600;
-
-      color:#777;
-    }
-
-    .search{
-      position:relative;
-
-      margin-bottom:9px;
-    }
-
-    .search-input{
-      width:100%;
-
-      height:38px;
-
-      padding:0 10px;
-
-      border:1px solid #ddd;
-
-      border-radius:8px;
-
-      background:#fff;
-
-      outline:none;
-
-      font-size:13px;
-
-      color:#222;
-    }
-
-    .search-input:focus{
-      border-color:#e87516;
-
-      box-shadow:
-        0 0 0 2px
-        rgba(232,117,22,.08);
-    }
-
-
-    /* =========================
-       DROPDOWN
-    ========================= */
-
-    .dropdown{
-      display:none;
-
-      position:absolute;
-
-      left:0;
-      right:0;
-
-      top:43px;
-
-      z-index:100;
-
-      max-height:190px;
-
-      overflow-y:auto;
-
-      background:#fff;
-
-      border:1px solid #ddd;
-
-      border-radius:8px;
-
-      box-shadow:
-        0 6px 16px rgba(0,0,0,.12);
-    }
-
-    .dropdown.show{
-      display:block;
-    }
-
-    .item{
-      padding:9px 10px;
-
-      border-bottom:
-        1px solid #f0f0f0;
-
-      cursor:pointer;
-    }
-
-    .item:last-child{
-      border-bottom:0;
-    }
-
-    .item:active{
-      background:#fff4e8;
-    }
-
-    .item-name{
-      font-size:12px;
-
-      font-weight:600;
-
-      line-height:1.35;
-    }
-
-    .item-detail{
-      margin-top:3px;
-
-      font-size:10px;
-
-      color:#888;
-
-      line-height:1.3;
-    }
-
-    .empty{
-      padding:12px;
-
-      text-align:center;
-
-      font-size:11px;
-
-      color:#888;
-    }
-
-
-    /* =========================
-       QUANTITY
-    ========================= */
-
-    .quantity{
-      margin-bottom:11px;
-    }
-
-    .quantity-input{
-      width:100%;
-
-      height:38px;
-
-      padding:0 10px;
-
-      border:1px solid #ddd;
-
-      border-radius:8px;
-
-      outline:none;
-
-      font-size:13px;
-
-      background:#fff;
-    }
-
-    .quantity-input:focus{
-      border-color:#e87516;
-
-      box-shadow:
-        0 0 0 2px
-        rgba(232,117,22,.08);
-    }
-
-
-    /* =========================
-       AUTO RESULT
-    ========================= */
-
-    .auto-title{
-      margin-bottom:5px;
-
-      font-size:10px;
-
-      font-weight:600;
-
-      color:#777;
-    }
-
-    .auto-table{
-      display:grid;
-
-      grid-template-columns:
-        1fr 1.8fr .9fr .7fr;
-
-      border:1px solid #e8e8e8;
-
-      border-radius:7px;
-
-      overflow:hidden;
-
-      background:#fff;
-    }
-
-    .auto-cell{
-      min-width:0;
-
-      padding:7px 6px;
-
-      border-right:
-        1px solid #e8e8e8;
-
-      font-size:10px;
-
-      line-height:1.3;
-
-      word-break:break-word;
-    }
-
-    .auto-cell:nth-child(4n){
-      border-right:0;
-    }
-
-    .auto-head{
-      background:#f7f7f7;
-
-      font-weight:700;
-
-      color:#777;
-    }
-
-    .auto-value{
-      min-height:30px;
-
-      display:flex;
-
-      align-items:center;
-
-      font-weight:600;
-
-      color:#333;
-    }
-
-
-    /* =========================
-       ADD BUTTON
-    ========================= */
-
-    .add-btn{
-      width:100%;
-
-      height:36px;
-
-      border:1px dashed #e87516;
-
-      border-radius:8px;
-
-      background:#fffaf5;
-
-      color:#e87516;
-
-      font-size:12px;
-
-      font-weight:700;
-
-      cursor:pointer;
-    }
-
-    .add-btn:active{
-      transform:scale(.99);
-    }
-
-
-    /* =========================
-       SAVE
-    ========================= */
-
-    .save-section{
-      background:#fff;
-
-      border-radius:12px;
-
-      padding:12px;
-
-      margin-bottom:10px;
-
-      box-shadow:
-        0 3px 12px rgba(0,0,0,.06);
-    }
-
-    .save-btn{
-      width:100%;
-
-      height:42px;
-
-      border:0;
-
-      border-radius:9px;
-
-      background:#e87516;
-
-      color:#fff;
-
-      font-size:13px;
-
-      font-weight:700;
-
-      cursor:pointer;
-
-      box-shadow:
-        0 3px 8px
-        rgba(232,117,22,.20);
-    }
-
-    .save-btn:active{
-      transform:scale(.99);
-    }
-
-    .save-btn:disabled{
-      opacity:.55;
-
-      cursor:not-allowed;
-    }
-
-
-    /* =========================
-       PREVIEW
-    ========================= */
-
-    .preview{
-      display:none;
-
-      margin-top:10px;
-
-      padding:10px;
-
-      border-radius:8px;
-
-      background:#f7f8fa;
-
-      border:1px solid #eee;
-    }
-
-    .preview.show{
-      display:block;
-    }
-
-    .preview-title{
-      margin-bottom:7px;
-
-      font-size:11px;
-
-      font-weight:700;
-
-      color:#555;
-    }
-
-    .preview-data{
-      margin:0;
-
-      white-space:pre-wrap;
-
-      word-break:break-word;
-
-      font-family:monospace;
-
-      font-size:10px;
-
-      line-height:1.5;
-
-      color:#555;
-    }
-
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media(max-width:430px){
-
-      body{
-        padding:8px;
-      }
-
-      .header{
-        padding:13px;
-      }
-
-      .section,
-      .save-section{
-        padding:10px;
-      }
-
-      .product{
-        padding:9px;
-      }
-
-      .auto-cell{
-        padding:7px 5px;
-
-        font-size:9px;
-      }
-
-    }
-
-  </style>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1"
+>
+
+<title>Z-FOOD</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  padding:10px;
+  background:#f6f7f9;
+  font-family:Arial,sans-serif;
+  color:#252525;
+}
+
+.container{
+  width:100%;
+  max-width:680px;
+  margin:auto;
+}
+
+/* HEADER */
+
+.header{
+  background:#fff;
+  padding:14px;
+  border-radius:12px;
+  margin-bottom:10px;
+  box-shadow:0 3px 12px rgba(0,0,0,.06);
+}
+
+.title{
+  margin:0;
+  font-size:22px;
+  font-weight:700;
+  color:#e87516;
+}
+
+.subtitle{
+  margin-top:3px;
+  font-size:11px;
+  color:#858585;
+}
+
+/* STATUS */
+
+.status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 10px;
+  margin-bottom:10px;
+  border-radius:8px;
+  background:#fff8ef;
+  color:#e87516;
+  font-size:12px;
+  font-weight:600;
+}
+
+.dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#e87516;
+  flex:none;
+}
+
+/* SECTION */
+
+.section{
+  background:#fff;
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:10px;
+  box-shadow:0 3px 12px rgba(0,0,0,.06);
+}
+
+.section-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+
+.section-title{
+  font-size:15px;
+  font-weight:700;
+}
+
+.section-count{
+  font-size:10px;
+  color:#999;
+}
+
+/* PRODUCT */
+
+.product{
+  position:relative;
+  padding:10px;
+  margin-bottom:8px;
+  border:1px solid #e8e8e8;
+  border-radius:10px;
+  background:#fff;
+}
+
+.product-title{
+  padding-right:30px;
+  margin-bottom:9px;
+  font-size:11px;
+  font-weight:700;
+  color:#777;
+}
+
+/* REMOVE */
+
+.remove-btn{
+  position:absolute;
+  top:8px;
+  right:8px;
+  width:25px;
+  height:25px;
+  padding:0;
+  border:0;
+  border-radius:7px;
+  background:#fff0f0;
+  color:#d93025;
+  font-size:17px;
+  line-height:25px;
+  cursor:pointer;
+}
+
+/* SEARCH */
+
+.search{
+  position:relative;
+  margin-bottom:9px;
+}
+
+.search-label,
+.quantity-label{
+  display:block;
+  margin-bottom:4px;
+  font-size:10px;
+  font-weight:600;
+  color:#777;
+}
+
+.search-input{
+  width:100%;
+  height:38px;
+  padding:0 10px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  background:#fff;
+  outline:none;
+  font-size:13px;
+  color:#222;
+}
+
+.search-input:focus{
+  border-color:#e87516;
+  box-shadow:0 0 0 2px rgba(232,117,22,.08);
+}
+
+/* DROPDOWN */
+
+.dropdown{
+  display:none;
+  position:absolute;
+  left:0;
+  right:0;
+  top:43px;
+  z-index:999;
+  max-height:190px;
+  overflow-y:auto;
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:8px;
+  box-shadow:0 6px 16px rgba(0,0,0,.12);
+}
+
+.dropdown.show{
+  display:block;
+}
+
+.item{
+  padding:9px 10px;
+  border-bottom:1px solid #f0f0f0;
+  cursor:pointer;
+}
+
+.item:last-child{
+  border-bottom:0;
+}
+
+.item:active{
+  background:#fff4e8;
+}
+
+.item-name{
+  font-size:12px;
+  font-weight:600;
+  line-height:1.35;
+}
+
+.item-detail{
+  margin-top:3px;
+  font-size:10px;
+  color:#888;
+  line-height:1.3;
+}
+
+.empty{
+  padding:12px;
+  text-align:center;
+  font-size:11px;
+  color:#888;
+}
+
+/* QUANTITY */
+
+.quantity{
+  margin-bottom:11px;
+}
+
+.quantity-input{
+  width:100%;
+  height:38px;
+  padding:0 10px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  outline:none;
+  font-size:13px;
+  background:#fff;
+}
+
+.quantity-input:focus{
+  border-color:#e87516;
+  box-shadow:0 0 0 2px rgba(232,117,22,.08);
+}
+
+/* AUTO */
+
+.auto-title{
+  margin-bottom:5px;
+  font-size:10px;
+  font-weight:600;
+  color:#777;
+}
+
+.auto-table{
+  display:grid;
+  grid-template-columns:1fr 1.8fr .9fr .7fr;
+  border:1px solid #e8e8e8;
+  border-radius:7px;
+  overflow:hidden;
+  background:#fff;
+}
+
+.auto-cell{
+  min-width:0;
+  padding:7px 6px;
+  border-right:1px solid #e8e8e8;
+  font-size:10px;
+  line-height:1.3;
+  word-break:break-word;
+}
+
+.auto-cell:nth-child(4n){
+  border-right:0;
+}
+
+.auto-head{
+  background:#f7f7f7;
+  font-weight:700;
+  color:#777;
+}
+
+.auto-value{
+  min-height:30px;
+  display:flex;
+  align-items:center;
+  font-weight:600;
+  color:#333;
+}
+
+/* ADD */
+
+.add-btn{
+  width:100%;
+  height:36px;
+  border:1px dashed #e87516;
+  border-radius:8px;
+  background:#fffaf5;
+  color:#e87516;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.add-btn:active{
+  transform:scale(.99);
+}
+
+/* SAVE */
+
+.save-section{
+  background:#fff;
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:10px;
+  box-shadow:0 3px 12px rgba(0,0,0,.06);
+}
+
+.save-btn{
+  width:100%;
+  height:42px;
+  border:0;
+  border-radius:9px;
+  background:#e87516;
+  color:#fff;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 3px 8px rgba(232,117,22,.20);
+}
+
+.save-btn:active{
+  transform:scale(.99);
+}
+
+.save-btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+/* PREVIEW */
+
+.preview{
+  display:none;
+  margin-top:10px;
+  padding:10px;
+  border-radius:8px;
+  background:#f7f8fa;
+  border:1px solid #eee;
+}
+
+.preview.show{
+  display:block;
+}
+
+.preview-title{
+  margin-bottom:7px;
+  font-size:11px;
+  font-weight:700;
+  color:#555;
+}
+
+.preview-data{
+  margin:0;
+  white-space:pre-wrap;
+  word-break:break-word;
+  font-family:monospace;
+  font-size:10px;
+  line-height:1.5;
+  color:#555;
+}
+
+/* MOBILE */
+
+@media(max-width:430px){
+
+  body{
+    padding:8px;
+  }
+
+  .header{
+    padding:13px;
+  }
+
+  .section,
+  .save-section{
+    padding:10px;
+  }
+
+  .product{
+    padding:9px;
+  }
+
+  .auto-cell{
+    padding:7px 5px;
+    font-size:9px;
+  }
+
+}
+
+</style>
 
 </head>
 
-
 <body>
 
-
 <div class="container">
-
 
   <!-- HEADER -->
 
@@ -639,7 +432,10 @@
 
   <!-- MASTER STATUS -->
 
-  <div class="status">
+  <div
+    id="masterStatusBox"
+    class="status"
+  >
 
     <span
       id="statusDot"
@@ -653,9 +449,7 @@
   </div>
 
 
-  <!-- =========================
-       PRODUK AWAL
-  ========================== -->
+  <!-- PRODUK AWAL -->
 
   <div class="section">
 
@@ -674,9 +468,7 @@
 
     </div>
 
-
     <div id="awalList"></div>
-
 
     <button
       type="button"
@@ -689,9 +481,7 @@
   </div>
 
 
-  <!-- =========================
-       PRODUK AKHIR
-  ========================== -->
+  <!-- PRODUK AKHIR -->
 
   <div class="section">
 
@@ -710,9 +500,7 @@
 
     </div>
 
-
     <div id="akhirList"></div>
-
 
     <button
       type="button"
@@ -725,9 +513,7 @@
   </div>
 
 
-  <!-- =========================
-       SAVE
-  ========================== -->
+  <!-- SAVE -->
 
   <div class="save-section">
 
@@ -739,7 +525,6 @@
     >
       SIMPAN DATA
     </button>
-
 
     <div
       id="preview"
@@ -759,26 +544,26 @@
 
   </div>
 
-
 </div>
 
 
 <script>
 
-
 /* =====================================================
-   APPS SCRIPT BACKEND
+   APPS SCRIPT
 ===================================================== */
 
 const APPS_SCRIPT_URL =
-  'https://script.google.com/macros/s/AKfycbzVdHeD20QG6_gZmm23TdNgBIEdVSOkiBwxoIWy-Nmt9a_3GTJUWcHCcuDkQb-MxmCygw/exec';
+'https://script.google.com/macros/s/AKfycbzVdHeD20QG6_gZmm23TdNgBIEdVSOkiBwxoIWy-Nmt9a_3GTJUWcHCcuDkQb-MxmCygw/exec';
 
 
 /* =====================================================
-   MASTER DATA
+   MASTER
 ===================================================== */
 
 let MASTER_DATA = [];
+
+let masterLoaded = false;
 
 
 /* =====================================================
@@ -791,75 +576,198 @@ let akhirCounter = 0;
 
 
 /* =====================================================
+   STATUS
+===================================================== */
+
+function setMasterStatus(
+  message,
+  success
+){
+
+  const status =
+    document.getElementById(
+      'masterStatus'
+    );
+
+  const dot =
+    document.getElementById(
+      'statusDot'
+    );
+
+  const box =
+    document.getElementById(
+      'masterStatusBox'
+    );
+
+
+  status.textContent =
+    message;
+
+
+  if(success){
+
+    dot.style.background =
+      '#24a35a';
+
+    box.style.background =
+      '#f1fdf5';
+
+    box.style.color =
+      '#25834a';
+
+  }else{
+
+    dot.style.background =
+      '#d93025';
+
+    box.style.background =
+      '#fff0f0';
+
+    box.style.color =
+      '#c62828';
+
+  }
+
+}
+
+
+/* =====================================================
    LOAD MASTER
 ===================================================== */
 
 function loadMaster(){
 
+  setMasterStatus(
+    'Menghubungkan ke Master...',
+    true
+  );
+
+
   const callbackName =
     '__zfood_master_' +
-    Date.now();
+    Date.now() +
+    '_' +
+    Math.random()
+      .toString(36)
+      .substring(2);
 
 
   let finished = false;
 
 
+  function finish(){
+
+    if(finished){
+      return false;
+    }
+
+    finished = true;
+
+    try{
+      delete window[callbackName];
+    }catch(e){}
+
+    return true;
+
+  }
+
+
   window[callbackName] =
     function(response){
 
-      if(finished){
+      if(!finish()){
         return;
       }
 
-      finished = true;
-
 
       try{
-
-        delete window[callbackName];
-
 
         if(
           !response ||
           response.success !== true
         ){
 
-          showMasterError(
+          setMasterStatus(
             response &&
             response.error
               ? response.error
-              : 'Master tidak dapat dimuat.'
+              : 'Master tidak dapat dimuat.',
+            false
           );
 
           return;
         }
 
 
+        if(
+          !Array.isArray(
+            response.data
+          )
+        ){
+
+          setMasterStatus(
+            'Data Master tidak valid.',
+            false
+          );
+
+          return;
+        }
+
+
+        /*
+         * MASTER disimpan hanya sekali
+         */
+
         MASTER_DATA =
-          Array.isArray(response.data)
-            ? response.data
-            : [];
+          response.data;
 
 
-        document.getElementById(
-          'masterStatus'
-        ).textContent =
+        masterLoaded = true;
+
+
+        setMasterStatus(
           'Master terhubung • ' +
-          MASTER_DATA.length.toLocaleString(
-            'id-ID'
-          ) +
-          ' data';
+          MASTER_DATA.length
+            .toLocaleString('id-ID') +
+          ' data',
+          true
+        );
 
 
-        addProduct('awal');
+        /*
+         * Setelah Master benar-benar
+         * selesai dimuat, baru buat
+         * produk pertama.
+         */
 
-        addProduct('akhir');
+        if(
+          !document.querySelector(
+            '#awalList .product'
+          )
+        ){
+
+          addProduct('awal');
+
+        }
+
+
+        if(
+          !document.querySelector(
+            '#akhirList .product'
+          )
+        ){
+
+          addProduct('akhir');
+
+        }
 
 
       }catch(error){
 
-        showMasterError(
-          error.message
+        setMasterStatus(
+          'Error: ' +
+          error.message,
+          false
         );
 
       }
@@ -873,6 +781,9 @@ function loadMaster(){
     );
 
 
+  script.async = true;
+
+
   script.src =
     APPS_SCRIPT_URL +
     '?callback=' +
@@ -883,22 +794,16 @@ function loadMaster(){
     Date.now();
 
 
-  script.async = true;
-
-
   script.onerror =
     function(){
 
-      if(finished){
+      if(!finish()){
         return;
       }
 
-      finished = true;
-
-      delete window[callbackName];
-
-      showMasterError(
-        'Gagal menghubungi Apps Script.'
+      setMasterStatus(
+        'Gagal menghubungi Apps Script.',
+        false
       );
 
     };
@@ -909,19 +814,20 @@ function loadMaster(){
   );
 
 
+  /*
+   * Timeout 20 detik
+   */
+
   setTimeout(
     function(){
 
-      if(finished){
+      if(!finish()){
         return;
       }
 
-      finished = true;
-
-      delete window[callbackName];
-
-      showMasterError(
-        'Koneksi Master timeout.'
+      setMasterStatus(
+        'Koneksi Master timeout.',
+        false
       );
 
     },
@@ -932,45 +838,26 @@ function loadMaster(){
 
 
 /* =====================================================
-   MASTER ERROR
-===================================================== */
-
-function showMasterError(message){
-
-  const status =
-    document.getElementById(
-      'masterStatus'
-    );
-
-  status.textContent =
-    message;
-
-
-  document.getElementById(
-    'statusDot'
-  ).style.background =
-    '#d93025';
-
-
-  document.querySelector(
-    '.status'
-  ).style.background =
-    '#fff0f0';
-
-
-  document.querySelector(
-    '.status'
-  ).style.color =
-    '#c62828';
-
-}
-
-
-/* =====================================================
    TAMBAH PRODUK
 ===================================================== */
 
 function addProduct(type){
+
+  /*
+   * Jangan izinkan membuat
+   * produk sebelum Master selesai.
+   */
+
+  if(!masterLoaded){
+
+    alert(
+      'Master masih dimuat. Tunggu sampai status Master terhubung.'
+    );
+
+    return;
+
+  }
+
 
   const list =
     document.getElementById(
@@ -1018,16 +905,16 @@ function addProduct(type){
 
     <div class="product-title">
 
-      ${type === 'awal'
-        ? 'PRODUK AWAL'
-        : 'PRODUK AKHIR'}
+      ${
+        type === 'awal'
+          ? 'PRODUK AWAL'
+          : 'PRODUK AKHIR'
+      }
 
       #${id}
 
     </div>
 
-
-    <!-- SEARCH -->
 
     <div class="search">
 
@@ -1040,16 +927,12 @@ function addProduct(type){
         class="search-input"
         placeholder="Ketik atau scan..."
         autocomplete="off"
-        oninput="searchProduct(this)"
-        onclick="searchProduct(this)"
       >
 
       <div class="dropdown"></div>
 
     </div>
 
-
-    <!-- QUANTITY -->
 
     <div class="quantity">
 
@@ -1063,13 +946,10 @@ function addProduct(type){
         inputmode="decimal"
         step="any"
         placeholder="Masukkan quantity"
-        oninput="updateQuantity(this)"
       >
 
     </div>
 
-
-    <!-- DATA OTOMATIS -->
 
     <div class="auto-title">
       DATA PRODUK
@@ -1077,7 +957,6 @@ function addProduct(type){
 
 
     <div class="auto-table">
-
 
       <div class="auto-cell auto-head">
         ARTICLE
@@ -1096,30 +975,21 @@ function addProduct(type){
       </div>
 
 
-      <div
-        class="auto-cell auto-value result-article"
-      >
+      <div class="auto-cell auto-value result-article">
         -
       </div>
 
-      <div
-        class="auto-cell auto-value result-name"
-      >
+      <div class="auto-cell auto-value result-name">
         -
       </div>
 
-      <div
-        class="auto-cell auto-value result-quantity"
-      >
+      <div class="auto-cell auto-value result-quantity">
         -
       </div>
 
-      <div
-        class="auto-cell auto-value result-oum"
-      >
+      <div class="auto-cell auto-value result-oum">
         -
       </div>
-
 
     </div>
 
@@ -1128,6 +998,66 @@ function addProduct(type){
 
   list.appendChild(
     product
+  );
+
+
+  /*
+   * Event search
+   */
+
+  const searchInput =
+    product.querySelector(
+      '.search-input'
+    );
+
+
+  searchInput.addEventListener(
+    'input',
+    function(){
+
+      searchProduct(
+        this
+      );
+
+    }
+  );
+
+
+  searchInput.addEventListener(
+    'focus',
+    function(){
+
+      if(this.value.trim()){
+
+        searchProduct(
+          this
+        );
+
+      }
+
+    }
+  );
+
+
+  /*
+   * Event quantity
+   */
+
+  const quantityInput =
+    product.querySelector(
+      '.quantity-input'
+    );
+
+
+  quantityInput.addEventListener(
+    'input',
+    function(){
+
+      updateQuantity(
+        this
+      );
+
+    }
   );
 
 
@@ -1195,19 +1125,23 @@ function updateCount(type){
       : 'akhirCount'
   ).textContent =
     count +
-    ' ' +
-    (count === 1
-      ? 'produk'
-      : 'produk');
+    ' produk';
 
 }
 
 
 /* =====================================================
-   SEARCH
+   SEARCH MASTER
 ===================================================== */
 
 function searchProduct(input){
+
+  if(!masterLoaded){
+
+    return;
+
+  }
+
 
   const keyword =
     input.value
@@ -1221,6 +1155,11 @@ function searchProduct(input){
     );
 
 
+  if(!product){
+    return;
+  }
+
+
   const dropdown =
     product.querySelector(
       '.dropdown'
@@ -1229,11 +1168,15 @@ function searchProduct(input){
 
   if(!keyword){
 
+    dropdown.innerHTML =
+      '';
+
     dropdown.classList.remove(
       'show'
     );
 
     return;
+
   }
 
 
@@ -1242,30 +1185,29 @@ function searchProduct(input){
       .filter(
         function(item){
 
-          return (
-
+          const artikel =
             String(
               item.artikel || ''
             )
-              .toLowerCase()
-              .includes(keyword)
+              .toLowerCase();
 
-            ||
-
+          const barcode =
             String(
               item.barcode || ''
             )
-              .toLowerCase()
-              .includes(keyword)
+              .toLowerCase();
 
-            ||
-
+          const nama =
             String(
               item.nama || ''
             )
-              .toLowerCase()
-              .includes(keyword)
+              .toLowerCase();
 
+
+          return (
+            artikel.includes(keyword) ||
+            barcode.includes(keyword) ||
+            nama.includes(keyword)
           );
 
         }
@@ -1292,6 +1234,7 @@ function searchProduct(input){
     );
 
     return;
+
   }
 
 
@@ -1321,13 +1264,11 @@ function searchProduct(input){
         escapeHTML(
           item.artikel || '-'
         ) +
-        ' &nbsp; | &nbsp; ' +
-        'Barcode: ' +
+        ' | Barcode: ' +
         escapeHTML(
           item.barcode || '-'
         ) +
-        ' &nbsp; | &nbsp; ' +
-        'OUM: ' +
+        ' | OUM: ' +
         escapeHTML(
           item.oum || '-'
         ) +
@@ -1335,10 +1276,10 @@ function searchProduct(input){
 
 
       div.addEventListener(
-        'click',
+        'mousedown',
         function(event){
 
-          event.stopPropagation();
+          event.preventDefault();
 
           selectProduct(
             product,
@@ -1373,6 +1314,11 @@ function selectProduct(
   item
 ){
 
+  if(!product){
+    return;
+  }
+
+
   const searchInput =
     product.querySelector(
       '.search-input'
@@ -1392,11 +1338,14 @@ function selectProduct(
   product.dataset.article =
     item.artikel || '';
 
+
   product.dataset.barcode =
     item.barcode || '';
 
+
   product.dataset.name =
     item.nama || '';
+
 
   product.dataset.oum =
     item.oum || '';
@@ -1415,15 +1364,15 @@ function selectProduct(
 
 
   product.querySelector(
-    '.result-oum'
-  ).textContent =
-    item.oum || '-';
-
-
-  product.querySelector(
     '.result-quantity'
   ).textContent =
     quantityInput.value || '-';
+
+
+  product.querySelector(
+    '.result-oum'
+  ).textContent =
+    item.oum || '-';
 
 
   product.querySelector(
@@ -1461,7 +1410,7 @@ function updateQuantity(input){
 
 
 /* =====================================================
-   AMBIL DATA SATU PRODUK
+   DATA PRODUK
 ===================================================== */
 
 function getProductData(product){
@@ -1488,7 +1437,7 @@ function getProductData(product){
 
 
 /* =====================================================
-   AMBIL SEMUA PRODUK
+   SEMUA PRODUK
 ===================================================== */
 
 function getAllProducts(type){
@@ -1519,15 +1468,10 @@ function getAllProducts(type){
         );
 
 
-      /*
-       * Hanya produk yang sudah
-       * dipilih dari Master
-       */
-
       if(
-        data.artikel ||
-        data.nama ||
-        data.quantity ||
+        data.artikel &&
+        data.nama &&
+        data.quantity &&
         data.oum
       ){
 
@@ -1547,7 +1491,7 @@ function getAllProducts(type){
 
 
 /* =====================================================
-   SIMPAN DATA
+   SIMPAN / PREVIEW
 ===================================================== */
 
 function saveData(){
@@ -1564,65 +1508,19 @@ function saveData(){
     );
 
 
-  /*
-   * Minimal harus ada
-   * satu produk
-   */
-
   if(
     awal.length === 0 &&
     akhir.length === 0
   ){
 
     alert(
-      'Belum ada data produk.'
+      'Belum ada data produk yang lengkap.'
     );
 
     return;
 
   }
 
-
-  /*
-   * Cek produk yang belum
-   * dipilih dari Master
-   */
-
-  const all =
-    awal.concat(
-      akhir
-    );
-
-
-  const invalid =
-    all.filter(
-      function(item){
-
-        return (
-          !item.artikel ||
-          !item.nama ||
-          !item.quantity ||
-          !item.oum
-        );
-
-      }
-    );
-
-
-  if(invalid.length){
-
-    alert(
-      'Pastikan setiap produk sudah dipilih dan Quantity sudah diisi.'
-    );
-
-    return;
-
-  }
-
-
-  /*
-   * Data final
-   */
 
   const payload = {
 
@@ -1634,10 +1532,6 @@ function saveData(){
 
   };
 
-
-  /*
-   * Preview sementara
-   */
 
   document.getElementById(
     'previewData'
@@ -1656,22 +1550,18 @@ function saveData(){
   );
 
 
-  /*
-   * Scroll ke preview
-   */
-
   document.getElementById(
     'preview'
   ).scrollIntoView({
     behavior:'smooth',
     block:'nearest'
-  );
+  });
 
 }
 
 
 /* =====================================================
-   CLOSE DROPDOWN
+   TUTUP DROPDOWN
 ===================================================== */
 
 document.addEventListener(
@@ -1705,7 +1595,7 @@ document.addEventListener(
 
 
 /* =====================================================
-   ESCAPE HTML
+   ESCAPE
 ===================================================== */
 
 function escapeHTML(value){
@@ -1747,7 +1637,6 @@ function escapeHTML(value){
 loadMaster();
 
 </script>
-
 
 </body>
 
