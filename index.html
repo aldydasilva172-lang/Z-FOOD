@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1"
->
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>Z-FOOD</title>
 
 <style>
-
 *{
   box-sizing:border-box;
+}
+
+html{
+  -webkit-text-size-adjust:100%;
 }
 
 body{
@@ -26,15 +24,20 @@ body{
   color:#252525;
 }
 
+button,
+input{
+  font-family:Arial,sans-serif;
+}
+
 .container{
   width:100%;
   max-width:680px;
   margin:auto;
 }
 
-/* =====================================================
+/* =========================
    HEADER
-===================================================== */
+========================= */
 
 .header{
   background:#fff;
@@ -57,10 +60,9 @@ body{
   color:#858585;
 }
 
-
-/* =====================================================
-   STATUS
-===================================================== */
+/* =========================
+   MASTER STATUS
+========================= */
 
 .status{
   display:flex;
@@ -83,10 +85,27 @@ body{
   flex:none;
 }
 
+.status.ready{
+  background:#f0faf3;
+  color:#218838;
+}
 
-/* =====================================================
+.status.ready .dot{
+  background:#28a745;
+}
+
+.status.error{
+  background:#fff0f0;
+  color:#d93025;
+}
+
+.status.error .dot{
+  background:#d93025;
+}
+
+/* =========================
    SECTION
-===================================================== */
+========================= */
 
 .section{
   background:#fff;
@@ -118,72 +137,78 @@ body{
   font-size:10px;
   color:#999;
 }
-/* =====================================================
-   PRODUCT INPUT
-===================================================== */
 
-.product {
-  position: relative;
-  padding: 10px;
-  margin-bottom: 8px;
-  border: 1px solid #e8e8e8;
-  border-radius: 10px;
-  background: #fff;
-  
+/* =========================
+   PRODUCT CARD
+========================= */
+
+.product{
+  position:relative;
+  padding:10px;
+  margin-bottom:8px;
+
+  border:1px solid #e8e8e8;
+  border-radius:10px;
+
+  background:#fff;
+
   box-shadow:
-    0 2px 5px rgba(232, 117, 22, .08),
-    0 5px 16px rgba(232, 117, 22, .12);
-  
+    0 2px 5px rgba(232,117,22,.08),
+    0 5px 16px rgba(232,117,22,.12);
+
   transition:
     box-shadow .2s ease,
     border-color .2s ease,
     transform .2s ease;
 }
 
-.product:hover {
-  border-color: #f1b77e;
-  
+.product:hover{
+  border-color:#f1b77e;
+
   box-shadow:
-    0 4px 10px rgba(232, 117, 22, .35),
-    0 8px 20px rgba(232, 117, 22, .25),
-    0 0 14px rgba(232, 117, 22, .18);
+    0 4px 10px rgba(232,117,22,.35),
+    0 8px 20px rgba(232,117,22,.25),
+    0 0 14px rgba(232,117,22,.18);
 }
 
-.product:active {
-  transform: scale(.995);
-  
-  border-color: #e87516;
-  
+.product:active{
+  transform:scale(.995);
+
+  border-color:#e87516;
+
   box-shadow:
-    0 3px 8px rgba(232, 117, 22, .28),
-    0 8px 22px rgba(232, 117, 22, .20),
-    0 0 14px rgba(232, 117, 22, .14);
+    0 3px 8px rgba(232,117,22,.28),
+    0 8px 22px rgba(232,117,22,.20),
+    0 0 14px rgba(232,117,22,.14);
 }
 
-.product-title {
-  padding-right: 30px;
-  margin-bottom: 9px;
-  font-size: 11px;
-  font-weight: 700;
-  color: #777;
+.product-title{
+  padding-right:30px;
+  margin-bottom:9px;
+
+  font-size:11px;
+  font-weight:700;
+  color:#777;
 }
-/* =====================================================
-   REMOVE
-===================================================== */
 
 .remove-btn{
   position:absolute;
   top:8px;
   right:8px;
+
   width:25px;
   height:25px;
+
   padding:0;
   border:0;
   border-radius:7px;
+
   background:#fff0f0;
   color:#d93025;
+
   font-size:17px;
   line-height:25px;
+
   cursor:pointer;
 }
 
@@ -191,10 +216,9 @@ body{
   transform:scale(.95);
 }
 
-
-/* =====================================================
+/* =========================
    SEARCH
-===================================================== */
+========================= */
 
 .search{
   position:relative;
@@ -205,6 +229,7 @@ body{
 .quantity-label{
   display:block;
   margin-bottom:4px;
+
   font-size:10px;
   font-weight:600;
   color:#777;
@@ -213,39 +238,62 @@ body{
 .search-input{
   width:100%;
   height:38px;
+
   padding:0 10px;
+
   border:1px solid #ddd;
   border-radius:8px;
+
   background:#fff;
   outline:none;
+
+  /*
+    16px supaya Android tidak auto zoom
+    ketika input disentuh.
+  */
   font-size:16px;
+
   color:#222;
   text-align:center;
 }
 
-.search-input:focus{
-  border-color:#e87516;
-  box-shadow:0 0 0 2px rgba(232,117,22,.08);
+.search-input::placeholder{
+  color:#aaa;
+  opacity:1;
 }
 
+.search-input:focus{
+  border-color:#e87516;
 
-/* =====================================================
+  box-shadow:
+    0 0 0 2px rgba(232,117,22,.08);
+}
+
+/* =========================
    DROPDOWN
-===================================================== */
+========================= */
 
 .dropdown{
   display:none;
+
   position:absolute;
   left:0;
   right:0;
   top:43px;
+
   z-index:999;
+
   max-height:190px;
   overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+
   background:#fff;
+
   border:1px solid #ddd;
   border-radius:8px;
-  box-shadow:0 6px 16px rgba(0,0,0,.12);
+
+  box-shadow:
+    0 6px 16px rgba(0,0,0,.12);
 }
 
 .dropdown.show{
@@ -254,7 +302,9 @@ body{
 
 .item{
   padding:9px 10px;
+
   border-bottom:1px solid #f0f0f0;
+
   cursor:pointer;
 }
 
@@ -274,6 +324,7 @@ body{
 
 .item-detail{
   margin-top:3px;
+
   font-size:10px;
   color:#888;
   line-height:1.3;
@@ -281,15 +332,16 @@ body{
 
 .empty{
   padding:12px;
+
   text-align:center;
+
   font-size:11px;
   color:#888;
 }
 
-
-/* =====================================================
+/* =========================
    QUANTITY
-===================================================== */
+========================= */
 
 .quantity{
   margin-bottom:4px;
@@ -298,34 +350,43 @@ body{
 .quantity-input{
   width:100%;
   height:38px;
+
   padding:0 10px;
+
   border:1px solid #ddd;
   border-radius:8px;
+
   outline:none;
+
   font-size:16px;
   background:#fff;
+
   text-align:center;
 }
 
 .quantity-input:focus{
   border-color:#e87516;
-  box-shadow:0 0 0 2px rgba(232,117,22,.08);
+
+  box-shadow:
+    0 0 0 2px rgba(232,117,22,.08);
 }
 
-
-/* =====================================================
-   DATA PRODUK GABUNGAN
-===================================================== */
+/* =========================
+   DATA PRODUCT
+========================= */
 
 .data-product{
   margin-top:12px;
   padding-top:11px;
+
   border-top:1px solid #eee;
 }
 
 .data-product-title{
   margin-bottom:6px;
+
   text-align:center;
+
   font-size:10px;
   font-weight:700;
   color:#777;
@@ -333,14 +394,18 @@ body{
 
 .data-table{
   width:100%;
+
   border:1px solid #e8e8e8;
   border-radius:8px;
+
   overflow:hidden;
+
   background:#fff;
 }
 
 .data-row{
   display:grid;
+
   grid-template-columns:
     1fr
     1.8fr
@@ -350,11 +415,15 @@ body{
 
 .data-cell{
   min-width:0;
+
   padding:7px 6px;
+
   border-right:1px solid #e8e8e8;
   border-bottom:1px solid #e8e8e8;
+
   font-size:10px;
   line-height:1.3;
+
   word-break:break-word;
 }
 
@@ -368,40 +437,49 @@ body{
 
 .data-head{
   background:#f7f7f7;
+
   font-weight:700;
   color:#777;
 }
 
 .data-value{
   min-height:30px;
+
   display:flex;
   align-items:center;
+
   font-weight:600;
   color:#333;
 }
 
 .data-empty{
   padding:10px;
+
   text-align:center;
+
   font-size:10px;
   color:#aaa;
 }
 
-
-/* =====================================================
-   ADD
-===================================================== */
+/* =========================
+   ADD PRODUCT
+========================= */
 
 .add-btn{
   width:100%;
   height:36px;
+
   margin-top:10px;
+
   border:1px dashed #e87516;
   border-radius:8px;
+
   background:#fffaf5;
   color:#e87516;
+
   font-size:12px;
   font-weight:700;
+
   cursor:pointer;
 }
 
@@ -409,76 +487,44 @@ body{
   transform:scale(.99);
 }
 
-
-/* =====================================================
-   Z-FOOD PEMISAH
-===================================================== */
-
-.zfood-divider{
-  text-align:center;
-  margin:18px 0 10px;
-  padding:10px 0;
-}
-
-.zfood-divider-title{
-  font-size:18px;
-  font-weight:700;
-  color:#e87516;
-}
-
-.zfood-divider-line{
-  width:55px;
-  height:2px;
-  margin:6px auto 0;
-  border-radius:10px;
-  background:#e87516;
-}
-
-
-/* =====================================================
-   DATA PENGECEKAN
-===================================================== */
-
-.check-section{
-  background:#fff;
-  border-radius:12px;
-  padding:12px;
-  margin-bottom:10px;
-  box-shadow:0 3px 12px rgba(0,0,0,.06);
-}
-
-.check-title{
-  margin-bottom:8px;
-  text-align:center;
-  font-size:13px;
-  font-weight:700;
-  color:#555;
-}
-
-
-/* =====================================================
-   SAVE
-===================================================== */
+/* =========================
+   SAVE SECTION
+========================= */
 
 .save-section{
   background:#fff;
+
   border-radius:12px;
+
   padding:12px;
+
   margin-bottom:10px;
-  box-shadow:0 3px 12px rgba(0,0,0,.06);
+
+  box-shadow:
+    0 3px 12px rgba(0,0,0,.06);
 }
 
 .save-btn{
   width:100%;
   height:42px;
+
   border:0;
   border-radius:9px;
+
   background:#e87516;
   color:#fff;
+
   font-size:13px;
   font-weight:700;
+
   cursor:pointer;
-  box-shadow:0 3px 8px rgba(232,117,22,.20);
+
+  box-shadow:
+    0 3px 8px rgba(232,117,22,.20);
+
+  transition:
+    transform .15s ease,
+    opacity .15s ease;
 }
 
 .save-btn:active{
@@ -490,17 +536,215 @@ body{
   cursor:not-allowed;
 }
 
+/* =========================
+   POPUP OVERLAY
+========================= */
 
-/* =====================================================
-   PREVIEW
-===================================================== */
+.modal-overlay{
+  position:fixed;
+
+  inset:0;
+
+  z-index:5000;
+
+  display:none;
+
+  align-items:center;
+  justify-content:center;
+
+  padding:14px;
+
+  background:rgba(0,0,0,.42);
+
+  backdrop-filter:blur(3px);
+  -webkit-backdrop-filter:blur(3px);
+}
+
+.modal-overlay.show{
+  display:flex;
+}
+
+/* =========================
+   POPUP
+========================= */
+
+.modal{
+  width:100%;
+  max-width:620px;
+
+  max-height:
+    calc(100vh - 28px);
+
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+
+  background:#fff;
+
+  border-radius:15px;
+
+  box-shadow:
+    0 15px 45px rgba(0,0,0,.25);
+
+  animation:
+    modalIn .20s ease;
+}
+
+@keyframes modalIn{
+  from{
+    opacity:0;
+    transform:translateY(15px) scale(.97);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+/* =========================
+   MODAL HEADER
+========================= */
+
+.modal-header{
+  position:relative;
+
+  padding:15px 45px 12px;
+
+  text-align:center;
+
+  border-bottom:1px solid #eee;
+}
+
+.modal-title{
+  margin:0;
+
+  font-size:18px;
+  font-weight:700;
+
+  color:#e87516;
+}
+
+.modal-subtitle{
+  margin-top:3px;
+
+  font-size:10px;
+  color:#999;
+}
+
+.modal-close{
+  position:absolute;
+
+  top:10px;
+  right:10px;
+
+  width:30px;
+  height:30px;
+
+  border:0;
+  border-radius:8px;
+
+  background:#f7f7f7;
+
+  color:#777;
+
+  font-size:20px;
+  line-height:30px;
+
+  cursor:pointer;
+}
+
+.modal-close:active{
+  transform:scale(.95);
+
+  background:#eee;
+}
+
+/* =========================
+   MODAL BODY
+========================= */
+
+.modal-body{
+  padding:12px;
+}
+
+.check-section{
+  background:#fff;
+
+  border:1px solid #eee;
+
+  border-radius:10px;
+
+  padding:10px;
+
+  margin-bottom:10px;
+}
+
+.check-title{
+  margin-bottom:8px;
+
+  text-align:center;
+
+  font-size:12px;
+  font-weight:700;
+
+  color:#555;
+}
+
+/* =========================
+   MODAL FOOTER
+========================= */
+
+.modal-footer{
+  padding:10px 12px 13px;
+
+  border-top:1px solid #eee;
+
+  background:#fff;
+}
+
+.send-btn{
+  width:100%;
+  height:42px;
+
+  border:0;
+  border-radius:9px;
+
+  background:#e87516;
+  color:#fff;
+
+  font-size:13px;
+  font-weight:700;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 3px 8px rgba(232,117,22,.20);
+}
+
+.send-btn:active{
+  transform:scale(.99);
+}
+
+.send-btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+/* =========================
+   PREVIEW TEXT
+========================= */
 
 .preview{
   display:none;
+
   margin-top:10px;
+
   padding:10px;
+
   border-radius:8px;
+
   background:#f7f8fa;
+
   border:1px solid #eee;
 }
 
@@ -510,25 +754,30 @@ body{
 
 .preview-title{
   margin-bottom:7px;
+
   font-size:11px;
   font-weight:700;
+
   color:#555;
 }
 
 .preview-data{
   margin:0;
+
   white-space:pre-wrap;
   word-break:break-word;
+
   font-family:monospace;
+
   font-size:10px;
   line-height:1.5;
+
   color:#555;
 }
 
-
-/* =====================================================
+/* =========================
    MOBILE
-===================================================== */
+========================= */
 
 @media(max-width:430px){
 
@@ -541,8 +790,7 @@ body{
   }
 
   .section,
-  .save-section,
-  .check-section{
+  .save-section{
     padding:10px;
   }
 
@@ -552,32 +800,43 @@ body{
 
   .data-cell{
     padding:7px 5px;
+
     font-size:9px;
   }
 
-  .zfood-divider{
-    margin:15px 0 8px;
+  .modal-overlay{
+    padding:8px;
   }
 
-  .zfood-divider-title{
+  .modal{
+    max-height:
+      calc(100vh - 16px);
+
+    border-radius:13px;
+  }
+
+  .modal-body{
+    padding:9px;
+  }
+
+  .modal-header{
+    padding:14px 42px 11px;
+  }
+
+  .modal-title{
     font-size:17px;
   }
-
 }
-
 </style>
-
 </head>
-
 
 <body>
 
 <div class="container">
 
-
-  <!-- =================================================
+  <!-- =========================
        HEADER
-  ================================================== -->
+  ========================== -->
 
   <div class="header">
 
@@ -592,30 +851,27 @@ body{
   </div>
 
 
-  <!-- =================================================
+  <!-- =========================
        MASTER STATUS
-  ================================================== -->
+  ========================== -->
 
   <div
-    id="masterStatusBox"
+    id="masterStatus"
     class="status"
   >
 
-    <span
-      id="statusDot"
-      class="dot"
-    ></span>
+    <span class="dot"></span>
 
-    <span id="masterStatus">
-      Menghubungkan ke Master...
+    <span id="masterStatusText">
+      Memuat MASTER...
     </span>
 
   </div>
 
 
-  <!-- =================================================
+  <!-- =========================
        PRODUK AWAL
-  ================================================== -->
+  ========================== -->
 
   <div class="section">
 
@@ -635,12 +891,8 @@ body{
     </div>
 
 
-    <!-- INPUT PRODUK -->
-
     <div id="awalList"></div>
 
-
-    <!-- TAMBAH PRODUK -->
 
     <button
       type="button"
@@ -651,7 +903,7 @@ body{
     </button>
 
 
-    <!-- DATA PRODUK GABUNGAN -->
+    <!-- DATA PRODUK AWAL -->
 
     <div class="data-product">
 
@@ -659,37 +911,32 @@ body{
         DATA PRODUK AWAL
       </div>
 
-      <div
-        id="awalDataTable"
-        class="data-table"
-      >
+      <div class="data-table">
 
-        <div class="data-row">
+        <div class="data-row data-head">
 
-          <div class="data-cell data-head">
+          <div class="data-cell">
             ARTICLE
           </div>
 
-          <div class="data-cell data-head">
+          <div class="data-cell">
             NAMA BARANG
           </div>
 
-          <div class="data-cell data-head">
+          <div class="data-cell">
             QUANTITY
           </div>
 
-          <div class="data-cell data-head">
+          <div class="data-cell">
             OUM
           </div>
 
         </div>
 
-        <div
-          id="awalDataBody"
-        >
+        <div id="awalDataBody">
 
           <div class="data-empty">
-            Belum ada produk
+            Belum ada data produk.
           </div>
 
         </div>
@@ -701,9 +948,9 @@ body{
   </div>
 
 
-  <!-- =================================================
+  <!-- =========================
        PRODUK AKHIR
-  ================================================== -->
+  ========================== -->
 
   <div class="section">
 
@@ -723,12 +970,8 @@ body{
     </div>
 
 
-    <!-- INPUT PRODUK -->
-
     <div id="akhirList"></div>
 
-
-    <!-- TAMBAH PRODUK -->
 
     <button
       type="button"
@@ -739,7 +982,7 @@ body{
     </button>
 
 
-    <!-- DATA PRODUK GABUNGAN -->
+    <!-- DATA PRODUK AKHIR -->
 
     <div class="data-product">
 
@@ -747,37 +990,32 @@ body{
         DATA PRODUK AKHIR
       </div>
 
-      <div
-        id="akhirDataTable"
-        class="data-table"
-      >
+      <div class="data-table">
 
-        <div class="data-row">
+        <div class="data-row data-head">
 
-          <div class="data-cell data-head">
+          <div class="data-cell">
             ARTICLE
           </div>
 
-          <div class="data-cell data-head">
+          <div class="data-cell">
             NAMA BARANG
           </div>
 
-          <div class="data-cell data-head">
+          <div class="data-cell">
             QUANTITY
           </div>
 
-          <div class="data-cell data-head">
+          <div class="data-cell">
             OUM
           </div>
 
         </div>
 
-        <div
-          id="akhirDataBody"
-        >
+        <div id="akhirDataBody">
 
           <div class="data-empty">
-            Belum ada produk
+            Belum ada data produk.
           </div>
 
         </div>
@@ -789,124 +1027,9 @@ body{
   </div>
 
 
-  <!-- =================================================
-       Z-FOOD PEMISAH / PENGECEKAN
-  ================================================== -->
-
-  <div class="zfood-divider">
-
-    <div class="zfood-divider-title">
-      Z-FOOD
-    </div>
-
-    <div class="zfood-divider-line"></div>
-
-  </div>
-
-
-  <!-- =================================================
-       DATA PRODUK AWAL - PENGECEKAN
-  ================================================== -->
-
-  <div class="check-section">
-
-    <div class="check-title">
-      DATA PRODUK AWAL
-    </div>
-
-    <div
-      id="awalCheckTable"
-      class="data-table"
-    >
-
-      <div class="data-row">
-
-        <div class="data-cell data-head">
-          ARTICLE
-        </div>
-
-        <div class="data-cell data-head">
-          NAMA BARANG
-        </div>
-
-        <div class="data-cell data-head">
-          QUANTITY
-        </div>
-
-        <div class="data-cell data-head">
-          OUM
-        </div>
-
-      </div>
-
-      <div
-        id="awalCheckBody"
-      >
-
-        <div class="data-empty">
-          Belum ada produk
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- =================================================
-       DATA PRODUK AKHIR - PENGECEKAN
-  ================================================== -->
-
-  <div class="check-section">
-
-    <div class="check-title">
-      DATA PRODUK AKHIR
-    </div>
-
-    <div
-      id="akhirCheckTable"
-      class="data-table"
-    >
-
-      <div class="data-row">
-
-        <div class="data-cell data-head">
-          ARTICLE
-        </div>
-
-        <div class="data-cell data-head">
-          NAMA BARANG
-        </div>
-
-        <div class="data-cell data-head">
-          QUANTITY
-        </div>
-
-        <div class="data-cell data-head">
-          OUM
-        </div>
-
-      </div>
-
-      <div
-        id="akhirCheckBody"
-      >
-
-        <div class="data-empty">
-          Belum ada produk
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- =================================================
-       SAVE
-  ================================================== -->
+  <!-- =========================
+       SIMPAN DATA
+  ========================== -->
 
   <div class="save-section">
 
@@ -919,319 +1042,403 @@ body{
       SIMPAN DATA
     </button>
 
+  </div>
 
-    <div
-      id="preview"
-      class="preview"
-    >
+</div>
 
-      <div class="preview-title">
-        DATA YANG AKAN DISIMPAN
+
+<!-- =========================================================
+     POPUP / MODAL REVIEW
+========================================================= -->
+
+<div
+  id="reviewModal"
+  class="modal-overlay"
+  onclick="handleModalOverlay(event)"
+>
+
+  <div class="modal">
+
+
+    <!-- MODAL HEADER -->
+
+    <div class="modal-header">
+
+      <h2 class="modal-title">
+        Z-FOOD
+      </h2>
+
+      <div class="modal-subtitle">
+        Periksa kembali data sebelum dikirim
       </div>
 
-      <pre
-        id="previewData"
-        class="preview-data"
-      ></pre>
+      <button
+        type="button"
+        class="modal-close"
+        onclick="closeReview()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <!-- MODAL BODY -->
+
+    <div class="modal-body">
+
+
+      <!-- DATA PRODUK AWAL -->
+
+      <div class="check-section">
+
+        <div class="check-title">
+          DATA PRODUK AWAL
+        </div>
+
+        <div class="data-table">
+
+          <div class="data-row data-head">
+
+            <div class="data-cell">
+              ARTICLE
+            </div>
+
+            <div class="data-cell">
+              NAMA BARANG
+            </div>
+
+            <div class="data-cell">
+              QUANTITY
+            </div>
+
+            <div class="data-cell">
+              OUM
+            </div>
+
+          </div>
+
+          <div id="awalCheckBody">
+
+            <div class="data-empty">
+              Belum ada data produk.
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- DATA PRODUK AKHIR -->
+
+      <div class="check-section">
+
+        <div class="check-title">
+          DATA PRODUK AKHIR
+        </div>
+
+        <div class="data-table">
+
+          <div class="data-row data-head">
+
+            <div class="data-cell">
+              ARTICLE
+            </div>
+
+            <div class="data-cell">
+              NAMA BARANG
+            </div>
+
+            <div class="data-cell">
+              QUANTITY
+            </div>
+
+            <div class="data-cell">
+              OUM
+            </div>
+
+          </div>
+
+          <div id="akhirCheckBody">
+
+            <div class="data-empty">
+              Belum ada data produk.
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- PREVIEW DATA -->
+      <div
+        id="preview"
+        class="preview"
+      >
+
+        <div class="preview-title">
+          DATA YANG AKAN DIKIRIM
+        </div>
+
+        <pre
+          id="previewData"
+          class="preview-data"
+        ></pre>
+
+      </div>
+
+    </div>
+
+
+    <!-- MODAL FOOTER -->
+
+    <div class="modal-footer">
+
+      <button
+        id="sendBtn"
+        type="button"
+        class="send-btn"
+        onclick="sendData()"
+      >
+        KIRIM DATA
+      </button>
 
     </div>
 
   </div>
-
 
 </div>
 
 
 <script>
 
-/* =====================================================
+/* =========================================================
    APPS SCRIPT
-===================================================== */
+========================================================= */
 
 const APPS_SCRIPT_URL =
-'https://script.google.com/macros/s/AKfycbzVdHeD20QG6_gZmm23TdNgBIEdVSOkiBwxoIWy-Nmt9a_3GTJUWcHCcuDkQb-MxmCygw/exec';
+  'https://script.google.com/macros/s/AKfycbzVdHeD20QG6_gZmm23TdNgBIEdVSOkiBwxoIWy-Nmt9a_3GTJUWcHCcuDkQb-MxmCygw/exec';
 
 
-/* =====================================================
+/* =========================================================
    MASTER
-===================================================== */
+========================================================= */
 
 let MASTER_DATA = [];
 
 let masterLoaded = false;
 
 
-/* =====================================================
+/* =========================================================
    COUNTER
-===================================================== */
+========================================================= */
 
 let awalCounter = 0;
 
 let akhirCounter = 0;
 
 
-/* =====================================================
-   STATUS
-===================================================== */
-
-function setMasterStatus(
-  message,
-  success
-){
-
-  const status =
-    document.getElementById(
-      'masterStatus'
-    );
-
-  const dot =
-    document.getElementById(
-      'statusDot'
-    );
-
-  const box =
-    document.getElementById(
-      'masterStatusBox'
-    );
-
-
-  status.textContent =
-    message;
-
-
-  if(success){
-
-    dot.style.background =
-      '#24a35a';
-
-    box.style.background =
-      '#f1fdf5';
-
-    box.style.color =
-      '#25834a';
-
-  }else{
-
-    dot.style.background =
-      '#d93025';
-
-    box.style.background =
-      '#fff0f0';
-
-    box.style.color =
-      '#c62828';
-
-  }
-
-}
-
-
-/* =====================================================
+/* =========================================================
    LOAD MASTER
-===================================================== */
+========================================================= */
 
 function loadMaster(){
 
   setMasterStatus(
-    'Menghubungkan ke Master...',
-    true
+    'Memuat MASTER...',
+    'loading'
   );
 
-
   const callbackName =
-    '__zfood_master_' +
+    'zfoodMaster_' +
     Date.now() +
     '_' +
-    Math.random()
-      .toString(36)
-      .substring(2);
-
-
-  let finished = false;
-
-
-  function finish(){
-
-    if(finished){
-      return false;
-    }
-
-    finished = true;
-
-    try{
-      delete window[callbackName];
-    }catch(e){}
-
-    return true;
-
-  }
+    Math.floor(Math.random() * 10000);
 
 
   window[callbackName] =
     function(response){
 
-      if(!finish()){
-        return;
-      }
-
-
       try{
 
         if(
-          !response ||
-          response.success !== true
+          response &&
+          response.success &&
+          Array.isArray(response.data)
         ){
 
+          MASTER_DATA =
+            response.data;
+
+          masterLoaded = true;
+
           setMasterStatus(
-            response &&
-            response.error
+            'MASTER siap • ' +
+            MASTER_DATA.length +
+            ' data',
+            'ready'
+          );
+
+
+          /*
+            Tambahkan produk pertama
+            setelah MASTER berhasil dimuat.
+          */
+
+          if(
+            document.querySelectorAll(
+              '#awalList .product'
+            ).length === 0
+          ){
+
+            addProduct('awal');
+
+          }
+
+
+          if(
+            document.querySelectorAll(
+              '#akhirList .product'
+            ).length === 0
+          ){
+
+            addProduct('akhir');
+
+          }
+
+
+        }else{
+
+          throw new Error(
+            response && response.error
               ? response.error
-              : 'Master tidak dapat dimuat.',
-            false
+              : 'Data MASTER tidak valid.'
           );
 
-          return;
         }
-
-
-        if(
-          !Array.isArray(
-            response.data
-          )
-        ){
-
-          setMasterStatus(
-            'Data Master tidak valid.',
-            false
-          );
-
-          return;
-        }
-
-
-        MASTER_DATA =
-          response.data;
-
-
-        masterLoaded = true;
-
-
-        setMasterStatus(
-          'Master terhubung • ' +
-          MASTER_DATA.length
-            .toLocaleString('id-ID') +
-          ' data',
-          true
-        );
-
-
-        /*
-         * Produk pertama otomatis dibuat
-         */
-
-        if(
-          !document.querySelector(
-            '#awalList .product'
-          )
-        ){
-
-          addProduct('awal');
-
-        }
-
-
-        if(
-          !document.querySelector(
-            '#akhirList .product'
-          )
-        ){
-
-          addProduct('akhir');
-
-        }
-
 
       }catch(error){
 
+        console.error(error);
+
         setMasterStatus(
-          'Error: ' +
-          error.message,
-          false
+          'Gagal memuat MASTER',
+          'error'
         );
 
       }
+
+
+      cleanupJSONP(callbackName);
 
     };
 
 
   const script =
-    document.createElement(
-      'script'
-    );
-
-
-  script.async = true;
-
+    document.createElement('script');
 
   script.src =
     APPS_SCRIPT_URL +
     '?callback=' +
-    encodeURIComponent(
-      callbackName
-    ) +
+    encodeURIComponent(callbackName) +
     '&_=' +
     Date.now();
-
 
   script.onerror =
     function(){
 
-      if(!finish()){
-        return;
-      }
-
       setMasterStatus(
-        'Gagal menghubungi Apps Script.',
-        false
+        'Gagal terhubung ke MASTER',
+        'error'
       );
+
+      cleanupJSONP(callbackName);
 
     };
 
 
-  document.body.appendChild(
-    script
-  );
-
-
-  setTimeout(
-    function(){
-
-      if(!finish()){
-        return;
-      }
-
-      setMasterStatus(
-        'Koneksi Master timeout.',
-        false
-      );
-
-    },
-    20000
-  );
+  document.body.appendChild(script);
 
 }
 
 
-/* =====================================================
-   TAMBAH PRODUK
-===================================================== */
+/* =========================================================
+   JSONP CLEANUP
+========================================================= */
+
+function cleanupJSONP(name){
+
+  try{
+
+    delete window[name];
+
+  }catch(error){
+
+    window[name] = undefined;
+
+  }
+
+}
+
+
+/* =========================================================
+   MASTER STATUS
+========================================================= */
+
+function setMasterStatus(
+  text,
+  state
+){
+
+  const box =
+    document.getElementById(
+      'masterStatus'
+    );
+
+  const label =
+    document.getElementById(
+      'masterStatusText'
+    );
+
+
+  label.textContent = text;
+
+
+  box.classList.remove(
+    'ready',
+    'error'
+  );
+
+
+  if(state === 'ready'){
+
+    box.classList.add('ready');
+
+  }
+
+  if(state === 'error'){
+
+    box.classList.add('error');
+
+  }
+
+}
+
+
+/* =========================================================
+   ADD PRODUCT
+========================================================= */
 
 function addProduct(type){
 
   if(!masterLoaded){
 
     alert(
-      'Master masih dimuat. Tunggu sampai status Master terhubung.'
+      'MASTER masih dimuat. Silakan tunggu sebentar.'
     );
 
     return;
@@ -1247,17 +1454,14 @@ function addProduct(type){
     );
 
 
-  const id =
+  const counter =
     type === 'awal'
       ? ++awalCounter
       : ++akhirCounter;
 
 
   const product =
-    document.createElement(
-      'div'
-    );
-
+    document.createElement('div');
 
   product.className =
     'product';
@@ -1267,8 +1471,8 @@ function addProduct(type){
     type;
 
 
-  product.dataset.id =
-    id;
+  product.dataset.index =
+    counter;
 
 
   product.innerHTML = `
@@ -1277,22 +1481,14 @@ function addProduct(type){
       type="button"
       class="remove-btn"
       onclick="removeProduct(this)"
-      title="Hapus produk"
+      aria-label="Hapus produk"
     >
       ×
     </button>
 
 
     <div class="product-title">
-
-      ${
-        type === 'awal'
-          ? 'PRODUK AWAL'
-          : 'PRODUK AKHIR'
-      }
-
-      #${id}
-
+      PRODUK ${counter}
     </div>
 
 
@@ -1307,6 +1503,9 @@ function addProduct(type){
         class="search-input"
         placeholder="Ketik atau Scan"
         autocomplete="off"
+        inputmode="search"
+        oninput="searchProduct(this)"
+        onfocus="searchProduct(this)"
       >
 
       <div class="dropdown"></div>
@@ -1323,9 +1522,10 @@ function addProduct(type){
       <input
         type="number"
         class="quantity-input"
+        placeholder="Masukkan quantity"
         inputmode="decimal"
         step="any"
-        placeholder="Masukkan Quantity"
+        oninput="updateQuantity(this)"
       >
 
     </div>
@@ -1333,93 +1533,28 @@ function addProduct(type){
   `;
 
 
-  list.appendChild(
-    product
-  );
+  list.appendChild(product);
 
 
-  /* SEARCH */
-
-  const searchInput =
-    product.querySelector(
-      '.search-input'
-    );
-
-
-  searchInput.addEventListener(
-    'input',
-    function(){
-
-      searchProduct(
-        this
-      );
-
-    }
-  );
-
-
-  searchInput.addEventListener(
-    'focus',
-    function(){
-
-      if(this.value.trim()){
-
-        searchProduct(
-          this
-        );
-
-      }
-
-    }
-  );
-
-
-  /* QUANTITY */
-
-  const quantityInput =
-    product.querySelector(
-      '.quantity-input'
-    );
-
-
-  quantityInput.addEventListener(
-    'input',
-    function(){
-
-      updateQuantity(
-        this
-      );
-
-    }
-  );
-
-
-  updateCount(
-    type
-  );
-
-
-  updateDataTable(
-    type
-  );
+  updateSectionCount(type);
 
 }
 
 
-/* =====================================================
-   HAPUS PRODUK
-===================================================== */
+/* =========================================================
+   REMOVE PRODUCT
+========================================================= */
 
 function removeProduct(button){
 
   const product =
-    button.closest(
-      '.product'
-    );
+    button.closest('.product');
 
 
   if(!product){
+
     return;
+
   }
 
 
@@ -1430,23 +1565,20 @@ function removeProduct(button){
   product.remove();
 
 
-  updateCount(
-    type
-  );
+  renumberProducts(type);
 
+  updateDataTable(type);
 
-  updateDataTable(
-    type
-  );
+  updateSectionCount(type);
 
 }
 
 
-/* =====================================================
-   COUNT
-===================================================== */
+/* =========================================================
+   RENUMBER PRODUCT
+========================================================= */
 
-function updateCount(type){
+function renumberProducts(type){
 
   const list =
     document.getElementById(
@@ -1456,48 +1588,56 @@ function updateCount(type){
     );
 
 
-  const count =
+  const products =
     list.querySelectorAll(
-      '.product'
-    ).length;
-
-
-  document.getElementById(
-    type === 'awal'
-      ? 'awalCount'
-      : 'akhirCount'
-  ).textContent =
-    count +
-    ' produk';
-
-}
-
-
-/* =====================================================
-   SEARCH MASTER
-===================================================== */
-
-function searchProduct(input){
-
-  if(!masterLoaded){
-    return;
-  }
-
-
-  const keyword =
-    input.value
-      .trim()
-      .toLowerCase();
-
-
-  const product =
-    input.closest(
       '.product'
     );
 
 
-  if(!product){
+  products.forEach(
+    function(product,index){
+
+      const title =
+        product.querySelector(
+          '.product-title'
+        );
+
+
+      if(title){
+
+        title.textContent =
+          'PRODUK ' +
+          (index + 1);
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   SEARCH PRODUCT
+========================================================= */
+
+function searchProduct(input){
+
+  if(!masterLoaded){
+
     return;
+
+  }
+
+
+  const product =
+    input.closest('.product');
+
+
+  if(!product){
+
+    return;
+
   }
 
 
@@ -1507,72 +1647,101 @@ function searchProduct(input){
     );
 
 
-  if(!keyword){
-
-    dropdown.innerHTML =
-      '';
-
-    dropdown.classList.remove(
-      'show'
-    );
-
-    return;
-
-  }
+  const keyword =
+    String(
+      input.value || ''
+    )
+      .trim()
+      .toLowerCase();
 
 
-  const results =
-    MASTER_DATA
-      .filter(
+  /*
+    Kalau kosong,
+    tampilkan maksimal 30 MASTER pertama.
+  */
+
+  let results;
+
+
+  if(keyword === ''){
+
+    results =
+      MASTER_DATA.slice(
+        0,
+        30
+      );
+
+  }else{
+
+    results =
+      MASTER_DATA.filter(
         function(item){
 
-          const artikel =
+          const article =
             String(
               item.artikel || ''
-            )
-              .toLowerCase();
+            ).toLowerCase();
 
           const barcode =
             String(
               item.barcode || ''
-            )
-              .toLowerCase();
+            ).toLowerCase();
 
           const nama =
             String(
               item.nama || ''
-            )
-              .toLowerCase();
+            ).toLowerCase();
 
 
           return (
-            artikel.includes(keyword) ||
+            article.includes(keyword) ||
             barcode.includes(keyword) ||
             nama.includes(keyword)
           );
 
         }
-      )
-      .slice(
+      ).slice(
         0,
         30
       );
 
-
-  dropdown.innerHTML =
-    '';
+  }
 
 
-  if(!results.length){
+  renderDropdown(
+    dropdown,
+    results,
+    input
+  );
 
-    dropdown.innerHTML =
-      '<div class="empty">' +
-      'Produk tidak ditemukan' +
-      '</div>';
+}
 
-    dropdown.classList.add(
-      'show'
-    );
+
+/* =========================================================
+   RENDER DROPDOWN
+========================================================= */
+
+function renderDropdown(
+  dropdown,
+  results,
+  input
+){
+
+  dropdown.innerHTML = '';
+
+
+  if(
+    !results ||
+    results.length === 0
+  ){
+
+    dropdown.innerHTML = `
+      <div class="empty">
+        Data tidak ditemukan
+      </div>
+    `;
+
+    dropdown.classList.add('show');
 
     return;
 
@@ -1592,32 +1761,43 @@ function searchProduct(input){
         'item';
 
 
-      div.innerHTML =
+      div.innerHTML = `
 
-        '<div class="item-name">' +
-        escapeHTML(
-          item.nama || '-'
-        ) +
-        '</div>' +
+        <div class="item-name">
+          ${escapeHTML(
+            item.nama || '-'
+          )}
+        </div>
 
-        '<div class="item-detail">' +
-        'SOH: ' +
-        escapeHTML(
-          item.soh || '-'
-        ) +
-        ' | Article: ' +
-        escapeHTML(
-          item.artikel || '-'
-        ) +
-        ' | Barcode: ' +
-        escapeHTML(
-          item.barcode || '-'
-        ) +
-        ' | OUM: ' +
-        escapeHTML(
-          item.oum || '-'
-        ) +
-        '</div>';
+        <div class="item-detail">
+          ARTICLE:
+          ${escapeHTML(
+            item.artikel || '-'
+          )}
+
+          &nbsp; • &nbsp;
+
+          BARCODE:
+          ${escapeHTML(
+            item.barcode || '-'
+          )}
+
+          <br>
+
+          OUM:
+          ${escapeHTML(
+            item.oum || '-'
+          )}
+
+          &nbsp; • &nbsp;
+
+          SOH:
+          ${escapeHTML(
+            item.soh || '-'
+          )}
+        </div>
+
+      `;
 
 
       div.addEventListener(
@@ -1626,8 +1806,16 @@ function searchProduct(input){
 
           event.preventDefault();
 
+        }
+      );
+
+
+      div.addEventListener(
+        'click',
+        function(){
+
           selectProduct(
-            product,
+            input,
             item
           );
 
@@ -1635,64 +1823,73 @@ function searchProduct(input){
       );
 
 
-      dropdown.appendChild(
-        div
-      );
+      dropdown.appendChild(div);
 
     }
   );
 
 
-  dropdown.classList.add(
-    'show'
-  );
+  dropdown.classList.add('show');
 
 }
 
 
-/* =====================================================
-   PILIH PRODUK
-===================================================== */
+/* =========================================================
+   SELECT PRODUCT
+========================================================= */
 
 function selectProduct(
-  product,
+  input,
   item
 ){
 
+  const product =
+    input.closest('.product');
+
+
   if(!product){
+
     return;
+
   }
 
 
-  const searchInput =
-    product.querySelector(
-      '.search-input'
-    );
-
-
-  searchInput.value =
-    item.artikel || '';
-
+  /*
+    Simpan data yang dipilih
+    dari MASTER.
+  */
 
   product.dataset.article =
     item.artikel || '';
 
-
   product.dataset.barcode =
     item.barcode || '';
 
-
-  product.dataset.name =
+  product.dataset.nama =
     item.nama || '';
-
 
   product.dataset.oum =
     item.oum || '';
 
+  product.dataset.soh =
+    item.soh || '';
 
-  product.querySelector(
-    '.dropdown'
-  ).classList.remove(
+
+  /*
+    Input hanya menampilkan ARTICLE.
+  */
+
+  input.value =
+    item.artikel || '';
+
+
+  const dropdown =
+    product.querySelector(
+      '.dropdown'
+    );
+
+
+  dropdown.classList.remove(
     'show'
   );
 
@@ -1704,21 +1901,25 @@ function selectProduct(
 }
 
 
-/* =====================================================
-   QUANTITY
-===================================================== */
+/* =========================================================
+   UPDATE QUANTITY
+========================================================= */
 
 function updateQuantity(input){
 
   const product =
-    input.closest(
-      '.product'
-    );
+    input.closest('.product');
 
 
   if(!product){
+
     return;
+
   }
+
+
+  product.dataset.quantity =
+    input.value || '';
 
 
   updateDataTable(
@@ -1728,197 +1929,9 @@ function updateQuantity(input){
 }
 
 
-/* =====================================================
-   DATA PRODUK
-===================================================== */
-
-function getProductData(product){
-
-  return {
-
-    artikel:
-      product.dataset.article || '',
-
-    nama:
-      product.dataset.name || '',
-
-    quantity:
-      product.querySelector(
-        '.quantity-input'
-      ).value || '',
-
-    oum:
-      product.dataset.oum || ''
-
-  };
-
-}
-
-
-/* =====================================================
-   RENDER DATA PRODUK
-   BISA UNTUK TABEL ATAS DAN PENGECEKAN BAWAH
-===================================================== */
-
-function renderDataBody(
-  type,
-  body
-){
-
-  const list =
-    document.getElementById(
-      type === 'awal'
-        ? 'awalList'
-        : 'akhirList'
-    );
-
-
-  const products =
-    list.querySelectorAll(
-      '.product'
-    );
-
-
-  body.innerHTML =
-    '';
-
-
-  let totalData =
-    0;
-
-
-  products.forEach(
-    function(product){
-
-      const data =
-        getProductData(
-          product
-        );
-
-
-      if(
-        !data.artikel &&
-        !data.nama
-      ){
-
-        return;
-
-      }
-
-
-      totalData++;
-
-
-      const row =
-        document.createElement(
-          'div'
-        );
-
-
-      row.className =
-        'data-row';
-
-
-      row.innerHTML = `
-
-        <div class="data-cell data-value">
-          ${escapeHTML(
-            data.artikel || '-'
-          )}
-        </div>
-
-        <div class="data-cell data-value">
-          ${escapeHTML(
-            data.nama || '-'
-          )}
-        </div>
-
-        <div class="data-cell data-value">
-          ${escapeHTML(
-            data.quantity || '-'
-          )}
-        </div>
-
-        <div class="data-cell data-value">
-          ${escapeHTML(
-            data.oum || '-'
-          )}
-        </div>
-
-      `;
-
-
-      body.appendChild(
-        row
-      );
-
-    }
-  );
-
-
-  if(totalData === 0){
-
-    body.innerHTML =
-      '<div class="data-empty">' +
-      'Belum ada produk' +
-      '</div>';
-
-  }
-
-}
-
-
-/* =====================================================
-   UPDATE DATA PRODUK
-===================================================== */
-
-function updateDataTable(type){
-
-  /*
-   * DATA PRODUK DI BAGIAN INPUT
-   */
-
-  const mainBody =
-    document.getElementById(
-      type === 'awal'
-        ? 'awalDataBody'
-        : 'akhirDataBody'
-    );
-
-
-  /*
-   * DATA PRODUK DI BAGIAN PENGECEKAN
-   */
-
-  const checkBody =
-    document.getElementById(
-      type === 'awal'
-        ? 'awalCheckBody'
-        : 'akhirCheckBody'
-    );
-
-
-  /*
-   * UPDATE KEDUANYA
-   */
-
-  renderDataBody(
-    type,
-    mainBody
-  );
-
-
-  renderDataBody(
-    type,
-    checkBody
-  );
-
-}
-
-
-/* =====================================================
-   SEMUA PRODUK
-===================================================== */
+/* =========================================================
+   GET PRODUCTS
+========================================================= */
 
 function getAllProducts(type){
 
@@ -1942,22 +1955,60 @@ function getAllProducts(type){
   products.forEach(
     function(product){
 
-      const data =
-        getProductData(
-          product
-        );
+      const article =
+        String(
+          product.dataset.article || ''
+        ).trim();
 
+      const nama =
+        String(
+          product.dataset.nama || ''
+        ).trim();
+
+      const quantity =
+        String(
+          product.dataset.quantity || ''
+        ).trim();
+
+      const oum =
+        String(
+          product.dataset.oum || ''
+        ).trim();
+
+
+      /*
+        Hanya data lengkap
+        yang dimasukkan ke tabel.
+      */
 
       if(
-        data.artikel &&
-        data.nama &&
-        data.quantity &&
-        data.oum
+        article !== '' &&
+        nama !== '' &&
+        quantity !== '' &&
+        oum !== ''
       ){
 
-        result.push(
-          data
-        );
+        result.push({
+
+          artikel:
+            article,
+
+          nama:
+            nama,
+
+          quantity:
+            quantity,
+
+          oum:
+            oum,
+
+          barcode:
+            product.dataset.barcode || '',
+
+          soh:
+            product.dataset.soh || ''
+
+        });
 
       }
 
@@ -1970,23 +2021,192 @@ function getAllProducts(type){
 }
 
 
-/* =====================================================
-   SIMPAN / PREVIEW
-===================================================== */
+/* =========================================================
+   UPDATE DATA TABLE
+========================================================= */
+
+function updateDataTable(type){
+
+  const data =
+    getAllProducts(type);
+
+
+  const upperBody =
+    document.getElementById(
+      type === 'awal'
+        ? 'awalDataBody'
+        : 'akhirDataBody'
+    );
+
+
+  const checkBody =
+    document.getElementById(
+      type === 'awal'
+        ? 'awalCheckBody'
+        : 'akhirCheckBody'
+    );
+
+
+  renderDataBody(
+    data,
+    upperBody
+  );
+
+
+  renderDataBody(
+    data,
+    checkBody
+  );
+
+
+  updateSectionCount(type);
+
+}
+
+
+/* =========================================================
+   RENDER DATA BODY
+========================================================= */
+
+function renderDataBody(
+  data,
+  body
+){
+
+  if(!body){
+
+    return;
+
+  }
+
+
+  body.innerHTML = '';
+
+
+  if(
+    !data ||
+    data.length === 0
+  ){
+
+    body.innerHTML = `
+
+      <div class="data-empty">
+        Belum ada data produk.
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  data.forEach(
+    function(item){
+
+      const row =
+        document.createElement(
+          'div'
+        );
+
+
+      row.className =
+        'data-row';
+
+
+      row.innerHTML = `
+
+        <div class="data-cell data-value">
+          ${escapeHTML(
+            item.artikel
+          )}
+        </div>
+
+        <div class="data-cell data-value">
+          ${escapeHTML(
+            item.nama
+          )}
+        </div>
+
+        <div class="data-cell data-value">
+          ${escapeHTML(
+            item.quantity
+          )}
+        </div>
+
+        <div class="data-cell data-value">
+          ${escapeHTML(
+            item.oum
+          )}
+        </div>
+
+      `;
+
+
+      body.appendChild(row);
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   UPDATE COUNT
+========================================================= */
+
+function updateSectionCount(type){
+
+  const data =
+    getAllProducts(type);
+
+
+  const element =
+    document.getElementById(
+      type === 'awal'
+        ? 'awalCount'
+        : 'akhirCount'
+    );
+
+
+  if(!element){
+
+    return;
+
+  }
+
+
+  element.textContent =
+    data.length +
+    (
+      data.length === 1
+        ? ' produk'
+        : ' produk'
+    );
+
+}
+
+
+/* =========================================================
+   SAVE DATA
+   ================================
+   HANYA MEMBUKA POPUP
+========================================================= */
 
 function saveData(){
 
   const awal =
-    getAllProducts(
-      'awal'
-    );
+    getAllProducts('awal');
 
 
   const akhir =
-    getAllProducts(
-      'akhir'
-    );
+    getAllProducts('akhir');
 
+
+  /*
+    Minimal salah satu bagian
+    harus mempunyai data.
+  */
 
   if(
     awal.length === 0 &&
@@ -1994,13 +2214,38 @@ function saveData(){
   ){
 
     alert(
-      'Belum ada data produk yang lengkap.'
+      'Silakan isi minimal 1 produk terlebih dahulu.'
     );
 
     return;
 
   }
 
+
+  /*
+    Update tabel popup
+  */
+
+  renderDataBody(
+    awal,
+    document.getElementById(
+      'awalCheckBody'
+    )
+  );
+
+
+  renderDataBody(
+    akhir,
+    document.getElementById(
+      'akhirCheckBody'
+    )
+  );
+
+
+  /*
+    Buat preview JSON
+    untuk persiapan KIRIM DATA.
+  */
 
   const payload = {
 
@@ -2023,26 +2268,142 @@ function saveData(){
     );
 
 
-  document.getElementById(
-    'preview'
-  ).classList.add(
-    'show'
-  );
+  /*
+    Popup dibuka
+  */
+
+  document
+    .getElementById(
+      'reviewModal'
+    )
+    .classList.add('show');
 
 
-  document.getElementById(
-    'preview'
-  ).scrollIntoView({
-    behavior:'smooth',
-    block:'nearest'
-  });
+  /*
+    Supaya halaman di belakang
+    tidak ikut scroll.
+  */
+
+  document.body.style.overflow =
+    'hidden';
 
 }
 
 
-/* =====================================================
-   TUTUP DROPDOWN
-===================================================== */
+/* =========================================================
+   CLOSE REVIEW
+========================================================= */
+
+function closeReview(){
+
+  document
+    .getElementById(
+      'reviewModal'
+    )
+    .classList.remove('show');
+
+
+  document.body.style.overflow =
+    '';
+
+}
+
+
+/* =========================================================
+   CLICK OUTSIDE MODAL
+========================================================= */
+
+function handleModalOverlay(event){
+
+  if(
+    event.target ===
+    document.getElementById(
+      'reviewModal'
+    )
+  ){
+
+    closeReview();
+
+  }
+
+}
+
+
+/* =========================================================
+   SEND DATA
+========================================================= */
+
+function sendData(){
+
+  const awal =
+    getAllProducts('awal');
+
+
+  const akhir =
+    getAllProducts('akhir');
+
+
+  if(
+    awal.length === 0 &&
+    akhir.length === 0
+  ){
+
+    alert(
+      'Tidak ada data yang dapat dikirim.'
+    );
+
+    return;
+
+  }
+
+
+  /*
+    Payload siap digunakan
+    untuk endpoint penyimpanan
+    Google Apps Script.
+  */
+
+  const payload = {
+
+    produkAwal:
+      awal,
+
+    produkAkhir:
+      akhir,
+
+    timestamp:
+      new Date().toISOString()
+
+  };
+
+
+  console.log(
+    'Z-FOOD DATA:',
+    payload
+  );
+
+
+  /*
+    Untuk sementara tombol ini
+    belum melakukan POST ke Spreadsheet,
+    karena Code.gs yang sekarang
+    baru menyediakan GET MASTER.
+
+    Nanti ketika endpoint penyimpanan
+    sudah dibuat, bagian ini tinggal
+    diarahkan ke endpoint tersebut.
+  */
+
+  alert(
+    'Data sudah siap untuk dikirim.'
+  );
+
+}
+
+
+/* =========================================================
+   CLOSE DROPDOWN KETIKA KLIK DI LUAR
+========================================================= */
 
 document.addEventListener(
   'click',
@@ -2056,7 +2417,7 @@ document.addEventListener(
 
       document
         .querySelectorAll(
-          '.dropdown'
+          '.dropdown.show'
         )
         .forEach(
           function(dropdown){
@@ -2074,50 +2435,82 @@ document.addEventListener(
 );
 
 
-/* =====================================================
-   ESCAPE
-===================================================== */
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
 
 function escapeHTML(value){
 
-  return String(value)
-
-    .replace(
-      /&/g,
-      '&amp;'
-    )
-
-    .replace(
-      /</g,
-      '&lt;'
-    )
-
-    .replace(
-      />/g,
-      '&gt;'
-    )
-
-    .replace(
-      /"/g,
-      '&quot;'
-    )
-
-    .replace(
-      /'/g,
-      '&#039;'
-    );
+  return String(
+    value == null
+      ? ''
+      : value
+  )
+  .replace(
+    /&/g,
+    '&amp;'
+  )
+  .replace(
+    /</g,
+    '&lt;'
+  )
+  .replace(
+    />/g,
+    '&gt;'
+  )
+  .replace(
+    /"/g,
+    '&quot;'
+  )
+  .replace(
+    /'/g,
+    '&#039;'
+  );
 
 }
 
 
-/* =====================================================
+/* =========================================================
+   ESC KEY UNTUK TUTUP POPUP
+========================================================= */
+
+document.addEventListener(
+  'keydown',
+  function(event){
+
+    if(
+      event.key === 'Escape'
+    ){
+
+      const modal =
+        document.getElementById(
+          'reviewModal'
+        );
+
+
+      if(
+        modal.classList.contains(
+          'show'
+        )
+      ){
+
+        closeReview();
+
+      }
+
+    }
+
+  }
+);
+
+
+/* =========================================================
    START
-===================================================== */
+========================================================= */
 
 loadMaster();
 
 </script>
 
 </body>
-
 </html>
