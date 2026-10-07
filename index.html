@@ -282,29 +282,6 @@ input{
     0 0 0 2px rgba(232,117,22,.08);
 }
 
-.product-name-preview{
-  display:none;
-  margin-top:7px;
-  padding:8px 10px;
-  border-radius:8px;
-  background:#fff8ef;
-  border:1px solid #f6d2aa;
-  color:#e87516;
-  font-size:12px;
-  font-weight:700;
-  line-height:1.35;
-}
-
-.product-name-preview.show{display:block;}
-
-.product-name-preview-label{
-  display:block;
-  margin-bottom:2px;
-  font-size:9px;
-  font-weight:600;
-  color:#999;
-}
-
 /* =========================
    DROPDOWN
 ========================= */
@@ -929,12 +906,238 @@ input{
     font-size:17px;
   }
 }
+
+/* =========================
+   DASHBOARD
+========================= */
+.dashboard{
+  min-height:calc(100vh - 20px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px 10px 28px;
+}
+.dashboard-shell{
+  width:100%;
+  max-width:760px;
+}
+.dashboard-top{
+  text-align:center;
+  margin-bottom:24px;
+}
+.dashboard-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 11px;
+  border-radius:999px;
+  background:#fff;
+  border:1px solid #eee;
+  box-shadow:0 4px 14px rgba(0,0,0,.05);
+  color:#e87516;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.7px;
+}
+.dashboard-badge .dot{
+  width:7px;
+  height:7px;
+  background:#e87516;
+}
+.dashboard-title{
+  margin:15px 0 5px;
+  font-size:34px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:-1.2px;
+  color:#222;
+}
+.dashboard-title span{color:#e87516}
+.dashboard-subtitle{
+  margin:0;
+  color:#888;
+  font-size:12px;
+}
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:13px;
+}
+.dashboard-card{
+  position:relative;
+  min-height:180px;
+  padding:20px 17px;
+  border:1px solid #ececec;
+  border-radius:18px;
+  background:rgba(255,255,255,.96);
+  box-shadow:0 8px 28px rgba(0,0,0,.07);
+  text-align:left;
+  cursor:pointer;
+  overflow:hidden;
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+}
+.dashboard-card:before{
+  content:"";
+  position:absolute;
+  width:90px;height:90px;
+  right:-28px;top:-28px;
+  border-radius:50%;
+  background:rgba(232,117,22,.07);
+}
+.dashboard-card:hover{
+  transform:translateY(-4px);
+  border-color:#f0b17b;
+  box-shadow:0 14px 32px rgba(232,117,22,.14);
+}
+.dashboard-card:active{transform:scale(.985)}
+.dashboard-card.primary{
+  border-color:rgba(232,117,22,.28);
+  background:linear-gradient(145deg,#fff,#fff9f4);
+}
+.dashboard-icon{
+  width:45px;height:45px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:13px;
+  margin-bottom:19px;
+  background:#fff1e5;
+  color:#e87516;
+  font-size:21px;
+  font-weight:800;
+}
+.dashboard-card h3{
+  margin:0 0 6px;
+  font-size:15px;
+  color:#252525;
+}
+.dashboard-card p{
+  margin:0;
+  font-size:10px;
+  line-height:1.55;
+  color:#929292;
+}
+.dashboard-arrow{
+  position:absolute;
+  right:16px;
+  bottom:16px;
+  font-size:17px;
+  color:#e87516;
+}
+.dashboard-card.soon{
+  cursor:default;
+}
+.dashboard-card.soon:hover{
+  transform:none;
+  border-color:#ececec;
+  box-shadow:0 8px 28px rgba(0,0,0,.07);
+}
+.dashboard-card.soon .dashboard-icon{
+  background:#f5f5f5;
+  color:#999;
+}
+.coming-soon{
+  display:inline-flex;
+  margin-top:14px;
+  padding:5px 8px;
+  border-radius:6px;
+  background:#f5f5f5;
+  color:#999;
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.6px;
+}
+.dashboard-footer{
+  margin-top:22px;
+  text-align:center;
+  color:#aaa;
+  font-size:9px;
+}
+#zfoodPage{display:none}
+#zfoodPage.active{
+  display:block;
+  animation:zfoodIn .22s ease;
+}
+@keyframes zfoodIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.back-dashboard{
+  width:100%;
+  height:36px;
+  margin-bottom:10px;
+  border:1px solid #e8e8e8;
+  border-radius:9px;
+  background:#fff;
+  color:#777;
+  font-size:11px;
+  font-weight:700;
+  cursor:pointer;
+}
+.back-dashboard:active{transform:scale(.99)}
+@media(max-width:600px){
+  .dashboard{min-height:calc(100vh - 16px);padding:10px 2px 22px}
+  .dashboard-title{font-size:30px}
+  .dashboard-grid{grid-template-columns:1fr;gap:10px}
+  .dashboard-card{min-height:132px;padding:16px}
+  .dashboard-icon{width:40px;height:40px;margin-bottom:13px;font-size:19px}
+  .dashboard-card h3{font-size:14px}
+  .dashboard-arrow{right:15px;bottom:15px}
+}
+
 </style>
 </head>
 
 <body>
 
+<!-- =========================
+     DASHBOARD
+========================= -->
+<div id="dashboardPage" class="dashboard">
+  <div class="dashboard-shell">
+    <div class="dashboard-top">
+      <div class="dashboard-badge">
+        <span class="dot"></span>
+        Z-FOOD SYSTEM
+      </div>
+      <h1 class="dashboard-title">Z-<span>FOOD</span></h1>
+      <p class="dashboard-subtitle">Product Conversion Management</p>
+    </div>
+
+    <div class="dashboard-grid">
+      <button type="button" class="dashboard-card primary" onclick="openZfood()">
+        <div class="dashboard-icon">＋</div>
+        <h3>NEW Z-FOOD</h3>
+        <p>Mulai pencatatan product conversion baru.</p>
+        <span class="dashboard-arrow">→</span>
+      </button>
+
+      <div class="dashboard-card soon">
+        <div class="dashboard-icon">≡</div>
+        <h3>RIWAYAT</h3>
+        <p>Lihat dan kelola riwayat data Z-FOOD.</p>
+        <span class="coming-soon">COMING SOON</span>
+      </div>
+
+      <div class="dashboard-card soon">
+        <div class="dashboard-icon">▦</div>
+        <h3>SPREADSHEET</h3>
+        <p>Akses data dan spreadsheet Z-FOOD.</p>
+        <span class="coming-soon">COMING SOON</span>
+      </div>
+    </div>
+
+    <div class="dashboard-footer">
+      Z-FOOD • Product Conversion
+    </div>
+  </div>
+</div>
+
+<div id="zfoodPage">
+
 <div class="container">
+
+  <button type="button" class="back-dashboard" onclick="backToDashboard()">
+    ← DASHBOARD
+  </button>
 
   <!-- =========================
        HEADER
@@ -1148,6 +1351,7 @@ input{
 
 </div>
 
+</div>
 
 <!-- =========================================================
      POPUP / MODAL REVIEW
@@ -1359,6 +1563,44 @@ input{
 
 <script>
 
+
+/* =========================================================
+   DASHBOARD NAVIGATION
+========================================================= */
+function openZfood(){
+  const dashboard = document.getElementById('dashboardPage');
+  const zfood = document.getElementById('zfoodPage');
+
+  if(dashboard) dashboard.style.display = 'none';
+  if(zfood){
+    zfood.classList.add('active');
+    zfood.style.display = 'block';
+  }
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function backToDashboard(){
+  const modal = document.getElementById('reviewModal');
+  if(modal && modal.classList.contains('show')){
+    closeReview();
+  }
+
+  const zfood = document.getElementById('zfoodPage');
+  const dashboard = document.getElementById('dashboardPage');
+
+  if(zfood){
+    zfood.classList.remove('active');
+    zfood.style.display = 'none';
+  }
+
+  if(dashboard){
+    dashboard.style.display = 'flex';
+  }
+
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
 /* =========================================================
    APPS SCRIPT
 ========================================================= */
@@ -1396,79 +1638,12 @@ function loadMaster(){
     'loading'
   );
 
-  /*
-    CACHE MASTER DI BROWSER
-    ---------------------------------
-    Kalau MASTER pernah berhasil dimuat,
-    gunakan cache terlebih dahulu supaya
-    halaman bisa langsung dipakai.
-  */
-  const CACHE_KEY = 'ZFOOD_MASTER_CACHE_V1';
-
-  try{
-    const cached = localStorage.getItem(CACHE_KEY);
-
-    if(cached){
-      const parsed = JSON.parse(cached);
-
-      if(
-        Array.isArray(parsed) &&
-        parsed.length > 0
-      ){
-        MASTER_DATA = parsed;
-        masterLoaded = true;
-
-        setMasterStatus(
-          'MASTER siap • ' + MASTER_DATA.length + ' data',
-          'ready'
-        );
-
-        /*
-          Langsung tampilkan form dari cache.
-          Update MASTER terbaru berjalan di belakang.
-        */
-        initializeProducts();
-
-        /* Ambil MASTER terbaru tanpa menunggu user. */
-        loadMasterFromServer(true);
-        return;
-      }
-    }
-  }catch(error){
-    console.warn('Cache MASTER tidak dapat digunakan:', error);
-  }
-
-  /* Belum ada cache → ambil dari server. */
-  loadMasterFromServer(false);
-}
-
-
-function initializeProducts(){
-
-  if(
-    document.querySelectorAll(
-      '#awalList .product'
-    ).length === 0
-  ){
-    addProduct('awal');
-  }
-
-  if(
-    document.querySelectorAll(
-      '#akhirList .product'
-    ).length === 0
-  ){
-    addProduct('akhir');
-  }
-}
-
-
-function loadMasterFromServer(background){
-
   const callbackName =
     'zfoodMaster_' +
-    Date.now() + '_' +
+    Date.now() +
+    '_' +
     Math.floor(Math.random() * 10000);
+
 
   window[callbackName] =
     function(response){
@@ -1481,21 +1656,10 @@ function loadMasterFromServer(background){
           Array.isArray(response.data)
         ){
 
-          MASTER_DATA = response.data;
-          masterLoaded = true;
+          MASTER_DATA =
+            response.data;
 
-          /* Simpan MASTER terbaru ke browser. */
-          try{
-            localStorage.setItem(
-              'ZFOOD_MASTER_CACHE_V1',
-              JSON.stringify(MASTER_DATA)
-            );
-          }catch(cacheError){
-            console.warn(
-              'Gagal menyimpan cache MASTER:',
-              cacheError
-            );
-          }
+          masterLoaded = true;
 
           setMasterStatus(
             'MASTER siap • ' +
@@ -1504,9 +1668,35 @@ function loadMasterFromServer(background){
             'ready'
           );
 
-          initializeProducts();
 
-        }else if(!background){
+          /*
+            Tambahkan produk pertama
+            setelah MASTER berhasil dimuat.
+          */
+
+          if(
+            document.querySelectorAll(
+              '#awalList .product'
+            ).length === 0
+          ){
+
+            addProduct('awal');
+
+          }
+
+
+          if(
+            document.querySelectorAll(
+              '#akhirList .product'
+            ).length === 0
+          ){
+
+            addProduct('akhir');
+
+          }
+
+
+        }else{
 
           throw new Error(
             response && response.error
@@ -1520,21 +1710,18 @@ function loadMasterFromServer(background){
 
         console.error(error);
 
-        /*
-          Kalau menggunakan cache dan update server gagal,
-          jangan ganggu MASTER yang sedang dipakai.
-        */
-        if(!background){
-          setMasterStatus(
-            'Gagal memuat MASTER',
-            'error'
-          );
-        }
+        setMasterStatus(
+          'Gagal memuat MASTER',
+          'error'
+        );
 
       }
 
+
       cleanupJSONP(callbackName);
+
     };
+
 
   const script =
     document.createElement('script');
@@ -1549,17 +1736,18 @@ function loadMasterFromServer(background){
   script.onerror =
     function(){
 
-      if(!background){
-        setMasterStatus(
-          'Gagal terhubung ke MASTER',
-          'error'
-        );
-      }
+      setMasterStatus(
+        'Gagal terhubung ke MASTER',
+        'error'
+      );
 
       cleanupJSONP(callbackName);
+
     };
 
+
   document.body.appendChild(script);
+
 }
 
 
@@ -1706,11 +1894,6 @@ function addProduct(type){
 
       <div class="dropdown"></div>
 
-    </div>
-
-    <div class="product-name-preview">
-      <span class="product-name-preview-label">NAMA BARANG</span>
-      <span class="product-name-preview-value"></span>
     </div>
 
 
@@ -1867,12 +2050,6 @@ function searchProduct(input){
 if(keyword === ''){
 
   dropdown.classList.remove('show');
-  clearProductNamePreview(product);
-  product.dataset.article = '';
-  product.dataset.barcode = '';
-  product.dataset.nama = '';
-  product.dataset.oum = '';
-  product.dataset.soh = '';
   return;
 
 }else{
@@ -1912,24 +2089,6 @@ if(keyword === ''){
 
   }
 
-
-  const exactMatch = MASTER_DATA.find(function(item){
-    const article = String(item.artikel || '').trim().toLowerCase();
-    const barcode = String(item.barcode || '').trim().toLowerCase();
-    const nama = String(item.nama || '').trim().toLowerCase();
-    return article === keyword || barcode === keyword || nama === keyword;
-  });
-
-  if(exactMatch){
-    product.dataset.article = exactMatch.artikel || '';
-    product.dataset.barcode = exactMatch.barcode || '';
-    product.dataset.nama = exactMatch.nama || '';
-    product.dataset.oum = exactMatch.oum || '';
-    product.dataset.soh = exactMatch.soh || '';
-    updateProductNamePreview(product, exactMatch);
-  }else{
-    clearProductNamePreview(product);
-  }
 
   renderDropdown(
     dropdown,
@@ -2052,37 +2211,6 @@ function renderDropdown(
 
 
 /* =========================================================
-   NAMA BARANG PREVIEW
-========================================================= */
-
-function updateProductNamePreview(product, item){
-  if(!product) return;
-
-  const preview = product.querySelector('.product-name-preview');
-  const value = product.querySelector('.product-name-preview-value');
-  if(!preview || !value) return;
-
-  const nama = String(item && item.nama || '').trim();
-  if(nama === ''){
-    value.textContent = '';
-    preview.classList.remove('show');
-    return;
-  }
-
-  value.textContent = nama;
-  preview.classList.add('show');
-}
-
-function clearProductNamePreview(product){
-  if(!product) return;
-  const preview = product.querySelector('.product-name-preview');
-  const value = product.querySelector('.product-name-preview-value');
-  if(value) value.textContent = '';
-  if(preview) preview.classList.remove('show');
-}
-
-
-/* =========================================================
    SELECT PRODUCT
 ========================================================= */
 
@@ -2121,8 +2249,6 @@ function selectProduct(
 
   product.dataset.soh =
     item.soh || '';
-
-  updateProductNamePreview(product, item);
 
 
   /*
@@ -2882,6 +3008,8 @@ document.addEventListener(
 loadMaster();
 
 </script>
+
+</div>
 
 </body>
 </html>
