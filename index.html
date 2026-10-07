@@ -1127,6 +1127,66 @@ input{
 .sheet-link strong{display:block;font-size:12px}.sheet-link span{font-size:9px;color:#999}
 .edit-banner{display:none;margin-bottom:10px;padding:9px 10px;border-radius:8px;background:#fff8ef;border:1px solid #f4d5b5;color:#e87516;font-size:10px;font-weight:700}.edit-banner.show{display:block}
 
+
+/* =========================
+   DELETE ANIMATION
+========================= */
+
+.product-removing{
+  pointer-events:none;
+  animation:productRemove .22s ease forwards;
+}
+
+@keyframes productRemove{
+  0%{
+    opacity:1;
+    transform:translateX(0) scale(1);
+    max-height:260px;
+    margin-bottom:8px;
+  }
+  100%{
+    opacity:0;
+    transform:translateX(18px) scale(.96);
+    max-height:0;
+    margin-bottom:0;
+    padding-top:0;
+    padding-bottom:0;
+    border-width:0;
+    overflow:hidden;
+  }
+}
+
+.history-item{
+  transition:
+    opacity .24s ease,
+    transform .24s ease,
+    max-height .24s ease,
+    margin .24s ease,
+    padding .24s ease;
+  overflow:hidden;
+}
+
+.history-item.history-deleting{
+  opacity:0;
+  transform:translateX(28px) scale(.97);
+  max-height:0 !important;
+  margin-bottom:0;
+  padding-top:0;
+  padding-bottom:0;
+  border-width:0;
+}
+
+.delete-spinner{
+  display:inline-block;
+  width:13px;
+  height:13px;
+  border-width:2px;
+  border-color:#f0caca;
+  border-top-color:#d93025;
+  vertical-align:-2px;
+  margin-right:5px;
+}
+
 </style>
 </head>
 
@@ -1634,37 +1694,64 @@ input{
    DASHBOARD NAVIGATION
 ========================================================= */
 function openZfood(){
-  const dashboard = document.getElementById('dashboardPage');
-  const zfood = document.getElementById('zfoodPage');
+  // NEW Z-FOOD selalu membuka form baru.
+  resetZfoodForm();
 
-  if(dashboard) dashboard.style.display = 'none';
+  const dashboard=document.getElementById('dashboardPage');
+  const zfood=document.getElementById('zfoodPage');
+
+  if(dashboard)dashboard.style.display='none';
+
   if(zfood){
     zfood.classList.add('active');
-    zfood.style.display = 'block';
+    zfood.style.display='block';
   }
 
-  window.scrollTo({top:0, behavior:'smooth'});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showZfoodForEdit(){
+  const dashboard=document.getElementById('dashboardPage');
+  const zfood=document.getElementById('zfoodPage');
+
+  if(dashboard)dashboard.style.display='none';
+
+  if(zfood){
+    zfood.classList.add('active');
+    zfood.style.display='block';
+  }
+
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function backToDashboard(){
-  const modal = document.getElementById('reviewModal');
+  const modal=document.getElementById('reviewModal');
+
   if(modal && modal.classList.contains('show')){
     closeReview();
   }
 
-  const zfood = document.getElementById('zfoodPage');
-  const dashboard = document.getElementById('dashboardPage');
+  // Keluar dari EDIT = batalkan mode edit dan
+  // kosongkan form agar NEW Z-FOOD berikutnya bersih.
+  editingTransaction=null;
+  pendingTransactionKey='';
+
+  const zfood=document.getElementById('zfoodPage');
+  const dashboard=document.getElementById('dashboardPage');
 
   if(zfood){
     zfood.classList.remove('active');
-    zfood.style.display = 'none';
+    zfood.style.display='none';
   }
 
   if(dashboard){
-    dashboard.style.display = 'flex';
+    dashboard.style.display='flex';
   }
 
-  window.scrollTo({top:0, behavior:'smooth'});
+  setEditBanner(false);
+  resetZfoodForm();
+
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 /* =========================================================
@@ -1696,6 +1783,7 @@ let awalCounter = 0;
 let akhirCounter = 0;
 
 let editingTransaction = null;
+let pendingTransactionKey = '';
 
 
 /* =========================================================
@@ -2015,49 +2103,128 @@ function setMasterStatus(
    ADD PRODUCT
 ========================================================= */
 
-function addProduct(type){
+function validateProductsForAdd(type){
+  const list=document.getElementById(
+    type==='awal' ? 'awalList' : 'akhirList'
+  );
+  const products=list?list.querySelectorAll('.product'):[];
+
+  for(let i=0;i<products.length;i++){
+    const product=products[i];
+    const article=String(product.dataset.article||'').trim();
+    const nama=String(product.dataset.nama||'').trim();
+    const quantity=String(product.dataset.quantity||'').trim();
+    const oum=String(product.dataset.oum||'').trim();
+
+    if(!article || !nama || !oum){
+      const input=product.querySelector('.search-input');
+      if(input) input.focus();
+      alert(
+        'Lengkapi PRODUK '+(i+1)+' terlebih dahulu.\\n\\n' +
+        'ARTICLE / BARCODE / NAMA BARANG wajib dipilih dari MASTER.'
+      );
+      return false;
+    }
+
+    if(!quantity){
+      const input=product.querySelector('.quantity-input');
+      if(input) input.focus();
+      alert(
+        'QUANTITY PRODUK '+(i+1)+' wajib diisi terlebih dahulu.'
+      );
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function validateAllProducts(type){
+  const list=document.getElementById(
+    type==='awal' ? 'awalList' : 'akhirList'
+  );
+  const products=list?list.querySelectorAll('.product'):[];
+
+  if(!products.length){
+    return {
+      valid:false,
+      message:'Minimal 1 produk wajib diisi.'
+    };
+  }
+
+  for(let i=0;i<products.length;i++){
+    const product=products[i];
+    const article=String(product.dataset.article||'').trim();
+    const nama=String(product.dataset.nama||'').trim();
+    const quantity=String(product.dataset.quantity||'').trim();
+    const oum=String(product.dataset.oum||'').trim();
+
+    if(!article || !nama || !oum){
+      const input=product.querySelector('.search-input');
+      return {
+        valid:false,
+        product:product,
+        focus:input,
+        message:'PRODUK '+(i+1)+' pada '+(type==='awal'?'PRODUK AWAL':'PRODUK AKHIR')+
+          ' belum memilih barang dari MASTER.'
+      };
+    }
+
+    if(!quantity){
+      const input=product.querySelector('.quantity-input');
+      return {
+        valid:false,
+        product:product,
+        focus:input,
+        message:'QUANTITY PRODUK '+(i+1)+' pada '+(type==='awal'?'PRODUK AWAL':'PRODUK AKHIR')+
+          ' wajib diisi.'
+      };
+    }
+  }
+
+  return {valid:true};
+}
+
+
+/* =========================================================
+   ADD PRODUCT
+========================================================= */
+
+function addProduct(type,options){
+
+  options=options||{};
 
   if(!masterLoaded){
-
     alert(
       'MASTER masih dimuat. Silakan tunggu sebentar.'
     );
-
     return;
-
   }
 
+  // Produk sebelumnya wajib lengkap sebelum
+  // pengguna boleh menambah produk berikutnya.
+  // Saat EDIT, data dimuat oleh sistem sehingga validasi ini dilewati.
+  if(!options.skipValidation && !validateProductsForAdd(type)){
+    return;
+  }
 
-  const list =
-    document.getElementById(
-      type === 'awal'
-        ? 'awalList'
-        : 'akhirList'
-    );
+  const list=document.getElementById(
+    type==='awal' ? 'awalList' : 'akhirList'
+  );
 
-
-  const counter =
-    type === 'awal'
+  const counter=
+    type==='awal'
       ? ++awalCounter
       : ++akhirCounter;
 
+  const product=document.createElement('div');
 
-  const product =
-    document.createElement('div');
+  product.className='product';
 
-  product.className =
-    'product';
+  product.dataset.type=type;
+  product.dataset.index=counter;
 
-
-  product.dataset.type =
-    type;
-
-
-  product.dataset.index =
-    counter;
-
-
-  product.innerHTML = `
+  product.innerHTML=`
 
     <button
       type="button"
@@ -2068,11 +2235,9 @@ function addProduct(type){
       ×
     </button>
 
-
     <div class="product-title">
       PRODUK ${counter}
     </div>
-
 
     <div class="search">
 
@@ -2080,21 +2245,18 @@ function addProduct(type){
         ARTICLE / BARCODE / NAMA BARANG
       </label>
 
-     <input
-  type="text"
-  class="search-input"
-  placeholder="Ketik atau Scan"
-  autocomplete="off"
-  inputmode="search"
-  oninput="searchProduct(this)"
->
-
-      <div class="product-name-display"></div>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Ketik atau Scan"
+        autocomplete="off"
+        inputmode="search"
+        oninput="searchProduct(this)"
+      >
 
       <div class="dropdown"></div>
 
     </div>
-
 
     <div class="quantity">
 
@@ -2111,16 +2273,19 @@ function addProduct(type){
         oninput="updateQuantity(this)"
       >
 
+      <div class="product-name-display"></div>
+
     </div>
 
   `;
 
-
   list.appendChild(product);
-
 
   updateSectionCount(type);
 
+  // Fokus otomatis ke ARTICLE produk baru.
+  const newInput=product.querySelector('.search-input');
+  if(newInput) newInput.focus();
 }
 
 
@@ -2130,36 +2295,53 @@ function addProduct(type){
 
 function removeProduct(button){
 
-  const product =
-    button.closest('.product');
-
+  const product=button.closest('.product');
 
   if(!product){
-
     return;
-
   }
 
+  const type=product.dataset.type;
 
-  const type =
-    product.dataset.type;
+  product.classList.add('product-removing');
 
+  setTimeout(function(){
 
-  product.remove();
+    if(product.parentNode){
+      product.remove();
+    }
 
+    renumberProducts(type);
+    updateDataTable(type);
+    updateSectionCount(type);
 
-  renumberProducts(type);
-
-  updateDataTable(type);
-
-  updateSectionCount(type);
-
+  },220);
 }
 
 
 /* =========================================================
    RENUMBER PRODUCT
 ========================================================= */
+
+function renumberProducts(type){
+
+  const list=document.getElementById(
+    type==='awal' ? 'awalList' : 'akhirList'
+  );
+
+  const products=list.querySelectorAll('.product');
+
+  products.forEach(function(product,index){
+
+    const title=product.querySelector('.product-title');
+
+    if(title){
+      title.textContent='PRODUK '+(index+1);
+    }
+
+  });
+
+}
 
 function renumberProducts(type){
 
@@ -2972,108 +3154,63 @@ function updateWasteYield(){
 
 function saveData(){
 
-  const awal =
-    getAllProducts('awal');
-
-
-  const akhir =
-    getAllProducts('akhir');
-
-
-  /*
-    PRODUK AWAL dan PRODUK AKHIR
-    wajib masing-masing mempunyai
-    minimal 1 produk lengkap.
-  */
-
-  if(
-    awal.length === 0 ||
-    akhir.length === 0
-  ){
-
-    alert(
-      'Silahkan isi minimal 1 produk awal dan satu produk akhir'
-    );
-
+  // Setiap kartu produk harus lengkap.
+  const awalCheck=validateAllProducts('awal');
+  if(!awalCheck.valid){
+    alert(awalCheck.message);
+    if(awalCheck.focus)awalCheck.focus();
     return;
-
   }
 
+  const akhirCheck=validateAllProducts('akhir');
+  if(!akhirCheck.valid){
+    alert(akhirCheck.message);
+    if(akhirCheck.focus)akhirCheck.focus();
+    return;
+  }
 
-  /*
-    Update tabel popup
-  */
+  const awal=getAllProducts('awal');
+  const akhir=getAllProducts('akhir');
+
+  if(!awal.length || !akhir.length){
+    alert(
+      'Produk Awal dan Produk Akhir wajib masing-masing diisi minimal 1 produk lengkap.'
+    );
+    return;
+  }
 
   renderDataBody(
     awal,
-    document.getElementById(
-      'awalCheckBody'
-    )
+    document.getElementById('awalCheckBody')
   );
-
 
   renderDataBody(
     akhir,
-    document.getElementById(
-      'akhirCheckBody'
-    )
+    document.getElementById('akhirCheckBody')
   );
 
-
-  /*
-    Buat preview JSON
-    untuk persiapan KIRIM DATA.
-  */
-
-  const payload = {
-
-    produkAwal:
-      awal,
-
-    produkAkhir:
-      akhir
-
+  const payload={
+    produkAwal:awal,
+    produkAkhir:akhir
   };
 
-
-  document.getElementById(
-    'previewData'
-  ).textContent =
-    JSON.stringify(
-      payload,
-      null,
-      2
-    );
-
-
-  /*
-    Popup dibuka
-  */
+  document.getElementById('previewData').textContent=
+    JSON.stringify(payload,null,2);
 
   updateWasteYield();
 
-
   document
-    .getElementById(
-      'reviewModal'
-    )
+    .getElementById('reviewModal')
     .classList.add('show');
 
-
-  /*
-    Supaya halaman di belakang
-    tidak ikut scroll.
-  */
-
-  document.body.style.overflow =
-    'hidden';
-
+  document.body.style.overflow='hidden';
 }
 
 
 /* =========================================================
    CLOSE REVIEW
 ========================================================= */
+
 
 function closeReview(){
 
@@ -3115,19 +3252,139 @@ function handleModalOverlay(event){
 ========================================================= */
 
 function sendData(){
+
+  const awalCheck=validateAllProducts('awal');
+
+  if(!awalCheck.valid){
+    alert(awalCheck.message);
+    if(awalCheck.focus)awalCheck.focus();
+    return;
+  }
+
+  const akhirCheck=validateAllProducts('akhir');
+
+  if(!akhirCheck.valid){
+    alert(akhirCheck.message);
+    if(akhirCheck.focus)akhirCheck.focus();
+    return;
+  }
+
   const awal=getAllProducts('awal');
   const akhir=getAllProducts('akhir');
-  const tanggal=(document.getElementById('zfoodDate')||{}).value||'';
-  if(!tanggal){alert('Tanggal wajib diisi.');return;}
-  if(!awal.length||!akhir.length){alert('Produk Awal dan Produk Akhir wajib masing-masing diisi minimal 1 produk lengkap (ARTICLE dan QUANTITY).');return;}
-  const btn=document.getElementById('sendBtn'); if(btn.disabled)return; btn.disabled=true; const old=btn.textContent;
-  btn.innerHTML='<span class="spinner" style="display:inline-block;vertical-align:middle;border-color:rgba(255,255,255,.35);border-top-color:#fff;margin-right:7px"></span>MENGIRIM...';
-  const payload={action:editingTransaction?'editTransaction':'saveTransaction',tanggal:tanggal,produkAwal:awal.map(x=>({artikel:x.artikel,quantity:x.quantity})),produkAkhir:akhir.map(x=>({artikel:x.artikel,quantity:x.quantity})),transactionId:editingTransaction?editingTransaction.id:'',timestamp:new Date().toISOString()};
-  callApi(payload,function(r){
-    btn.disabled=false;btn.textContent=old;
-    if(!r||!r.success){alert('Gagal menyimpan: '+((r&&r.error)||'Server tidak merespons dengan benar.'));return;}
-    closeReview();editingTransaction=null;setEditBanner(false);alert(r.message||'Data berhasil disimpan.');resetZfoodForm();
-  },function(e){btn.disabled=false;btn.textContent=old;alert('Gagal menyimpan data. '+(e||'Periksa koneksi.'));});
+
+  const tanggal=
+    (document.getElementById('zfoodDate')||{}).value||'';
+
+  if(!tanggal){
+    alert('Tanggal wajib diisi.');
+    return;
+  }
+
+  if(!awal.length || !akhir.length){
+    alert(
+      'Produk Awal dan Produk Akhir wajib masing-masing diisi minimal 1 produk lengkap.'
+    );
+    return;
+  }
+
+  const btn=document.getElementById('sendBtn');
+
+  if(btn.disabled)return;
+
+  // Satu key dipakai sampai request berhasil.
+  // Jika jaringan timeout lalu dicoba lagi, request yang sama
+  // tidak akan membuat transaksi kedua.
+  if(!pendingTransactionKey){
+    pendingTransactionKey=
+      'ZFOOD-'+
+      Date.now()+'-'+
+      Math.random().toString(36).slice(2,10);
+  }
+
+  btn.disabled=true;
+
+  const old=btn.textContent;
+
+  btn.innerHTML=
+    '<span class="spinner" style="display:inline-block;vertical-align:middle;border-color:rgba(255,255,255,.35);border-top-color:#fff;margin-right:7px"></span>MENGIRIM...';
+
+  const payload={
+    action:editingTransaction
+      ? 'editTransaction'
+      : 'saveTransaction',
+
+    tanggal:tanggal,
+
+    produkAwal:awal.map(function(x){
+      return {
+        artikel:x.artikel,
+        quantity:x.quantity
+      };
+    }),
+
+    produkAkhir:akhir.map(function(x){
+      return {
+        artikel:x.artikel,
+        quantity:x.quantity
+      };
+    }),
+
+    transactionId:
+      editingTransaction
+        ? editingTransaction.id
+        : '',
+
+    transactionKey:pendingTransactionKey,
+
+    timestamp:new Date().toISOString()
+  };
+
+  callApi(
+    payload,
+    function(r){
+
+      btn.disabled=false;
+      btn.textContent=old;
+
+      if(!r || !r.success){
+        alert(
+          'Gagal menyimpan: '+
+          ((r&&r.error)||
+          'Server tidak merespons dengan benar.')
+        );
+
+        // Key sengaja tidak dihapus.
+        // Retry memakai key yang sama.
+        return;
+      }
+
+      pendingTransactionKey='';
+
+      closeReview();
+
+      editingTransaction=null;
+
+      setEditBanner(false);
+
+      alert(
+        r.message||
+        'Data berhasil disimpan.'
+      );
+
+      resetZfoodForm();
+    },
+    function(e){
+
+      btn.disabled=false;
+      btn.textContent=old;
+
+      // Key tetap dipertahankan supaya retry tidak double.
+      alert(
+        'Gagal menyimpan data. '+
+        (e||'Periksa koneksi.')
+      );
+    }
+  );
 }
 
 function callApi(payload,onSuccess,onError){
@@ -3140,7 +3397,7 @@ function callApi(payload,onSuccess,onError){
   document.body.appendChild(script);
 }
 
-function resetZfoodForm(){document.querySelectorAll('#awalList .product,#akhirList .product').forEach(e=>e.remove());awalCounter=0;akhirCounter=0;editingTransaction=null;ensureInitialProducts();updateDataTable('awal');updateDataTable('akhir');updateWasteYield();const d=document.getElementById('zfoodDate');if(d)d.value=todayInputDate();}
+function resetZfoodForm(){pendingTransactionKey='';document.querySelectorAll('#awalList .product,#akhirList .product').forEach(e=>e.remove());awalCounter=0;akhirCounter=0;editingTransaction=null;ensureInitialProducts();updateDataTable('awal');updateDataTable('akhir');updateWasteYield();const d=document.getElementById('zfoodDate');if(d)d.value=todayInputDate();}
 function todayInputDate(){const n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');}
 
 function openHistory(){const m=document.getElementById('historyModal');const d=document.getElementById('historyDate');if(d&&!d.value)d.value=todayInputDate();m.classList.add('show');document.body.style.overflow='hidden';loadHistory();}
@@ -3148,25 +3405,266 @@ function closeHistory(){document.getElementById('historyModal').classList.remove
 function handleHistoryOverlay(e){if(e.target===document.getElementById('historyModal'))closeHistory();}
 function loadHistory(){const date=document.getElementById('historyDate').value;const b=document.getElementById('historyBody');b.innerHTML='<div class="loading-row"><span class="spinner"></span>Memuat riwayat...</div>';callApi({action:'listHistory',tanggal:date},r=>{if(!r||!r.success){b.innerHTML='<div class="data-empty">Gagal memuat riwayat.</div>';return;}renderHistory(r.data||[]);},()=>b.innerHTML='<div class="data-empty">Gagal memuat riwayat.</div>');}
 function renderHistory(items){
+
   const b=document.getElementById('historyBody');
+
   b.innerHTML='';
-  if(!items.length){b.innerHTML='<div class="data-empty">Belum ada transaksi pada tanggal ini.</div>';return;}
+
+  if(!items.length){
+    b.innerHTML=
+      '<div class="data-empty">Belum ada transaksi pada tanggal ini.</div>';
+    return;
+  }
+
   items.forEach(function(tx,i){
-    const e=document.createElement('div');e.className='history-item';
-    const a=(tx.produkAwal||[]).map(function(x){return escapeHTML(x.artikel)+' × '+escapeHTML(x.quantity);}).join('<br>')||'-';
-    const z=(tx.produkAkhir||[]).map(function(x){return escapeHTML(x.artikel)+' × '+escapeHTML(x.quantity);}).join('<br>')||'-';
-    e.innerHTML='<div class="history-head"><div class="history-title">Z-FOOD #'+(i+1)+'</div><div class="history-meta">Sheet '+escapeHTML(tx.sheet||'-')+' • Baris '+escapeHTML(String(tx.startRow||'-'))+'</div></div>'+
-      '<div class="history-cols"><div class="history-col"><b>PRODUK AWAL</b><div class="history-line">'+a+'</div></div><div class="history-col"><b>PRODUK AKHIR</b><div class="history-line">'+z+'</div></div></div>';
-    const actions=document.createElement('div');actions.className='history-actions';
-    const edit=document.createElement('button');edit.className='edit';edit.textContent='EDIT';edit.onclick=function(){editHistory(JSON.stringify(tx));};
-    const del=document.createElement('button');del.className='delete';del.textContent='HAPUS';del.onclick=function(){deleteHistory(JSON.stringify(tx));};
-    actions.appendChild(edit);actions.appendChild(del);e.appendChild(actions);b.appendChild(e);
+
+    const e=document.createElement('div');
+    e.className='history-item';
+
+    const a=(tx.produkAwal||[])
+      .map(function(x){
+        return escapeHTML(x.artikel)+' × '+escapeHTML(x.quantity);
+      })
+      .join('<br>')||'-';
+
+    const z=(tx.produkAkhir||[])
+      .map(function(x){
+        return escapeHTML(x.artikel)+' × '+escapeHTML(x.quantity);
+      })
+      .join('<br>')||'-';
+
+    e.innerHTML=
+      '<div class="history-head">'+
+        '<div class="history-title">Z-FOOD #'+(i+1)+'</div>'+
+        '<div class="history-meta">Sheet '+
+          escapeHTML(tx.sheet||'-')+
+          ' • Baris '+
+          escapeHTML(String(tx.startRow||'-'))+
+        '</div>'+
+      '</div>'+
+      '<div class="history-cols">'+
+        '<div class="history-col">'+
+          '<b>PRODUK AWAL</b>'+
+          '<div class="history-line">'+a+'</div>'+
+        '</div>'+
+        '<div class="history-col">'+
+          '<b>PRODUK AKHIR</b>'+
+          '<div class="history-line">'+z+'</div>'+
+        '</div>'+
+      '</div>';
+
+    const actions=document.createElement('div');
+    actions.className='history-actions';
+
+    const edit=document.createElement('button');
+    edit.className='edit';
+    edit.textContent='EDIT';
+    edit.onclick=function(){
+      editHistory(JSON.stringify(tx));
+    };
+
+    const del=document.createElement('button');
+    del.className='delete';
+    del.textContent='HAPUS';
+    del.dataset.transactionId=String(tx.id||'');
+    del.onclick=function(){
+      deleteHistory(JSON.stringify(tx));
+    };
+
+    actions.appendChild(edit);
+    actions.appendChild(del);
+
+    e.appendChild(actions);
+    b.appendChild(e);
   });
 }
-function editHistory(serialized){const tx=JSON.parse(serialized);closeHistory();editingTransaction=tx;openZfood();setEditBanner(true);loadTransactionIntoForm(tx);}
-function setEditBanner(show){let b=document.getElementById('editBanner');if(!b){b=document.createElement('div');b.id='editBanner';b.className='edit-banner';const h=document.querySelector('#zfoodPage .header');if(h)h.after(b);}b.textContent=show?'MODE EDIT • Perubahan akan disimpan ke transaksi yang dipilih.':'';b.classList.toggle('show',show);}
-function loadTransactionIntoForm(tx){document.querySelectorAll('#awalList .product,#akhirList .product').forEach(e=>e.remove());awalCounter=0;akhirCounter=0;const d=document.getElementById('zfoodDate');if(d)d.value=tx.dateInput||'';function fill(type,arr){(arr||[]).forEach(x=>{addProduct(type);const p=document.getElementById(type+'List').lastElementChild;const input=p.querySelector('.search-input'),q=p.querySelector('.quantity-input');selectProduct(input,{artikel:x.artikel||'',barcode:'',nama:x.nama||x.artikel||'',oum:x.oum||'',soh:''});q.value=x.quantity||'';updateQuantity(q);});}fill('awal',tx.produkAwal);fill('akhir',tx.produkAkhir);updateDataTable('awal');updateDataTable('akhir');updateWasteYield();window.scrollTo({top:0,behavior:'smooth'});}
-function deleteHistory(serialized){const tx=JSON.parse(serialized);if(!confirm('Hapus transaksi Z-FOOD ini?'))return;callApi({action:'deleteTransaction',transactionId:tx.id},r=>{if(!r||!r.success){alert('Gagal menghapus: '+((r&&r.error)||''));return;}alert(r.message||'Transaksi berhasil dihapus.');loadHistory();},()=>alert('Gagal menghapus transaksi.'));}
+
+function editHistory(serialized){
+  const tx=JSON.parse(serialized);
+
+  closeHistory();
+
+  editingTransaction=tx;
+  pendingTransactionKey='';
+
+  showZfoodForEdit();
+  setEditBanner(true);
+  loadTransactionIntoForm(tx);
+}
+
+function setEditBanner(show){
+  let b=document.getElementById('editBanner');
+
+  if(!b){
+    b=document.createElement('div');
+    b.id='editBanner';
+    b.className='edit-banner';
+
+    const h=document.querySelector('#zfoodPage .header');
+    if(h)h.after(b);
+  }
+
+  b.textContent=
+    show
+      ? 'MODE EDIT • Perubahan akan disimpan ke transaksi yang dipilih.'
+      : '';
+
+  b.classList.toggle('show',show);
+}
+
+function findMasterProduct(article){
+  const key=String(article||'').trim().toLowerCase();
+
+  if(!key || !Array.isArray(MASTER_DATA)){
+    return null;
+  }
+
+  return MASTER_DATA.find(function(item){
+    return String(item.artikel||'').trim().toLowerCase()===key;
+  }) || null;
+}
+
+function loadTransactionIntoForm(tx){
+
+  document
+    .querySelectorAll('#awalList .product,#akhirList .product')
+    .forEach(function(e){
+      e.remove();
+    });
+
+  awalCounter=0;
+  akhirCounter=0;
+
+  const d=document.getElementById('zfoodDate');
+
+  if(d){
+    d.value=tx.dateInput||'';
+  }
+
+  function fill(type,arr){
+
+    (arr||[]).forEach(function(x){
+
+      addProduct(type,{skipValidation:true});
+
+      const p=
+        document.getElementById(type+'List')
+          .lastElementChild;
+
+      const input=p.querySelector('.search-input');
+      const q=p.querySelector('.quantity-input');
+
+      const master=findMasterProduct(x.artikel);
+
+      selectProduct(
+        input,
+        {
+          artikel:x.artikel||'',
+          barcode:master ? (master.barcode||'') : '',
+          nama:master ? (master.nama||'') : '',
+          oum:master ? (master.oum||'') : '',
+          soh:master ? (master.soh||'') : ''
+        }
+      );
+
+      q.value=x.quantity||'';
+      updateQuantity(q);
+    });
+  }
+
+  fill('awal',tx.produkAwal);
+  fill('akhir',tx.produkAkhir);
+
+  updateDataTable('awal');
+  updateDataTable('akhir');
+  updateWasteYield();
+
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
+}
+
+function deleteHistory(serialized){
+
+  const tx=JSON.parse(serialized);
+
+  if(!confirm('Hapus transaksi Z-FOOD ini?')){
+    return;
+  }
+
+  const buttons=
+    document.querySelectorAll('.history-actions .delete');
+
+  let clickedButton=null;
+
+  buttons.forEach(function(btn){
+    if(btn.dataset.transactionId===String(tx.id)){
+      clickedButton=btn;
+    }
+  });
+
+  if(clickedButton){
+    clickedButton.disabled=true;
+    clickedButton.innerHTML=
+      '<span class="spinner delete-spinner"></span>MENGHAPUS...';
+  }
+
+  const card=clickedButton
+    ? clickedButton.closest('.history-item')
+    : null;
+
+  if(card){
+    card.classList.add('history-deleting');
+  }
+
+  callApi(
+    {
+      action:'deleteTransaction',
+      transactionId:tx.id
+    },
+    function(r){
+
+      if(!r || !r.success){
+
+        if(clickedButton){
+          clickedButton.disabled=false;
+          clickedButton.textContent='HAPUS';
+        }
+
+        if(card){
+          card.classList.remove('history-deleting');
+        }
+
+        alert(
+          'Gagal menghapus: '+
+          ((r&&r.error)||'')
+        );
+
+        return;
+      }
+
+      // Beri waktu animasi selesai sebelum RIWAYAT dimuat ulang.
+      setTimeout(function(){
+        loadHistory();
+      },260);
+    },
+    function(){
+
+      if(clickedButton){
+        clickedButton.disabled=false;
+        clickedButton.textContent='HAPUS';
+      }
+
+      if(card){
+        card.classList.remove('history-deleting');
+      }
+
+      alert('Gagal menghapus transaksi.');
+    }
+  );
+}
+
 function openSpreadsheets(){const m=document.getElementById('spreadsheetModal');m.classList.add('show');document.body.style.overflow='hidden';const b=document.getElementById('spreadsheetBody');b.innerHTML='<div class="loading-row"><span class="spinner"></span>Memuat spreadsheet...</div>';callApi({action:'listSpreadsheets'},r=>{if(!r||!r.success){b.innerHTML='<div class="data-empty">Gagal memuat spreadsheet.</div>';return;}b.innerHTML='';if(!(r.data||[]).length){b.innerHTML='<div class="data-empty">Belum ada file Z-FOOD bulanan.</div>';return;}r.data.forEach(f=>{const a=document.createElement('a');a.className='sheet-link';a.href=f.url;a.target='_blank';a.rel='noopener';a.innerHTML='<strong>'+escapeHTML(f.name)+'</strong><span>'+escapeHTML(f.updated||'')+'</span>';b.appendChild(a);});},()=>b.innerHTML='<div class="data-empty">Gagal memuat spreadsheet.</div>');}
 function closeSpreadsheets(){document.getElementById('spreadsheetModal').classList.remove('show');document.body.style.overflow='';}
 function handleSpreadsheetOverlay(e){if(e.target===document.getElementById('spreadsheetModal'))closeSpreadsheets();}
