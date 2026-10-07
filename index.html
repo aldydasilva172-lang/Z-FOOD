@@ -1614,8 +1614,11 @@ const APPS_SCRIPT_URL =
 ========================================================= */
 
 let MASTER_DATA = [];
-
 let masterLoaded = false;
+
+const MASTER_CACHE_KEY = 'ZFOOD_MASTER_CACHE_V2';
+const MASTER_CACHE_TIME_KEY = 'ZFOOD_MASTER_CACHE_TIME_V2';
+const MASTER_CACHE_MAX_AGE = 24 * 60 * 60 * 1000; // 24 jam
 
 
 /* =========================================================
@@ -1633,10 +1636,78 @@ let akhirCounter = 0;
 
 function loadMaster(){
 
-  setMasterStatus(
-    'Memuat MASTER...',
-    'loading'
-  );
+  /*
+    CACHE-FIRST:
+    1. Coba gunakan MASTER dari localStorage.
+    2. Kalau ada, langsung aktifkan aplikasi tanpa menunggu server.
+    3. Tetap refresh MASTER di background agar data tetap terbaru.
+    4. Kalau belum ada cache, baru tampilkan status loading.
+  */
+
+  let hasCache = false;
+
+  try{
+
+    const cached = localStorage.getItem(MASTER_CACHE_KEY);
+    const cachedTime = Number(
+      localStorage.getItem(MASTER_CACHE_TIME_KEY) || 0
+    );
+
+    if(cached){
+
+      const parsed = JSON.parse(cached);
+
+      if(
+        Array.isArray(parsed) &&
+        parsed.length > 0
+      ){
+
+        MASTER_DATA = parsed;
+        masterLoaded = true;
+        hasCache = true;
+
+        setMasterStatus(
+          'MASTER siap • ' +
+          MASTER_DATA.length +
+          ' data',
+          'ready'
+        );
+
+        ensureInitialProducts();
+      }
+
+    }
+
+  }catch(error){
+
+    console.warn(
+      'Cache MASTER tidak dapat digunakan:',
+      error
+    );
+
+  }
+
+
+  /*
+    Kalau belum ada cache:
+    tampilkan loading.
+    Kalau sudah ada cache:
+    jangan blokir user.
+  */
+
+  if(!hasCache){
+
+    setMasterStatus(
+      'Memuat MASTER...',
+      'loading'
+    );
+
+  }
+
+
+  /*
+    Ambil MASTER terbaru di background.
+  */
 
   const callbackName =
     'zfoodMaster_' +
@@ -1661,6 +1732,34 @@ function loadMaster(){
 
           masterLoaded = true;
 
+
+          /*
+            Simpan MASTER terbaru secara permanen
+            di browser.
+          */
+
+          try{
+
+            localStorage.setItem(
+              MASTER_CACHE_KEY,
+              JSON.stringify(MASTER_DATA)
+            );
+
+            localStorage.setItem(
+              MASTER_CACHE_TIME_KEY,
+              String(Date.now())
+            );
+
+          }catch(cacheError){
+
+            console.warn(
+              'Gagal menyimpan cache MASTER:',
+              cacheError
+            );
+
+          }
+
+
           setMasterStatus(
             'MASTER siap • ' +
             MASTER_DATA.length +
@@ -1669,51 +1768,41 @@ function loadMaster(){
           );
 
 
-          /*
-            Tambahkan produk pertama
-            setelah MASTER berhasil dimuat.
-          */
-
-          if(
-            document.querySelectorAll(
-              '#awalList .product'
-            ).length === 0
-          ){
-
-            addProduct('awal');
-
-          }
-
-
-          if(
-            document.querySelectorAll(
-              '#akhirList .product'
-            ).length === 0
-          ){
-
-            addProduct('akhir');
-
-          }
+          ensureInitialProducts();
 
 
         }else{
 
-          throw new Error(
-            response && response.error
-              ? response.error
-              : 'Data MASTER tidak valid.'
-          );
+          /*
+            Kalau server gagal tetapi cache ada,
+            jangan ganggu user.
+          */
+
+          if(!hasCache){
+
+            throw new Error(
+              response && response.error
+                ? response.error
+                : 'Data MASTER tidak valid.'
+            );
+
+          }
 
         }
+
 
       }catch(error){
 
         console.error(error);
 
-        setMasterStatus(
-          'Gagal memuat MASTER',
-          'error'
-        );
+        if(!hasCache){
+
+          setMasterStatus(
+            'Gagal memuat MASTER',
+            'error'
+          );
+
+        }
 
       }
 
@@ -1733,13 +1822,23 @@ function loadMaster(){
     '&_=' +
     Date.now();
 
+
   script.onerror =
     function(){
 
-      setMasterStatus(
-        'Gagal terhubung ke MASTER',
-        'error'
-      );
+      /*
+        Jika cache tersedia, aplikasi tetap berjalan.
+        Error server tidak membuat MASTER menjadi blank.
+      */
+
+      if(!hasCache){
+
+        setMasterStatus(
+          'Gagal terhubung ke MASTER',
+          'error'
+        );
+
+      }
 
       cleanupJSONP(callbackName);
 
@@ -1750,6 +1849,36 @@ function loadMaster(){
 
 }
 
+
+/*
+  Pastikan produk awal dan akhir hanya dibuat
+  sekali setelah MASTER tersedia.
+*/
+
+function ensureInitialProducts(){
+
+  if(
+    document.querySelectorAll(
+      '#awalList .product'
+    ).length === 0
+  ){
+
+    addProduct('awal');
+
+  }
+
+
+  if(
+    document.querySelectorAll(
+      '#akhirList .product'
+    ).length === 0
+  ){
+
+    addProduct('akhir');
+
+  }
+
+}
 
 /* =========================================================
    JSONP CLEANUP
