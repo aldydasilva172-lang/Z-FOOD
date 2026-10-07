@@ -2227,10 +2227,74 @@ if(keyword === ''){
             ).toLowerCase();
 
 
+          /*
+            PENCARIAN NAMA BARANG FLEXIBLE
+
+            Contoh MASTER:
+            CHICKEN BLACK PEPPER RTC
+
+            Ketik:
+            C BL P
+
+            Maka:
+            C  -> CHICKEN
+            BL -> BLACK
+            P  -> PEPPER
+
+            Kata tambahan seperti RTC tetap boleh ada.
+          */
+
+          const searchParts =
+            keyword
+              .split(/\\s+/)
+              .map(function(part){
+                return part
+                  .replace(/\\*/g, '')
+                  .trim();
+              })
+              .filter(Boolean);
+
+          const namaWords =
+            nama
+              .split(/\\s+/)
+              .filter(Boolean);
+
+          const namaMatch =
+            searchParts.length > 0 &&
+            searchParts.every(
+              function(part, index){
+
+                const partLower =
+                  part.toLowerCase();
+
+                /*
+                  Setiap potongan harus menjadi
+                  awalan kata sesuai urutan.
+                */
+
+                return namaWords
+                  .slice(index)
+                  .some(
+                    function(word, wordIndex){
+
+                      return (
+                        wordIndex === 0 &&
+                        word
+                          .toLowerCase()
+                          .startsWith(partLower)
+                      );
+
+                    }
+                  );
+
+              }
+            );
+
           return (
             article.includes(keyword) ||
             barcode.includes(keyword) ||
-            nama.includes(keyword)
+            nama.includes(keyword) ||
+            namaMatch
           );
 
         }
