@@ -1104,6 +1104,29 @@ input{
   .dashboard-arrow{right:15px;bottom:15px}
 }
 
+
+/* =========================================================
+   Z-FOOD DATE / HISTORY / SPREADSHEET
+========================================================= */
+.zfood-date-box{margin-top:12px;padding:10px;border:1px solid #eee;border-radius:10px;background:#fafafa}
+.zfood-date-box label{display:block;margin-bottom:5px;font-size:10px;font-weight:700;color:#777;text-align:center}
+.zfood-date-box input{width:100%;height:38px;border:1px solid #ddd;border-radius:8px;background:#fff;padding:0 10px;font-size:16px;text-align:center;outline:none}
+.zfood-date-box input:focus{border-color:#e87516;box-shadow:0 0 0 2px rgba(232,117,22,.08)}
+.loading-row{display:flex;align-items:center;justify-content:center;gap:9px;padding:18px;color:#777;font-size:11px;font-weight:600}
+.spinner{width:18px;height:18px;border:2px solid #eee;border-top-color:#e87516;border-radius:50%;animation:zspin .75s linear infinite}
+@keyframes zspin{to{transform:rotate(360deg)}}
+.history-item{border:1px solid #eee;border-radius:11px;padding:11px;margin-bottom:9px;background:#fff}
+.history-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:7px}
+.history-title{font-size:12px;font-weight:700;color:#333}.history-meta{font-size:9px;color:#999}
+.history-cols{display:grid;grid-template-columns:1fr 1fr;gap:8px}.history-col{border:1px solid #eee;border-radius:8px;padding:8px}
+.history-col b{display:block;font-size:9px;color:#777;margin-bottom:5px}.history-line{font-size:10px;line-height:1.5;color:#444}
+.history-actions{display:flex;gap:7px;margin-top:8px}.history-actions button{flex:1;height:32px;border-radius:7px;border:1px solid #ddd;background:#fff;font-size:10px;font-weight:700}
+.history-actions .edit{color:#e87516;border-color:#f0c59f}.history-actions .delete{color:#d93025;border-color:#f0b2b2}
+.modal-filter{padding:10px;border-bottom:1px solid #eee}.modal-filter input{width:100%;height:36px;border:1px solid #ddd;border-radius:8px;padding:0 9px;font-size:15px;outline:none}
+.sheet-link{display:block;padding:12px;border:1px solid #eee;border-radius:9px;margin-bottom:8px;text-decoration:none;color:#333;background:#fff}
+.sheet-link strong{display:block;font-size:12px}.sheet-link span{font-size:9px;color:#999}
+.edit-banner{display:none;margin-bottom:10px;padding:9px 10px;border-radius:8px;background:#fff8ef;border:1px solid #f4d5b5;color:#e87516;font-size:10px;font-weight:700}.edit-banner.show{display:block}
+
 </style>
 </head>
 
@@ -1131,19 +1154,19 @@ input{
         <span class="dashboard-arrow">→</span>
       </button>
 
-      <div class="dashboard-card soon">
+      <button type="button" class="dashboard-card" onclick="openHistory()">
         <div class="dashboard-icon">≡</div>
         <h3>RIWAYAT</h3>
-        <p>Lihat dan kelola riwayat data Z-FOOD.</p>
-        <span class="coming-soon">COMING SOON</span>
-      </div>
+        <p>Lihat, edit, dan hapus riwayat data Z-FOOD.</p>
+        <span class="dashboard-arrow">→</span>
+      </button>
 
-      <div class="dashboard-card soon">
+      <button type="button" class="dashboard-card" onclick="openSpreadsheets()">
         <div class="dashboard-icon">▦</div>
         <h3>SPREADSHEET</h3>
-        <p>Akses data dan spreadsheet Z-FOOD.</p>
-        <span class="coming-soon">COMING SOON</span>
-      </div>
+        <p>Buka file Z-FOOD per bulan yang sudah dibuat.</p>
+        <span class="dashboard-arrow">→</span>
+      </button>
     </div>
 
     <div class="dashboard-footer">
@@ -1172,6 +1195,11 @@ input{
 
     <div class="subtitle">
       Product Conversion
+    </div>
+
+    <div class="zfood-date-box">
+      <label for="zfoodDate">TANGGAL</label>
+      <input id="zfoodDate" type="date">
     </div>
 
   </div>
@@ -1582,6 +1610,23 @@ input{
 </div>
 
 
+<!-- HISTORY MODAL -->
+<div id="historyModal" class="modal-overlay" onclick="handleHistoryOverlay(event)">
+  <div class="modal">
+    <div class="modal-header"><h2 class="modal-title">RIWAYAT Z-FOOD</h2><div class="modal-subtitle">Riwayat transaksi dari spreadsheet bulanan</div><button type="button" class="modal-close" onclick="closeHistory()">×</button></div>
+    <div class="modal-filter"><input id="historyDate" type="date" onchange="loadHistory()"></div>
+    <div class="modal-body" id="historyBody"><div class="loading-row"><span class="spinner"></span>Memuat riwayat...</div></div>
+  </div>
+</div>
+
+<!-- SPREADSHEET MODAL -->
+<div id="spreadsheetModal" class="modal-overlay" onclick="handleSpreadsheetOverlay(event)">
+  <div class="modal">
+    <div class="modal-header"><h2 class="modal-title">SPREADSHEET</h2><div class="modal-subtitle">File Z-FOOD yang sudah dibuat</div><button type="button" class="modal-close" onclick="closeSpreadsheets()">×</button></div>
+    <div class="modal-body" id="spreadsheetBody"><div class="loading-row"><span class="spinner"></span>Memuat spreadsheet...</div></div>
+  </div>
+</div>
+
 <script>
 
 
@@ -1649,6 +1694,8 @@ const MASTER_CACHE_MAX_AGE = 24 * 60 * 60 * 1000; // 24 jam
 let awalCounter = 0;
 
 let akhirCounter = 0;
+
+let editingTransaction = null;
 
 
 /* =========================================================
@@ -3068,78 +3115,61 @@ function handleModalOverlay(event){
 ========================================================= */
 
 function sendData(){
-
-  const awal =
-    getAllProducts('awal');
-
-
-  const akhir =
-    getAllProducts('akhir');
-
-
-  /*
-    PRODUK AWAL dan PRODUK AKHIR
-    wajib masing-masing mempunyai
-    minimal 1 produk lengkap.
-  */
-
-  if(
-    awal.length === 0 ||
-    akhir.length === 0
-  ){
-
-    alert(
-      'Produk Awal dan Produk Akhir wajib masing-masing diisi minimal 1 produk lengkap (ARTICLE dan QUANTITY).'
-    );
-
-    return;
-
-  }
-
-
-  /*
-    Payload siap digunakan
-    untuk endpoint penyimpanan
-    Google Apps Script.
-  */
-
-  const payload = {
-
-    produkAwal:
-      awal,
-
-    produkAkhir:
-      akhir,
-
-    timestamp:
-      new Date().toISOString()
-
-  };
-
-
-  console.log(
-    'Z-FOOD DATA:',
-    payload
-  );
-
-
-  /*
-    Untuk sementara tombol ini
-    belum melakukan POST ke Spreadsheet,
-    karena Code.gs yang sekarang
-    baru menyediakan GET MASTER.
-
-    Nanti ketika endpoint penyimpanan
-    sudah dibuat, bagian ini tinggal
-    diarahkan ke endpoint tersebut.
-  */
-
-  alert(
-    'Data sudah siap untuk dikirim.'
-  );
-
+  const awal=getAllProducts('awal');
+  const akhir=getAllProducts('akhir');
+  const tanggal=(document.getElementById('zfoodDate')||{}).value||'';
+  if(!tanggal){alert('Tanggal wajib diisi.');return;}
+  if(!awal.length||!akhir.length){alert('Produk Awal dan Produk Akhir wajib masing-masing diisi minimal 1 produk lengkap (ARTICLE dan QUANTITY).');return;}
+  const btn=document.getElementById('sendBtn'); if(btn.disabled)return; btn.disabled=true; const old=btn.textContent;
+  btn.innerHTML='<span class="spinner" style="display:inline-block;vertical-align:middle;border-color:rgba(255,255,255,.35);border-top-color:#fff;margin-right:7px"></span>MENGIRIM...';
+  const payload={action:editingTransaction?'editTransaction':'saveTransaction',tanggal:tanggal,produkAwal:awal.map(x=>({artikel:x.artikel,quantity:x.quantity})),produkAkhir:akhir.map(x=>({artikel:x.artikel,quantity:x.quantity})),transactionId:editingTransaction?editingTransaction.id:'',timestamp:new Date().toISOString()};
+  callApi(payload,function(r){
+    btn.disabled=false;btn.textContent=old;
+    if(!r||!r.success){alert('Gagal menyimpan: '+((r&&r.error)||'Server tidak merespons dengan benar.'));return;}
+    closeReview();editingTransaction=null;setEditBanner(false);alert(r.message||'Data berhasil disimpan.');resetZfoodForm();
+  },function(e){btn.disabled=false;btn.textContent=old;alert('Gagal menyimpan data. '+(e||'Periksa koneksi.'));});
 }
 
+function callApi(payload,onSuccess,onError){
+  const cb='zfoodApi_'+Date.now()+'_'+Math.floor(Math.random()*10000);let done=false;
+  const timeout=setTimeout(function(){if(done)return;done=true;cleanupJSONP(cb);if(onError)onError('Waktu tunggu habis.');},30000);
+  window[cb]=function(r){if(done)return;done=true;clearTimeout(timeout);cleanupJSONP(cb);if(onSuccess)onSuccess(r);};
+  const script=document.createElement('script');
+  script.src=APPS_SCRIPT_URL+'?action=api&payload='+encodeURIComponent(JSON.stringify(payload))+'&callback='+encodeURIComponent(cb)+'&_='+Date.now();
+  script.onerror=function(){if(done)return;done=true;clearTimeout(timeout);cleanupJSONP(cb);if(onError)onError('Tidak dapat terhubung ke Apps Script.');};
+  document.body.appendChild(script);
+}
+
+function resetZfoodForm(){document.querySelectorAll('#awalList .product,#akhirList .product').forEach(e=>e.remove());awalCounter=0;akhirCounter=0;editingTransaction=null;ensureInitialProducts();updateDataTable('awal');updateDataTable('akhir');updateWasteYield();const d=document.getElementById('zfoodDate');if(d)d.value=todayInputDate();}
+function todayInputDate(){const n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');}
+
+function openHistory(){const m=document.getElementById('historyModal');const d=document.getElementById('historyDate');if(d&&!d.value)d.value=todayInputDate();m.classList.add('show');document.body.style.overflow='hidden';loadHistory();}
+function closeHistory(){document.getElementById('historyModal').classList.remove('show');document.body.style.overflow='';}
+function handleHistoryOverlay(e){if(e.target===document.getElementById('historyModal'))closeHistory();}
+function loadHistory(){const date=document.getElementById('historyDate').value;const b=document.getElementById('historyBody');b.innerHTML='<div class="loading-row"><span class="spinner"></span>Memuat riwayat...</div>';callApi({action:'listHistory',tanggal:date},r=>{if(!r||!r.success){b.innerHTML='<div class="data-empty">Gagal memuat riwayat.</div>';return;}renderHistory(r.data||[]);},()=>b.innerHTML='<div class="data-empty">Gagal memuat riwayat.</div>');}
+function renderHistory(items){
+  const b=document.getElementById('historyBody');
+  b.innerHTML='';
+  if(!items.length){b.innerHTML='<div class="data-empty">Belum ada transaksi pada tanggal ini.</div>';return;}
+  items.forEach(function(tx,i){
+    const e=document.createElement('div');e.className='history-item';
+    const a=(tx.produkAwal||[]).map(function(x){return escapeHTML(x.artikel)+' × '+escapeHTML(x.quantity);}).join('<br>')||'-';
+    const z=(tx.produkAkhir||[]).map(function(x){return escapeHTML(x.artikel)+' × '+escapeHTML(x.quantity);}).join('<br>')||'-';
+    e.innerHTML='<div class="history-head"><div class="history-title">Z-FOOD #'+(i+1)+'</div><div class="history-meta">Sheet '+escapeHTML(tx.sheet||'-')+' • Baris '+escapeHTML(String(tx.startRow||'-'))+'</div></div>'+
+      '<div class="history-cols"><div class="history-col"><b>PRODUK AWAL</b><div class="history-line">'+a+'</div></div><div class="history-col"><b>PRODUK AKHIR</b><div class="history-line">'+z+'</div></div></div>';
+    const actions=document.createElement('div');actions.className='history-actions';
+    const edit=document.createElement('button');edit.className='edit';edit.textContent='EDIT';edit.onclick=function(){editHistory(JSON.stringify(tx));};
+    const del=document.createElement('button');del.className='delete';del.textContent='HAPUS';del.onclick=function(){deleteHistory(JSON.stringify(tx));};
+    actions.appendChild(edit);actions.appendChild(del);e.appendChild(actions);b.appendChild(e);
+  });
+}
+function editHistory(serialized){const tx=JSON.parse(serialized);closeHistory();editingTransaction=tx;openZfood();setEditBanner(true);loadTransactionIntoForm(tx);}
+function setEditBanner(show){let b=document.getElementById('editBanner');if(!b){b=document.createElement('div');b.id='editBanner';b.className='edit-banner';const h=document.querySelector('#zfoodPage .header');if(h)h.after(b);}b.textContent=show?'MODE EDIT • Perubahan akan disimpan ke transaksi yang dipilih.':'';b.classList.toggle('show',show);}
+function loadTransactionIntoForm(tx){document.querySelectorAll('#awalList .product,#akhirList .product').forEach(e=>e.remove());awalCounter=0;akhirCounter=0;const d=document.getElementById('zfoodDate');if(d)d.value=tx.dateInput||'';function fill(type,arr){(arr||[]).forEach(x=>{addProduct(type);const p=document.getElementById(type+'List').lastElementChild;const input=p.querySelector('.search-input'),q=p.querySelector('.quantity-input');selectProduct(input,{artikel:x.artikel||'',barcode:'',nama:x.nama||x.artikel||'',oum:x.oum||'',soh:''});q.value=x.quantity||'';updateQuantity(q);});}fill('awal',tx.produkAwal);fill('akhir',tx.produkAkhir);updateDataTable('awal');updateDataTable('akhir');updateWasteYield();window.scrollTo({top:0,behavior:'smooth'});}
+function deleteHistory(serialized){const tx=JSON.parse(serialized);if(!confirm('Hapus transaksi Z-FOOD ini?'))return;callApi({action:'deleteTransaction',transactionId:tx.id},r=>{if(!r||!r.success){alert('Gagal menghapus: '+((r&&r.error)||''));return;}alert(r.message||'Transaksi berhasil dihapus.');loadHistory();},()=>alert('Gagal menghapus transaksi.'));}
+function openSpreadsheets(){const m=document.getElementById('spreadsheetModal');m.classList.add('show');document.body.style.overflow='hidden';const b=document.getElementById('spreadsheetBody');b.innerHTML='<div class="loading-row"><span class="spinner"></span>Memuat spreadsheet...</div>';callApi({action:'listSpreadsheets'},r=>{if(!r||!r.success){b.innerHTML='<div class="data-empty">Gagal memuat spreadsheet.</div>';return;}b.innerHTML='';if(!(r.data||[]).length){b.innerHTML='<div class="data-empty">Belum ada file Z-FOOD bulanan.</div>';return;}r.data.forEach(f=>{const a=document.createElement('a');a.className='sheet-link';a.href=f.url;a.target='_blank';a.rel='noopener';a.innerHTML='<strong>'+escapeHTML(f.name)+'</strong><span>'+escapeHTML(f.updated||'')+'</span>';b.appendChild(a);});},()=>b.innerHTML='<div class="data-empty">Gagal memuat spreadsheet.</div>');}
+function closeSpreadsheets(){document.getElementById('spreadsheetModal').classList.remove('show');document.body.style.overflow='';}
+function handleSpreadsheetOverlay(e){if(e.target===document.getElementById('spreadsheetModal'))closeSpreadsheets();}
 
 /* =========================================================
    CLOSE DROPDOWN KETIKA KLIK DI LUAR
@@ -3247,6 +3277,9 @@ document.addEventListener(
 /* =========================================================
    START
 ========================================================= */
+
+const zfoodDateEl=document.getElementById('zfoodDate');
+if(zfoodDateEl)zfoodDateEl.value=todayInputDate();
 
 loadMaster();
 
