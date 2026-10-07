@@ -2246,17 +2246,17 @@ if(keyword === ''){
 
           const searchParts =
             keyword
-              .split(/\\s+/)
+              .split(/\s+/)
               .map(function(part){
                 return part
-                  .replace(/\\*/g, '')
+                  .replace(/\*/g, '')
                   .trim();
               })
               .filter(Boolean);
 
           const namaWords =
             nama
-              .split(/\\s+/)
+              .split(/\s+/)
               .filter(Boolean);
 
           const namaMatch =
@@ -2268,24 +2268,19 @@ if(keyword === ''){
                   part.toLowerCase();
 
                 /*
-                  Setiap potongan harus menjadi
-                  awalan kata sesuai urutan.
+                  Kata harus berurutan.
+                  Contoh:
+                  C BL P
+                  CH BL PEP
+                  C* BL* P*
                 */
 
-                return namaWords
-                  .slice(index)
-                  .some(
-                    function(word, wordIndex){
-
-                      return (
-                        wordIndex === 0 &&
-                        word
-                          .toLowerCase()
-                          .startsWith(partLower)
-                      );
-
-                    }
-                  );
+                return (
+                  namaWords[index] &&
+                  namaWords[index]
+                    .toLowerCase()
+                    .startsWith(partLower)
+                );
 
               }
             );
