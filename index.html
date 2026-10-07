@@ -1373,12 +1373,79 @@ function loadMaster(){
     'loading'
   );
 
+  /*
+    CACHE MASTER DI BROWSER
+    ---------------------------------
+    Kalau MASTER pernah berhasil dimuat,
+    gunakan cache terlebih dahulu supaya
+    halaman bisa langsung dipakai.
+  */
+  const CACHE_KEY = 'ZFOOD_MASTER_CACHE_V1';
+
+  try{
+    const cached = localStorage.getItem(CACHE_KEY);
+
+    if(cached){
+      const parsed = JSON.parse(cached);
+
+      if(
+        Array.isArray(parsed) &&
+        parsed.length > 0
+      ){
+        MASTER_DATA = parsed;
+        masterLoaded = true;
+
+        setMasterStatus(
+          'MASTER siap • ' + MASTER_DATA.length + ' data',
+          'ready'
+        );
+
+        /*
+          Langsung tampilkan form dari cache.
+          Update MASTER terbaru berjalan di belakang.
+        */
+        initializeProducts();
+
+        /* Ambil MASTER terbaru tanpa menunggu user. */
+        loadMasterFromServer(true);
+        return;
+      }
+    }
+  }catch(error){
+    console.warn('Cache MASTER tidak dapat digunakan:', error);
+  }
+
+  /* Belum ada cache → ambil dari server. */
+  loadMasterFromServer(false);
+}
+
+
+function initializeProducts(){
+
+  if(
+    document.querySelectorAll(
+      '#awalList .product'
+    ).length === 0
+  ){
+    addProduct('awal');
+  }
+
+  if(
+    document.querySelectorAll(
+      '#akhirList .product'
+    ).length === 0
+  ){
+    addProduct('akhir');
+  }
+}
+
+
+function loadMasterFromServer(background){
+
   const callbackName =
     'zfoodMaster_' +
-    Date.now() +
-    '_' +
+    Date.now() + '_' +
     Math.floor(Math.random() * 10000);
-
 
   window[callbackName] =
     function(response){
@@ -1391,10 +1458,21 @@ function loadMaster(){
           Array.isArray(response.data)
         ){
 
-          MASTER_DATA =
-            response.data;
-
+          MASTER_DATA = response.data;
           masterLoaded = true;
+
+          /* Simpan MASTER terbaru ke browser. */
+          try{
+            localStorage.setItem(
+              'ZFOOD_MASTER_CACHE_V1',
+              JSON.stringify(MASTER_DATA)
+            );
+          }catch(cacheError){
+            console.warn(
+              'Gagal menyimpan cache MASTER:',
+              cacheError
+            );
+          }
 
           setMasterStatus(
             'MASTER siap • ' +
@@ -1403,35 +1481,9 @@ function loadMaster(){
             'ready'
           );
 
+          initializeProducts();
 
-          /*
-            Tambahkan produk pertama
-            setelah MASTER berhasil dimuat.
-          */
-
-          if(
-            document.querySelectorAll(
-              '#awalList .product'
-            ).length === 0
-          ){
-
-            addProduct('awal');
-
-          }
-
-
-          if(
-            document.querySelectorAll(
-              '#akhirList .product'
-            ).length === 0
-          ){
-
-            addProduct('akhir');
-
-          }
-
-
-        }else{
+        }else if(!background){
 
           throw new Error(
             response && response.error
@@ -1445,18 +1497,21 @@ function loadMaster(){
 
         console.error(error);
 
-        setMasterStatus(
-          'Gagal memuat MASTER',
-          'error'
-        );
+        /*
+          Kalau menggunakan cache dan update server gagal,
+          jangan ganggu MASTER yang sedang dipakai.
+        */
+        if(!background){
+          setMasterStatus(
+            'Gagal memuat MASTER',
+            'error'
+          );
+        }
 
       }
 
-
       cleanupJSONP(callbackName);
-
     };
-
 
   const script =
     document.createElement('script');
@@ -1471,18 +1526,17 @@ function loadMaster(){
   script.onerror =
     function(){
 
-      setMasterStatus(
-        'Gagal terhubung ke MASTER',
-        'error'
-      );
+      if(!background){
+        setMasterStatus(
+          'Gagal terhubung ke MASTER',
+          'error'
+        );
+      }
 
       cleanupJSONP(callbackName);
-
     };
 
-
   document.body.appendChild(script);
-
 }
 
 
