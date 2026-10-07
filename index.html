@@ -282,6 +282,29 @@ input{
     0 0 0 2px rgba(232,117,22,.08);
 }
 
+.product-name-preview{
+  display:none;
+  margin-top:7px;
+  padding:8px 10px;
+  border-radius:8px;
+  background:#fff8ef;
+  border:1px solid #f6d2aa;
+  color:#e87516;
+  font-size:12px;
+  font-weight:700;
+  line-height:1.35;
+}
+
+.product-name-preview.show{display:block;}
+
+.product-name-preview-label{
+  display:block;
+  margin-bottom:2px;
+  font-size:9px;
+  font-weight:600;
+  color:#999;
+}
+
 /* =========================
    DROPDOWN
 ========================= */
@@ -1685,6 +1708,11 @@ function addProduct(type){
 
     </div>
 
+    <div class="product-name-preview">
+      <span class="product-name-preview-label">NAMA BARANG</span>
+      <span class="product-name-preview-value"></span>
+    </div>
+
 
     <div class="quantity">
 
@@ -1839,6 +1867,12 @@ function searchProduct(input){
 if(keyword === ''){
 
   dropdown.classList.remove('show');
+  clearProductNamePreview(product);
+  product.dataset.article = '';
+  product.dataset.barcode = '';
+  product.dataset.nama = '';
+  product.dataset.oum = '';
+  product.dataset.soh = '';
   return;
 
 }else{
@@ -1878,6 +1912,24 @@ if(keyword === ''){
 
   }
 
+
+  const exactMatch = MASTER_DATA.find(function(item){
+    const article = String(item.artikel || '').trim().toLowerCase();
+    const barcode = String(item.barcode || '').trim().toLowerCase();
+    const nama = String(item.nama || '').trim().toLowerCase();
+    return article === keyword || barcode === keyword || nama === keyword;
+  });
+
+  if(exactMatch){
+    product.dataset.article = exactMatch.artikel || '';
+    product.dataset.barcode = exactMatch.barcode || '';
+    product.dataset.nama = exactMatch.nama || '';
+    product.dataset.oum = exactMatch.oum || '';
+    product.dataset.soh = exactMatch.soh || '';
+    updateProductNamePreview(product, exactMatch);
+  }else{
+    clearProductNamePreview(product);
+  }
 
   renderDropdown(
     dropdown,
@@ -2000,6 +2052,37 @@ function renderDropdown(
 
 
 /* =========================================================
+   NAMA BARANG PREVIEW
+========================================================= */
+
+function updateProductNamePreview(product, item){
+  if(!product) return;
+
+  const preview = product.querySelector('.product-name-preview');
+  const value = product.querySelector('.product-name-preview-value');
+  if(!preview || !value) return;
+
+  const nama = String(item && item.nama || '').trim();
+  if(nama === ''){
+    value.textContent = '';
+    preview.classList.remove('show');
+    return;
+  }
+
+  value.textContent = nama;
+  preview.classList.add('show');
+}
+
+function clearProductNamePreview(product){
+  if(!product) return;
+  const preview = product.querySelector('.product-name-preview');
+  const value = product.querySelector('.product-name-preview-value');
+  if(value) value.textContent = '';
+  if(preview) preview.classList.remove('show');
+}
+
+
+/* =========================================================
    SELECT PRODUCT
 ========================================================= */
 
@@ -2038,6 +2121,8 @@ function selectProduct(
 
   product.dataset.soh =
     item.soh || '';
+
+  updateProductNamePreview(product, item);
 
 
   /*
