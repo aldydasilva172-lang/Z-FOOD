@@ -3394,12 +3394,43 @@ function sendData(){
 }
 
 function callApi(payload,onSuccess,onError){
-  const cb='zfoodApi_'+Date.now()+'_'+Math.floor(Math.random()*10000);let done=false;
-  const timeout=setTimeout(function(){if(done)return;done=true;cleanupJSONP(cb);if(onError)onError('Waktu tunggu habis.');},30000);
-  window[cb]=function(r){if(done)return;done=true;clearTimeout(timeout);cleanupJSONP(cb);if(onSuccess)onSuccess(r);};
+  const cb='zfoodApi_'+Date.now()+'_'+Math.floor(Math.random()*10000);
+  let done=false;
+
+  const timeout=setTimeout(function(){
+    if(done)return;
+    done=true;
+    cleanupJSONP(cb);
+    if(onError)onError('Waktu tunggu habis. Apps Script masih mungkin memproses data. Cek RIWAYAT sebelum mencoba kirim ulang.');
+  },90000);
+
+  window[cb]=function(r){
+    if(done)return;
+    done=true;
+    clearTimeout(timeout);
+    cleanupJSONP(cb);
+    if(onSuccess)onSuccess(r);
+  };
+
   const script=document.createElement('script');
-  script.src=APPS_SCRIPT_URL+'?action=api&payload='+encodeURIComponent(JSON.stringify(payload))+'&callback='+encodeURIComponent(cb)+'&_='+Date.now();
-  script.onerror=function(){if(done)return;done=true;clearTimeout(timeout);cleanupJSONP(cb);if(onError)onError('Tidak dapat terhubung ke Apps Script.');};
+  script.async=false;
+  script.src=
+    APPS_SCRIPT_URL+
+    '?action=api&payload='+
+    encodeURIComponent(JSON.stringify(payload))+
+    '&callback='+
+    encodeURIComponent(cb)+
+    '&_='+
+    Date.now();
+
+  script.onerror=function(){
+    if(done)return;
+    done=true;
+    clearTimeout(timeout);
+    cleanupJSONP(cb);
+    if(onError)onError('Tidak dapat terhubung ke Apps Script. Coba tunggu beberapa detik lalu cek RIWAYAT.');
+  };
+
   document.body.appendChild(script);
 }
 
