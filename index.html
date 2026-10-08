@@ -2265,11 +2265,11 @@ function addProduct(type,options){
       </label>
 
       <input
-        type="number"
+        type="text"
         class="quantity-input"
         placeholder="Masukkan quantity"
         inputmode="decimal"
-        step="any"
+        autocomplete="off"
         oninput="updateQuantity(this)"
       >
 
@@ -2765,10 +2765,16 @@ function updateQuantity(input){
 
   }
 
+  // Quantity boleh diketik dengan titik atau koma.
+  // Di form kita normalisasi menjadi koma agar konsisten.
+  const normalized =
+    String(input.value || '').replace(/\./g, ',');
 
-  product.dataset.quantity =
-    input.value || '';
+  if(input.value !== normalized){
+    input.value = normalized;
+  }
 
+  product.dataset.quantity = normalized;
 
   updateDataTable(
     product.dataset.type
@@ -3567,7 +3573,7 @@ function loadTransactionIntoForm(tx){
         }
       );
 
-      q.value=x.quantity||'';
+      q.value=String(x.quantity||'').replace(/\./g,',');
       updateQuantity(q);
     });
   }
@@ -3614,9 +3620,8 @@ function deleteHistory(serialized){
     ? clickedButton.closest('.history-item')
     : null;
 
-  if(card){
-    card.classList.add('history-deleting');
-  }
+  // Card RIWAYAT jangan dihilangkan sebelum server memastikan data
+  // benar-benar berhasil dihapus. Selama menunggu, hanya tombol yang loading.
 
   callApi(
     {
@@ -3644,7 +3649,11 @@ function deleteHistory(serialized){
         return;
       }
 
-      // Beri waktu animasi selesai sebelum RIWAYAT dimuat ulang.
+      // Hapus dari tampilan hanya setelah server menyatakan berhasil.
+      if(card){
+        card.classList.add('history-deleting');
+      }
+
       setTimeout(function(){
         loadHistory();
       },260);
