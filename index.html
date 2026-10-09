@@ -929,181 +929,54 @@ input{
 }
 
 /* =========================
-   DASHBOARD
+   DASHBOARD - WHITE ORANGE MOBILE DESIGN
 ========================= */
-.dashboard{
-  min-height:calc(100vh - 20px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:18px 10px 28px;
-}
-.dashboard-shell{
-  width:100%;
-  max-width:760px;
-}
-.dashboard-top{
-  text-align:center;
-  margin-bottom:24px;
-}
-.dashboard-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  padding:7px 11px;
-  border-radius:999px;
-  background:#fff;
-  border:1px solid #eee;
-  box-shadow:0 4px 14px rgba(0,0,0,.05);
-  color:#e87516;
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:.7px;
-}
-.dashboard-badge .dot{
-  width:7px;
-  height:7px;
-  background:#e87516;
-}
-.dashboard-title{
-  margin:15px 0 5px;
-  font-size:34px;
-  line-height:1;
-  font-weight:800;
-  letter-spacing:-1.2px;
-  color:#222;
-}
-.dashboard-title span{color:#e87516}
-.dashboard-subtitle{
-  margin:0;
-  color:#888;
-  font-size:12px;
-}
-.dashboard-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:13px;
-}
-.dashboard-card{
-  position:relative;
-  min-height:180px;
-  padding:20px 17px;
-  border:1px solid #ececec;
-  border-radius:18px;
-  background:rgba(255,255,255,.96);
-  box-shadow:0 8px 28px rgba(0,0,0,.07);
-  text-align:left;
-  cursor:pointer;
-  overflow:hidden;
-  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
-}
-.dashboard-card:before{
-  content:"";
-  position:absolute;
-  width:90px;height:90px;
-  right:-28px;top:-28px;
-  border-radius:50%;
-  background:rgba(232,117,22,.07);
-}
-.dashboard-card:hover{
-  transform:translateY(-4px);
-  border-color:#f0b17b;
-  box-shadow:0 14px 32px rgba(232,117,22,.14);
-}
-.dashboard-card:active{transform:scale(.985)}
-.dashboard-card.primary{
-  border-color:rgba(232,117,22,.28);
-  background:linear-gradient(145deg,#fff,#fff9f4);
-}
-.dashboard-icon{
-  width:45px;height:45px;
-  display:flex;align-items:center;justify-content:center;
-  border-radius:13px;
-  margin-bottom:19px;
-  background:#fff1e5;
-  color:#e87516;
-  font-size:21px;
-  font-weight:800;
-}
-.dashboard-card h3{
-  margin:0 0 6px;
-  font-size:15px;
-  color:#252525;
-}
-.dashboard-card p{
-  margin:0;
-  font-size:10px;
-  line-height:1.55;
-  color:#929292;
-}
-.dashboard-arrow{
-  position:absolute;
-  right:16px;
-  bottom:16px;
-  font-size:17px;
-  color:#e87516;
-}
-.dashboard-card.soon{
-  cursor:default;
-}
-.dashboard-card.soon:hover{
-  transform:none;
-  border-color:#ececec;
-  box-shadow:0 8px 28px rgba(0,0,0,.07);
-}
-.dashboard-card.soon .dashboard-icon{
-  background:#f5f5f5;
-  color:#999;
-}
-.coming-soon{
-  display:inline-flex;
-  margin-top:14px;
-  padding:5px 8px;
-  border-radius:6px;
-  background:#f5f5f5;
-  color:#999;
-  font-size:8px;
-  font-weight:700;
-  letter-spacing:.6px;
-}
-.dashboard-footer{
-  margin-top:22px;
-  text-align:center;
-  color:#aaa;
-  font-size:9px;
-}
-#zfoodPage{display:none}
-#zfoodPage.active{
-  display:block;
-  animation:zfoodIn .22s ease;
-}
-@keyframes zfoodIn{
-  from{opacity:0;transform:translateY(8px)}
-  to{opacity:1;transform:translateY(0)}
-}
-.back-dashboard{
-  width:100%;
-  height:36px;
-  margin-bottom:10px;
-  border:1px solid #e8e8e8;
-  border-radius:9px;
-  background:#fff;
-  color:#777;
-  font-size:11px;
-  font-weight:700;
-  cursor:pointer;
-}
-.back-dashboard:active{transform:scale(.99)}
+.dashboard{min-height:100vh;display:block;padding:0 0 30px;background:radial-gradient(circle at 8% 87%,rgba(255,174,103,.13) 0 115px,transparent 116px),radial-gradient(circle at 18% 96%,rgba(255,174,103,.11) 0 145px,transparent 146px),linear-gradient(135deg,#fafbff,#fff 60%,#f8f9fc)}
+.dashboard-shell{width:100%;max-width:980px;margin:0 auto}
+.dashboard-appbar{height:88px;padding:15px 22px;display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.94);border-bottom:1px solid #eee;box-shadow:0 2px 8px rgba(20,30,50,.035)}
+.dashboard-logo{width:51px;height:51px;flex:0 0 51px;display:flex;align-items:center;justify-content:center;border-radius:13px;background:linear-gradient(145deg,#ff7b19,#e95308);color:#fff;font-size:18px;font-weight:900;box-shadow:0 4px 10px #f26b1933}
+.dashboard-brand{min-width:0;flex:1}.dashboard-brand strong{display:block;font-size:21px;line-height:1.2;letter-spacing:.2px;color:#202633}.dashboard-brand span{display:block;margin-top:3px;font-size:11px;letter-spacing:1.7px;color:#8c929e}
+.dashboard-top{position:relative;min-height:228px;margin:22px 22px 30px;padding:32px 36px;display:flex;flex-direction:column;justify-content:center;overflow:hidden;text-align:left;border:1px solid #f0e9e4;border-radius:25px;background:radial-gradient(ellipse at 82% 18%,rgba(255,220,185,.8) 0 82px,transparent 83px),radial-gradient(ellipse at 91% 76%,rgba(244,119,68,.20) 0 100px,transparent 101px),linear-gradient(110deg,#fffaf5 0%,#fff 56%,#fff3e9 100%);box-shadow:0 10px 28px rgba(36,44,58,.06)}
+.dashboard-top:after{content:'🐟';position:absolute;right:12px;bottom:4px;font-size:106px;line-height:1;opacity:.95;filter:drop-shadow(0 9px 8px rgba(190,91,47,.13));transform:rotate(-8deg)}
+.dashboard-badge{position:relative;z-index:1;display:block;padding:0;border:0;background:transparent;box-shadow:none;color:#f07832;font-size:13px;font-weight:800;letter-spacing:4px}
+.dashboard-badge .dot{display:none}
+.dashboard-title{position:relative;z-index:1;margin:16px 0 8px;font-size:clamp(48px,8vw,78px);line-height:.98;font-weight:900;letter-spacing:-3px;color:#3b414d}
+.dashboard-title span{color:#ed5d10}
+.dashboard-subtitle{position:relative;z-index:1;margin:7px 0 0;color:#858b98;font-size:clamp(14px,2vw,21px);font-weight:600;letter-spacing:-.3px}
+.dashboard-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:0 22px}
+.dashboard-card{position:relative;min-width:0;min-height:266px;padding:23px 23px 28px;border:1px solid #f0f0f2;border-radius:24px;background:rgba(255,255,255,.95);box-shadow:0 12px 30px rgba(35,44,58,.065);text-align:left;cursor:pointer;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.dashboard-card:before{content:"";position:absolute;width:125px;height:125px;right:-42px;top:-42px;border-radius:50%;background:rgba(255,157,82,.09)}
+.dashboard-card:hover{transform:translateY(-3px);border-color:#f5b27f;box-shadow:0 15px 32px rgba(232,117,22,.13)}.dashboard-card:active{transform:scale(.985)}
+.dashboard-card.primary{border:2px solid #f28a43;background:linear-gradient(145deg,#fffaf6,#fff 75%,#fff8f2)}
+.dashboard-icon{position:relative;z-index:1;width:70px;height:70px;display:flex;align-items:center;justify-content:center;border-radius:15px;margin-bottom:24px;background:#fff0e2;color:#df5b0a;font-size:35px;font-weight:800;box-shadow:0 2px 4px #e8751614}
+.dashboard-card.primary .dashboard-icon{background:linear-gradient(145deg,#ff7818,#ee5a08);color:#fff}
+.dashboard-card h3{position:relative;z-index:1;margin:0 0 9px;font-size:clamp(14px,1.8vw,19px);line-height:1.25;font-weight:800;color:#252b37}
+.dashboard-card p{position:relative;z-index:1;margin:0;max-width:230px;font-size:clamp(12px,1.35vw,15px);line-height:1.45;color:#8b919e}
+.dashboard-arrow{position:absolute;right:17px;bottom:17px;width:47px;height:47px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#fff0e2;color:#df650f;font-size:24px;font-weight:700}
+.dashboard-card.primary .dashboard-arrow{background:#f76b0d;color:white}
+.dashboard-card.soon{cursor:default}.dashboard-card.soon:hover{transform:none;border-color:#ececec;box-shadow:0 8px 28px rgba(0,0,0,.07)}.dashboard-card.soon .dashboard-icon{background:#f5f5f5;color:#999}.coming-soon{display:inline-flex;margin-top:14px;padding:5px 8px;border-radius:6px;background:#f5f5f5;color:#999;font-size:8px;font-weight:700;letter-spacing:.6px}
+.dashboard-footer{display:none}
+#zfoodPage{display:none}#zfoodPage.active{display:block;animation:zfoodIn .22s ease}@keyframes zfoodIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.back-dashboard{width:100%;height:36px;margin-bottom:10px;border:1px solid #e8e8e8;border-radius:9px;background:#fff;color:#777;font-size:11px;font-weight:700;cursor:pointer}.back-dashboard:active{transform:scale(.99)}
 @media(max-width:600px){
-  .dashboard{min-height:calc(100vh - 16px);padding:10px 2px 22px}
-  .dashboard-title{font-size:30px}
-  .dashboard-grid{grid-template-columns:1fr;gap:10px}
-  .dashboard-card{min-height:132px;padding:16px}
-  .dashboard-icon{width:40px;height:40px;margin-bottom:13px;font-size:19px}
-  .dashboard-card h3{font-size:14px}
-  .dashboard-arrow{right:15px;bottom:15px}
+ .dashboard{min-height:100vh;padding:0 0 26px}
+ .dashboard-appbar{height:87px;padding:13px 22px;gap:12px}
+ .dashboard-logo{width:51px;height:51px;flex-basis:51px}
+ .dashboard-brand strong{font-size:21px}.dashboard-brand span{font-size:11px;letter-spacing:1.6px}
+ .dashboard-home-button{border:1px solid #e2e3e7;background:#fff;color:#454b58;border-radius:17px;padding:13px 14px;font-size:12px;font-weight:800;white-space:nowrap}
+ .dashboard-top{min-height:228px;margin:22px 22px 30px;padding:28px 35px;border-radius:25px}
+ .dashboard-top:after{right:0;bottom:12px;font-size:95px}
+ .dashboard-badge{font-size:12px;letter-spacing:3.5px}
+ .dashboard-title{font-size:clamp(48px,11vw,65px);letter-spacing:-2.8px;margin-top:17px}
+ .dashboard-subtitle{font-size:clamp(13px,3.6vw,18px);max-width:75%}
+ .dashboard-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:0 22px}
+ .dashboard-card{min-height:266px;padding:23px 13px 26px;border-radius:24px}
+ .dashboard-icon{width:70px;height:70px;margin-bottom:24px;font-size:32px}
+ .dashboard-card h3{font-size:clamp(13px,3.5vw,17px);margin-bottom:9px;letter-spacing:-.4px}
+ .dashboard-card p{font-size:clamp(11px,2.8vw,14px);line-height:1.45}
+ .dashboard-arrow{width:47px;height:47px;right:12px;bottom:17px;font-size:23px}
 }
-
+@media(max-width:370px){.dashboard-appbar{padding-left:14px;padding-right:14px}.dashboard-top{margin-left:14px;margin-right:14px;padding-left:22px}.dashboard-grid{margin-left:14px;margin-right:14px;gap:9px}.dashboard-card{padding-left:10px;padding-right:10px;min-height:240px}.dashboard-icon{width:53px;height:53px;margin-bottom:20px}.dashboard-card h3{font-size:12px}.dashboard-card p{font-size:10px}.dashboard-arrow{width:36px;height:36px;right:9px;bottom:12px}}
 
 /* =========================================================
    Z-FOOD DATE / HISTORY / SPREADSHEET
@@ -1197,11 +1070,13 @@ input{
 ========================= -->
 <div id="dashboardPage" class="dashboard">
   <div class="dashboard-shell">
+    <div class="dashboard-appbar">
+      <div class="dashboard-logo">ZF</div>
+      <div class="dashboard-brand"><strong>Z-FOOD</strong><span>PRODUCT CONVERSION</span></div>
+      <button type="button" class="dashboard-home-button" onclick="backToDashboard()" style="display:none">← Dashboard</button>
+    </div>
     <div class="dashboard-top">
-      <div class="dashboard-badge">
-        <span class="dot"></span>
-        Z-FOOD SYSTEM
-      </div>
+      <div class="dashboard-badge">Z-FOOD SYSTEM</div>
       <h1 class="dashboard-title">Z-<span>FOOD</span></h1>
       <p class="dashboard-subtitle">Product Conversion Management</p>
     </div>
@@ -1209,21 +1084,21 @@ input{
     <div class="dashboard-grid">
       <button type="button" class="dashboard-card primary" onclick="openZfood()">
         <div class="dashboard-icon">＋</div>
-        <h3>NEW Z-FOOD</h3>
+        <h3>Z-FOOD Baru</h3>
         <p>Mulai pencatatan product conversion baru.</p>
         <span class="dashboard-arrow">→</span>
       </button>
 
       <button type="button" class="dashboard-card" onclick="openHistory()">
         <div class="dashboard-icon">≡</div>
-        <h3>RIWAYAT</h3>
+        <h3>Riwayat</h3>
         <p>Lihat, edit, dan hapus riwayat data Z-FOOD.</p>
         <span class="dashboard-arrow">→</span>
       </button>
 
       <button type="button" class="dashboard-card" onclick="openSpreadsheets()">
         <div class="dashboard-icon">▦</div>
-        <h3>SPREADSHEET</h3>
+        <h3>Spreadsheet</h3>
         <p>Buka file Z-FOOD per bulan yang sudah dibuat.</p>
         <span class="dashboard-arrow">→</span>
       </button>
