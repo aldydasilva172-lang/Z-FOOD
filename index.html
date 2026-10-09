@@ -1088,34 +1088,34 @@ input{
   <div class="dashboard-shell">
     <div class="dashboard-appbar">
       <div class="dashboard-logo">ZF</div>
-      <div class="dashboard-brand"><strong>Z-FOOD</strong><span>PRODUCT CONVERSION</span></div>
+      <div class="dashboard-brand"><strong>Z-FOOD</strong><span>FORM Z-FOOD</span></div>
       <button type="button" class="dashboard-home-button" aria-disabled="true">← Dashboard</button>
     </div>
     <div class="dashboard-top">
       <div class="dashboard-badge">Z-FOOD SYSTEM</div>
       <h1 class="dashboard-title">Z-<span>FOOD</span></h1>
-      <p class="dashboard-subtitle">Product Conversion Management</p>
+      <p class="dashboard-subtitle">Form Z-Food BSD</p>
     </div>
 
     <div class="dashboard-grid">
       <button type="button" class="dashboard-card primary" onclick="openZfood()">
         <div class="dashboard-icon">＋</div>
         <h3>Z-FOOD Baru</h3>
-        <p>Mulai pencatatan product conversion baru.</p>
+        <p>Mulai pencatatan product Z-FOOD baru </p>
         <span class="dashboard-arrow">→</span>
       </button>
 
       <button type="button" class="dashboard-card" onclick="openHistory()">
         <div class="dashboard-icon">≡</div>
         <h3>Riwayat</h3>
-        <p>Lihat, edit, dan hapus riwayat data Z-FOOD.</p>
+        <p>Lihat riwayat data Z-FOOD </p>
         <span class="dashboard-arrow">→</span>
       </button>
 
       <button type="button" class="dashboard-card" onclick="openSpreadsheets()">
         <div class="dashboard-icon">▦</div>
         <h3>Spreadsheet</h3>
-        <p>Buka file Z-FOOD per bulan yang sudah dibuat.</p>
+        <p>Buka file Z-FOOD </p>
         <span class="dashboard-arrow">→</span>
       </button>
     </div>
@@ -1145,7 +1145,7 @@ input{
     </h1>
 
     <div class="subtitle">
-      Product Conversion
+      FORM Z-FOOD
     </div>
 
     <div class="zfood-date-box">
@@ -1714,7 +1714,7 @@ function loadMaster(){
         hasCache = true;
 
         setMasterStatus(
-          'MASTER siap • ' +
+          'MASTER DATA SIAP • ' +
           MASTER_DATA.length +
           ' data',
           'ready'
@@ -1808,7 +1808,7 @@ function loadMaster(){
 
 
           setMasterStatus(
-            'MASTER siap • ' +
+            'MASTER DATA SIAP • ' +
             MASTER_DATA.length +
             ' data',
             'ready'
@@ -2160,7 +2160,7 @@ function addProduct(type,options){
       <input
         type="text"
         class="quantity-input"
-        placeholder="Masukkan quantity"
+        placeholder="Masukan Quantity"
         inputmode="decimal"
         autocomplete="off"
         oninput="updateQuantity(this)"
