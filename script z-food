@@ -1,1 +1,331 @@
+const SPREADSHEET_ID = '1siUHvtvevl9VJ8zDOd4c8xgH5QNQQkMEmM8h8ST10KY';
+const SHEET_MASTER = 'MASTER';
+const MASTER_CACHE_KEY = 'ZFOOD_MASTER_CACHE';
+const MASTER_CACHE_TIME = 21600;
+const MONTH_PREFIX = 'Form Z-FOOD ';
+const TIME_ZONE = Session.getScriptTimeZone() || 'Asia/Jakarta';
 
+const BLOCK_STARTS = [13,49,85,121,157,193,229,265,301,337];
+const BLOCK_SIZE = 22;
+const DATA_COLS = { awalArticle:2, awalQty:4, akhirArticle:7, akhirQty:9 };
+
+function jsonResponse(data){
+  return ContentService.createTextOutput(JSON.stringify(data)).setMimeType(ContentService.MimeType.JSON);
+}
+function jsonpResponse(callback,data){
+  return ContentService.createTextOutput(callback+'('+JSON.stringify(data)+');').setMimeType(ContentService.MimeType.JAVASCRIPT);
+}
+function getMasterData(){
+  const cache=CacheService.getScriptCache();
+  const cached=cache.get(MASTER_CACHE_KEY);
+  if(cached){try{return JSON.parse(cached);}catch(e){}}
+  const ss=SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet=ss.getSheetByName(SHEET_MASTER);
+  if(!sheet) throw new Error('Sheet MASTER tidak ditemukan.');
+  const lastRow=sheet.getLastRow();
+  if(lastRow<2)return [];
+  const values=sheet.getRange(2,1,lastRow-1,6).getDisplayValues();
+  const result=[];
+  values.forEach(row=>{
+    const article=String(row[0]||'').trim();
+    const barcode=String(row[1]||'').trim();
+    const nama=String(row[2]||'').trim();
+    const oum=String(row[3]||'').trim();
+    const soh=String(row[4]||'').trim();
+    const future=String(row[5]||'').trim();
+    if(!article&&!barcode&&!nama&&!oum&&!soh&&!future)return;
+    result.push({artikel:article,barcode:barcode,nama:nama,oum:oum,soh:soh,future:future});
+  });
+  try{cache.put(MASTER_CACHE_KEY,JSON.stringify(result),MASTER_CACHE_TIME);}catch(e){}
+  return result;
+}
+
+function doGet(e){
+  try{
+    const p=e&&e.parameter||{};
+    const callback=p.callback||'';
+    let response;
+    if(p.action==='api'){
+      const payload=JSON.parse(p.payload||'{}');
+      response=handleApi(payload);
+    }else{
+      const data=getMasterData();
+      response={success:true,total:data.length,data:data};
+    }
+    return callback?jsonpResponse(callback,response):jsonResponse(response);
+  }catch(error){
+    const response={success:false,total:0,data:[],error:error.message};
+    const callback=e&&e.parameter&&e.parameter.callback||'';
+    return callback?jsonpResponse(callback,response):jsonResponse(response);
+  }
+}
+
+function handleApi(p){
+  const action=String(p.action||'');
+  const mutating=['saveTransaction','editTransaction','deleteTransaction'].indexOf(action)!==-1;
+  const key=String(p.transactionKey||'').trim();
+  if(mutating&&key)return runIdempotent(p);
+  return dispatchApi(p);
+}
+function dispatchApi(p){
+  switch(String(p.action||'')){
+    case 'saveTransaction': return saveTransaction(p);
+    case 'editTransaction': return editTransaction(p);
+    case 'deleteTransaction': return deleteTransaction(p);
+    case 'listHistory': return listHistory(p);
+    case 'listSpreadsheets': return listSpreadsheets();
+    default: throw new Error('Action tidak dikenal.');
+  }
+}
+function idempotencyCacheKey(transactionKey){
+  const raw=String(transactionKey||'').trim();
+  if(!raw)return '';
+  const digest=Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256,raw);
+  return 'ZFOOD_IDEMP_'+Utilities.base64EncodeWebSafe(digest).replace(/=+$/,'');
+}
+function runIdempotent(p){
+  const cache=CacheService.getScriptCache();
+  const cacheKey=idempotencyCacheKey(p.transactionKey);
+  if(!cacheKey)return dispatchApi(p);
+  const lock=LockService.getScriptLock();
+  lock.waitLock(10000);
+  try{
+    const cached=cache.get(cacheKey);
+    if(cached){
+      try{return JSON.parse(cached);}catch(e){cache.remove(cacheKey);}
+    }
+    const response=dispatchApi(p);
+    try{cache.put(cacheKey,JSON.stringify(response),21600);}catch(e){}
+    return response;
+  }finally{
+    lock.releaseLock();
+  }
+}
+
+function parseInputDate(value){
+  const s=String(value||'').trim();
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(s))throw new Error('Tanggal tidak valid.');
+  const parts=s.split('-').map(Number);
+  const d=new Date(parts[0],parts[1]-1,parts[2]);
+  if(d.getFullYear()!==parts[0]||d.getMonth()!==parts[1]-1||d.getDate()!==parts[2])throw new Error('Tanggal tidak valid.');
+  return d;
+}
+function monthFileName(date){return MONTH_PREFIX+Utilities.formatDate(date,TIME_ZONE,'MMMM yyyy');}
+function getMonthFile(date,createIfMissing){
+  const name=monthFileName(date);
+  const files=DriveApp.getFilesByName(name);
+  while(files.hasNext()){
+    const f=files.next();
+    if(f.getMimeType()===MimeType.GOOGLE_SHEETS)return SpreadsheetApp.openById(f.getId());
+  }
+  if(!createIfMissing)return null;
+  const source=DriveApp.getFileById(SPREADSHEET_ID);
+  const parents=source.getParents();
+  const folder=parents.hasNext()?parents.next():DriveApp.getRootFolder();
+  const copy=source.makeCopy(name,folder);
+  return SpreadsheetApp.openById(copy.getId());
+}
+function dateSheetName(date){return Utilities.formatDate(date,TIME_ZONE,'dd');}
+function setDateOnSheet(sheet,date){
+  const range=sheet.getRange(1,1,12,9);
+  const vals=range.getDisplayValues();
+  for(let r=0;r<12;r++){
+    for(let c=0;c<9;c++){
+      if(String(vals[r][c]||'').trim().toLowerCase()==='tanggal'){
+        const right=sheet.getRange(r+1,c+2);
+        if(right.isBlank()){right.setValue(date);right.setNumberFormat('dd/MM/yyyy');return;}
+        const below=sheet.getRange(r+2,c+1);
+        if(below.isBlank()){below.setValue(date);below.setNumberFormat('dd/MM/yyyy');return;}
+      }
+    }
+  }
+}
+function normalizeProducts(arr){
+  if(!Array.isArray(arr))return [];
+  return arr.map(x=>({
+    artikel:String(x&&x.artikel||'').trim(),
+    quantity:String(x&&x.quantity||'').trim().replace(/\./g,',')
+  })).filter(x=>x.artikel!==''&&x.quantity!=='');
+}
+function getBlocks(){return BLOCK_STARTS.map(s=>({start:s,end:s+BLOCK_SIZE-1}));}
+function rowOccupied(sheet,row){
+  const v=sheet.getRange(row,1,1,9).getDisplayValues()[0];
+  return !!(String(v[1]||'').trim()||String(v[3]||'').trim()||String(v[6]||'').trim()||String(v[8]||'').trim());
+}
+function clearTransactionRows(sheet,start,end){
+  if(end<start)return;
+  sheet.getRange(start,2,end-start+1,1).clearContent();
+  sheet.getRange(start,4,end-start+1,1).clearContent();
+  sheet.getRange(start,7,end-start+1,1).clearContent();
+  sheet.getRange(start,9,end-start+1,1).clearContent();
+}
+function findFreeStart(sheet,needed,excludeStart,excludeEnd){
+  const blocks=getBlocks();
+  for(const b of blocks){
+    for(let start=b.start;start+needed-1<=b.end;start++){
+      const end=start+needed-1;
+      let ok=true;
+      for(let r=start;r<=end;r++){
+        const excluded=excludeStart&&r>=excludeStart&&r<=excludeEnd;
+        if(!excluded&&rowOccupied(sheet,r)){ok=false;break;}
+      }
+      if(!ok)continue;
+      if(start>b.start){
+        const previous=start-1;
+        const excludedPrevious=excludeStart&&previous>=excludeStart&&previous<=excludeEnd;
+        if(!excludedPrevious&&rowOccupied(sheet,previous))continue;
+      }
+      if(end<b.end){
+        const next=end+1;
+        const excludedNext=excludeStart&&next>=excludeStart&&next<=excludeEnd;
+        if(!excludedNext&&rowOccupied(sheet,next))continue;
+      }
+      return start;
+    }
+  }
+  return null;
+}
+function writeTransaction(sheet,start,awal,akhir){
+  const n=Math.max(awal.length,akhir.length);
+  for(let i=0;i<n;i++){
+    const row=start+i;
+    if(i<awal.length){
+      sheet.getRange(row,DATA_COLS.awalArticle).setValue(awal[i].artikel);
+      sheet.getRange(row,DATA_COLS.awalQty).setValue(awal[i].quantity);
+    }
+    if(i<akhir.length){
+      sheet.getRange(row,DATA_COLS.akhirArticle).setValue(akhir[i].artikel);
+      sheet.getRange(row,DATA_COLS.akhirQty).setValue(akhir[i].quantity);
+    }
+  }
+}
+function makeId(fileId,sheetName,startRow){return fileId+'~'+sheetName+':'+startRow;}
+function decodeId(id){
+  const m=String(id||'').match(/^([^~]+)~([0-9]{2}):(\d+)$/);
+  if(!m)throw new Error('ID transaksi tidak valid.');
+  return {fileId:m[1],sheet:m[2],startRow:Number(m[3])};
+}
+function readTransactionAt(sheet,startRow){
+  const blocks=getBlocks();
+  const block=blocks.find(b=>startRow>=b.start&&startRow<=b.end);
+  if(!block)throw new Error('Posisi transaksi tidak valid.');
+  const awal=[],akhir=[];let row=startRow;
+  for(;row<=block.end;row++){
+    const v=sheet.getRange(row,1,1,9).getDisplayValues()[0];
+    const a=String(v[1]||'').trim(),aq=String(v[3]||'').trim();
+    const z=String(v[6]||'').trim(),zq=String(v[8]||'').trim();
+    if(!a&&!aq&&!z&&!zq)break;
+    if(a||aq)awal.push({artikel:a,quantity:aq});
+    if(z||zq)akhir.push({artikel:z,quantity:zq});
+  }
+  return {startRow:startRow,endRow:row-1,produkAwal:awal,produkAkhir:akhir};
+}
+function listTransactionsFromSheet(sheet){
+  const result=[];
+  for(const b of getBlocks()){
+    let row=b.start;
+    while(row<=b.end){
+      if(!rowOccupied(sheet,row)){row++;continue;}
+      const tx=readTransactionAt(sheet,row);
+      tx.sheet=sheet.getName();
+      tx.id=makeId(sheet.getParent().getId(),sheet.getName(),row);
+      tx.fileId=sheet.getParent().getId();
+      result.push(tx);
+      row=Math.max(row+1,tx.endRow+1);
+    }
+  }
+  return result;
+}
+function saveTransaction(p){
+  const date=parseInputDate(p.tanggal);
+  const awal=normalizeProducts(p.produkAwal),akhir=normalizeProducts(p.produkAkhir);
+  if(!awal.length||!akhir.length)throw new Error('Produk awal dan produk akhir wajib diisi.');
+  const needed=Math.max(awal.length,akhir.length);
+  if(needed>BLOCK_SIZE)throw new Error('Jumlah produk melebihi kapasitas satu lembar.');
+  const ss=getMonthFile(date,true);
+  const sheet=ss.getSheetByName(dateSheetName(date));
+  if(!sheet)throw new Error('Sheet tanggal '+dateSheetName(date)+' tidak ditemukan.');
+  setDateOnSheet(sheet,date);
+  const start=findFreeStart(sheet,needed,null,null);
+  if(start===null)throw new Error('Area Z-FOOD pada sheet '+sheet.getName()+' sudah penuh.');
+  writeTransaction(sheet,start,awal,akhir);
+  SpreadsheetApp.flush();
+  return {success:true,message:'Data berhasil disimpan ke '+monthFileName(date)+' • sheet '+sheet.getName(),id:makeId(ss.getId(),sheet.getName(),start),fileUrl:ss.getUrl()};
+}
+function editTransaction(p){
+  const id=decodeId(p.transactionId);
+  const date=parseInputDate(p.tanggal);
+  const oldSs=SpreadsheetApp.openById(id.fileId);
+  const oldSheet=oldSs.getSheetByName(id.sheet);
+  if(!oldSheet)throw new Error('Sheet transaksi lama tidak ditemukan.');
+  const old=readTransactionAt(oldSheet,id.startRow);
+  const awal=normalizeProducts(p.produkAwal),akhir=normalizeProducts(p.produkAkhir);
+  if(!awal.length||!akhir.length)throw new Error('Produk awal dan produk akhir wajib diisi.');
+  const newLen=Math.max(awal.length,akhir.length);
+  if(newLen>BLOCK_SIZE)throw new Error('Jumlah produk melebihi kapasitas satu lembar.');
+  const newSheetName=dateSheetName(date);
+  const targetSs=(oldSs.getName()===monthFileName(date))?oldSs:getMonthFile(date,true);
+  const targetSheet=targetSs.getSheetByName(newSheetName);
+  if(!targetSheet)throw new Error('Sheet tanggal '+newSheetName+' tidak ditemukan.');
+
+  if(targetSs.getId()===oldSs.getId() && newSheetName===id.sheet){
+    const start=id.startRow;
+    clearTransactionRows(oldSheet,start,old.endRow+1);
+    const newStart=findFreeStart(oldSheet,newLen,start,old.endRow+1);
+    if(newStart===null)throw new Error('Tidak ada ruang yang cukup untuk menyimpan perubahan transaksi.');
+    writeTransaction(oldSheet,newStart,awal,akhir);
+    setDateOnSheet(oldSheet,date);
+    SpreadsheetApp.flush();
+    return {success:true,message:'Perubahan berhasil disimpan.',id:makeId(oldSs.getId(),id.sheet,newStart),fileUrl:oldSs.getUrl()};
+  }
+
+  const start=findFreeStart(targetSheet,newLen,null,null);
+  if(start===null)throw new Error('Area Z-FOOD pada sheet '+newSheetName+' sudah penuh.');
+  clearTransactionRows(oldSheet,id.startRow,old.endRow+1);
+  writeTransaction(targetSheet,start,awal,akhir);
+  setDateOnSheet(targetSheet,date);
+  SpreadsheetApp.flush();
+  return {success:true,message:'Perubahan berhasil dipindahkan ke tanggal yang baru.',id:makeId(targetSs.getId(),newSheetName,start),fileUrl:targetSs.getUrl()};
+}
+function deleteTransaction(p){
+  const id=decodeId(p.transactionId);
+  const ss=SpreadsheetApp.openById(id.fileId);
+  const sheet=ss.getSheetByName(id.sheet);
+  if(!sheet||!rowOccupied(sheet,id.startRow))throw new Error('Transaksi tidak ditemukan.');
+  const old=readTransactionAt(sheet,id.startRow);
+  clearTransactionRows(sheet,id.startRow,old.endRow+1);
+  SpreadsheetApp.flush();
+  return {success:true,message:'Transaksi berhasil dihapus.'};
+}
+function listHistory(p){
+  const date=parseInputDate(p.tanggal);
+  const ss=getMonthFile(date,false);
+  if(!ss)return {success:true,data:[]};
+  const sheet=ss.getSheetByName(dateSheetName(date));
+  if(!sheet)return {success:true,data:[]};
+  SpreadsheetApp.flush();
+  const data=listTransactionsFromSheet(sheet);
+  data.forEach(x=>x.dateInput=Utilities.formatDate(date,TIME_ZONE,'yyyy-MM-dd'));
+  return {success:true,data:data,fileUrl:ss.getUrl()};
+}
+function listSpreadsheets(){
+  const out=[];const files=DriveApp.getFiles();
+  while(files.hasNext()){
+    const f=files.next();
+    if(f.getMimeType()!==MimeType.GOOGLE_SHEETS)continue;
+    const name=f.getName();
+    if(name.indexOf(MONTH_PREFIX)!==0)continue;
+    out.push({name:name,url:f.getUrl(),updated:Utilities.formatDate(f.getLastUpdated(),TIME_ZONE,'dd/MM/yyyy HH:mm')});
+  }
+  out.sort((a,b)=>b.name.localeCompare(a.name,'id'));
+  return {success:true,data:out};
+}
+function updateMasterCache(){
+  CacheService.getScriptCache().remove(MASTER_CACHE_KEY);
+  const data=getMasterData();
+  return {success:true,total:data.length,message:'MASTER berhasil diperbarui.'};
+}
+function clearMasterCache(){
+  CacheService.getScriptCache().remove(MASTER_CACHE_KEY);
+  return 'MASTER CACHE CLEARED';
+}
